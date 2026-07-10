@@ -54,7 +54,7 @@
   });
 })();
 
-/* ---------- busca: overlay ---------- */
+/* ---------- busca: overlay + filtro ---------- */
 (function(){
   var toggle = document.querySelector('[data-search-toggle]');
   var overlay = document.querySelector('[data-search-overlay]');
@@ -62,6 +62,65 @@
   var input = overlay.querySelector('[data-search-input]');
   var closeBtn = overlay.querySelector('[data-search-close]');
   var form = overlay.querySelector('[data-search-form]');
+  var suggestions = overlay.querySelector('.search-suggestions');
+  var defaultHTML = suggestions ? suggestions.innerHTML : '';
+
+  var searchIndex = [
+    { title:'Início', keywords:'topo home pagina inicial banner', href:'#topo' },
+    { title:'Indicadores institucionais', keywords:'indicadores numeros hectares imoveis licitados empreendimentos estatisticas territorio em numeros', href:'#indicadores' },
+    { title:'Onde a Terracap atua — mapa do território', keywords:'territorio mapa regioes noroeste ceilandia aguas claras plano piloto jardim botanico samambaia arniqueira', href:'#territorio' },
+    { title:'Empreendimentos com portal próprio', keywords:'empreendimentos aldeias do cerrado loteamento portal', href:'#territorio' },
+    { title:'Compre Imóveis', keywords:'compra comprar imoveis lotes venda proposta', href:'#compre-imoveis' },
+    { title:'Editais de licitação em andamento', keywords:'edital editais licitacao leilao caucao venda direta reurb', href:'#compre-imoveis' },
+    { title:'Regularize Imóveis (Venda Direta)', keywords:'regularizacao regularizar venda direta reurb propostas quadras', href:'#regularize-imoveis' },
+    { title:'Serviços', keywords:'servicos simulador de valores declaracoes certidoes consulta de requerimentos', href:'#servicos-online' },
+    { title:'Simulador de Valores', keywords:'simulador valores licitacao imoveis calculo', href:'https://servicosonline.terracap.df.gov.br/', external:true },
+    { title:'Declarações e Certidões', keywords:'declaracoes certidoes documentos', href:'https://servicosonline.terracap.df.gov.br/', external:true },
+    { title:'Consulta de Requerimentos', keywords:'consulta requerimentos processos acompanhamento', href:'https://servicosonline.terracap.df.gov.br/', external:true },
+    { title:'Invista em Brasília', keywords:'investir negocios agronegocio polo agroindustrial rio preto autodromo aeroporto projeto orla', href:'#invista-em-brasilia' },
+    { title:'Transparência e prestação de contas', keywords:'transparencia ouvidoria acesso a informacao canal de denuncias etica carta de servicos e-protocolo', href:'#transparencia' },
+    { title:'Receba atualizações por e-mail', keywords:'newsletter atualizacoes e-mail editais leilao chamamento publico avisos', href:'#atualizacoes' },
+    { title:'Proposta online / presencial', keywords:'proposta compra online presencial enviar', href:'https://comprasonline.terracap.df.gov.br/', external:true },
+    { title:'Chat on-line', keywords:'chat atendimento contato suporte fale conosco', href:'https://terracap.chat.comunix.tech/chat-externo', external:true }
+  ];
+
+  function normalize(str){
+    return (str || '').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+  }
+
+  function runSearch(query){
+    var terms = normalize(query).split(/\s+/).filter(Boolean);
+    if(!terms.length) return [];
+    var results = [];
+    searchIndex.forEach(function(item){
+      var titleN = normalize(item.title);
+      var haystack = titleN + ' ' + normalize(item.keywords);
+      var matched = terms.every(function(term){ return haystack.indexOf(term) > -1; });
+      if(matched) results.push({ item: item, score: titleN.indexOf(terms[0]) > -1 ? 0 : 1 });
+    });
+    results.sort(function(a, b){ return a.score - b.score; });
+    return results.map(function(r){ return r.item; });
+  }
+
+  function renderResults(query){
+    if(!suggestions) return;
+    var trimmed = query.trim();
+    if(!trimmed){
+      suggestions.innerHTML = defaultHTML;
+      return;
+    }
+    var results = runSearch(trimmed);
+    var html = '<span class="coord">' + (results.length ? 'Resultados' : 'Nenhum resultado') + '</span>';
+    if(results.length){
+      results.slice(0, 8).forEach(function(item){
+        var attrs = item.external ? ' target="_blank" rel="noopener"' : '';
+        html += '<a href="' + item.href + '"' + attrs + '>' + item.title + '</a>';
+      });
+    } else {
+      html += '<p class="search-empty">Nenhum item encontrado para "' + trimmed.replace(/</g, '&lt;') + '". Tente outro termo.</p>';
+    }
+    suggestions.innerHTML = html;
+  }
 
   function open(){
     overlay.hidden = false;
@@ -74,6 +133,8 @@
     toggle.setAttribute('aria-expanded','false');
     toggle.focus();
     document.removeEventListener('keydown', onKeydown);
+    input.value = '';
+    renderResults('');
   }
   function onKeydown(e){
     if(e.key === 'Escape') close();
@@ -86,7 +147,15 @@
   overlay.addEventListener('click', function(e){
     if(e.target === overlay) close();
   });
-  form.addEventListener('submit', function(e){ e.preventDefault(); });
+  input.addEventListener('input', function(){ renderResults(input.value); });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var results = runSearch(input.value);
+    if(!results.length) return;
+    var target = results[0];
+    if(target.external) window.open(target.href, '_blank', 'noopener');
+    else { window.location.href = target.href; close(); }
+  });
 })();
 
 /* ---------- mapa de território ---------- */

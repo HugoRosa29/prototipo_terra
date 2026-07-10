@@ -578,6 +578,7 @@ section{padding:var(--gap-section) 0;}
 .search-suggestions .coord{margin-bottom:8px;}
 .search-suggestions a{padding:10px 4px;border-radius:8px;font-size:.9375rem;transition:background-color .15s ease, color .15s ease;}
 .search-suggestions a:hover{background:var(--paper);color:var(--verde);}
+.search-suggestions .search-empty{padding:10px 4px;margin:0;font-size:.9375rem;color:var(--ink-60);}
 
 /* ============================================================ SCROLLER DE CARDS */
 .scroller{display:flex;gap:22px;overflow-x:auto;padding:6px 6px 16px;scroll-snap-type:x mandatory;}
