@@ -53,7 +53,7 @@
               </div>
               <div class="mega-col">
                 <h5 class="stacked">Acesso à Informação</h5>
-                <a class="mega-link" href="#">Ouvidoria</a>
+                <a class="mega-link" href="#transparencia">Ouvidoria</a>
                 <a class="mega-link" href="#">Notícias</a>
                 <a class="mega-link" href="#compre-imoveis">Licitações (compras)</a>
               </div>
@@ -98,6 +98,9 @@
               <a class="mega-link" href="#">Contato para imprensa</a>
             </div>
           </div>
+
+          <a href="#transparencia">Governança</a>
+          <a href="#transparencia">Acesso à informação</a>
         </div>
 
         <a href="https://servicosonline.terracap.df.gov.br/" class="btn btn-primary nav-cta-mobile" target="_blank" rel="noopener">Serviços Online</a>
@@ -131,6 +134,7 @@
         <a href="#regularize-imoveis">Regularização de imóveis (Venda Direta)</a>
         <a href="https://servicosonline.terracap.df.gov.br/" target="_blank" rel="noopener">Simulador de valores</a>
         <a href="#invista-em-brasilia">Investir em Brasília</a>
+        <a href="#transparencia">Transparência e prestação de contas</a>
       </div>
     </div>
   </div>
@@ -147,6 +151,7 @@
           <span class="hero-mark" aria-hidden="true"></span>
           <span class="eyebrow hero-eyebrow">Terracap · Companhia Imobiliária de Brasília</span>
           <h1 class="hero-statement">A terra que<br>constrói Brasília.</h1>
+          <p class="hero-lede">Conheça a jornada, do lote à transparência.</p>
           <nav class="hero-links" aria-label="Principais serviços">
             <a href="#compre-imoveis">Comprar imóvel</a>
             <a href="#regularize-imoveis">Regularizar imóvel</a>
@@ -171,7 +176,7 @@
     <div class="container">
       <span class="eyebrow">Território em números</span>
       <h2 class="section-title" id="indicadores-title">Indicadores institucionais</h2>
-      <p class="section-sub">Um retrato do trabalho da Terracap na gestão do patrimônio imobiliário do Distrito Federal.</p>
+      <p class="section-sub">Antes do próximo lote ou contrato, um retrato do que a Terracap já entregou para o Distrito Federal — a base sobre a qual esta história continua.</p>
 
       <div style="height:40px;"></div>
 
@@ -218,12 +223,115 @@
 
   <div class="survey-divider"></div>
 
+  <!-- ================= TERRITÓRIO — mapa interativo ================= -->
+  <section id="territorio" aria-labelledby="territorio-title">
+    <div class="container">
+      <span class="eyebrow">O território</span>
+      <h2 class="section-title" id="territorio-title">Onde a Terracap atua</h2>
+      <p class="section-sub">Antes de comprar ou regularizar, conheça o mapa: cada região do Distrito Federal está em um momento diferente desta história — regularização, novo empreendimento, estudo ou conclusão. Selecione uma região para ver o que está em curso, ou visite o portal oficial dos empreendimentos que já têm site próprio.</p>
+
+      <div style="height:40px;"></div>
+
+      <div class="territory-wrap">
+        <div class="territory-map" role="group" aria-label="Mapa de regiões do Distrito Federal">
+          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Bras%C3%ADlia_-_Jardins_de_Burle_Marx_-_Unidade_de_Vizinhan%C3%A7a_(10).jpg?width=800');" data-region="noroeste" data-status="regularizacao" aria-pressed="false"><span>Noroeste</span></button>
+          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Ceil%C3%A2ndia_DF_Brasil_-_Vista_do_Centro_-_panoramio.jpg?width=800');" data-region="ceilandia" data-status="regularizacao" aria-pressed="false"><span>Ceilândia</span></button>
+          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Bras%C3%ADlia_DF_Brasil%2C_%C3%81guas_Claras_-_Sky_line_da_cidade_-_panoramio.jpg?width=800');" data-region="aguas-claras" data-status="empreendimento" aria-pressed="false"><span>Águas Claras</span></button>
+          <button type="button" class="territory-node is-active" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Brasilia_-_Congresso_Nacional.jpg?width=800');" data-region="plano-piloto" data-status="estudo" aria-pressed="true"><span>Plano Piloto</span></button>
+          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Pond_-_Jardim_Bot%C3%A2nico_de_Bras%C3%ADlia_-_DSC09727.JPG?width=800');" data-region="jardim-botanico" data-status="empreendimento" aria-pressed="false"><span>Jardim Botânico</span></button>
+          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Samambaia_DF_Brasil_-_Panoramica_-_panoramio.jpg?width=800');" data-region="samambaia" data-status="regularizacao" aria-pressed="false"><span>Samambaia</span></button>
+          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Parque_Arniqueira.jpg?width=800');" data-region="arniqueira" data-status="concluido" aria-pressed="false"><span>Arniqueira</span></button>
+        </div>
+
+        <div class="territory-panel" data-territory-panel aria-live="polite" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Brasilia_-_Congresso_Nacional.jpg?width=800');">
+          <span class="code">REGIÃO ADMINISTRATIVA</span>
+          <h3 data-panel-title>Plano Piloto</h3>
+          <span class="stamp stamp-dourado" data-panel-status>Estudo em andamento</span>
+          <p data-panel-desc>Estudos urbanísticos e geodésicos em curso para atualização do zoneamento de áreas públicas remanescentes.</p>
+          <a href="#" class="btn btn-onphoto" data-panel-link>Ver processos da região</a>
+        </div>
+      </div>
+
+      <div class="territory-legend">
+        <span><i class="dot dot-verde"></i>Regularização em curso</span>
+        <span><i class="dot dot-data-azul"></i>Novo empreendimento</span>
+        <span><i class="dot dot-dourado"></i>Estudo em andamento</span>
+        <span><i class="dot dot-cerrado"></i>Concluído</span>
+      </div>
+
+      <div style="height:56px;"></div>
+
+      <h3 class="table-heading">Mergulhe em nossos Empreendimentos</h3>
+      <p class="section-sub" style="margin-top:-8px;margin-bottom:32px;">Fique por dentro dos nossos empreendimentos,explorando cada detalhe que ele tem a oferecer</p>
+
+      <div class="dev-carousel" data-carousel>
+        <button type="button" class="dev-nav-btn dev-nav-prev" data-carousel-prev aria-label="Empreendimento anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button type="button" class="dev-nav-btn dev-nav-next" data-carousel-next aria-label="Próximo empreendimento">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+
+        <div class="dev-track" data-carousel-track>
+          <div class="dev-slide">
+            <a class="dev-card reveal" href="https://hugorosa29.github.io/prototipo_aldeia/" target="_blank" rel="noopener" draggable="false">
+              <div class="dev-preview">
+                <img src="Aldeias-do-Cerrado-1 - Copia.jpeg" alt="">
+              </div>
+              <div class="dev-info">
+                <span class="code">SETOR · HABITACIONAL</span>
+                <span class="title">Aldeias do Cerrado</span>
+                <p class="dev-desc">Loteamento com portal próprio, plantas de lotes, localização e condições de venda em detalhe.</p>
+                <span class="dev-link">Visitar site oficial
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+
+          <div class="dev-slide">
+            <div class="dev-card reveal" aria-disabled="true">
+              <div class="dev-preview dev-preview-placeholder"><span>Em breve</span></div>
+              <div class="dev-info">
+                <span class="code">SETOR · MISTO</span>
+                <span class="title">Novo portal em desenvolvimento</span>
+                <p class="dev-desc">Este empreendimento ainda não tem site próprio publicado. Volte em breve.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="dev-slide">
+            <div class="dev-card reveal" aria-disabled="true">
+              <div class="dev-preview dev-preview-placeholder"><span>Em breve</span></div>
+              <div class="dev-info">
+                <span class="code">SETOR · COMERCIAL</span>
+                <span class="title">Novo portal em desenvolvimento</span>
+                <p class="dev-desc">Este empreendimento ainda não tem site próprio publicado. Volte em breve.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dev-dots" data-carousel-dots></div>
+      </div>
+
+      <div style="height:56px;"></div>
+
+      <div class="section-footer-actions">
+        <a href="#compre-imoveis" class="btn btn-line">Ver imóveis à venda</a>
+        <a href="#regularize-imoveis" class="btn btn-line">Regularizar meu imóvel</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="survey-divider"></div>
+
   <!-- ================= COMPRE IMÓVEIS ================= -->
   <section id="compre-imoveis">
     <div class="container">
-      <span class="eyebrow">Área 01 · Aquisição</span>
+      <span class="eyebrow">Aquisição</span>
       <h2 class="section-title">Compre Imóveis</h2>
-      <p class="section-sub">A compra de lotes e terrenos da Terracap se dá por editais de licitação ou de leilão. Aqui você vê os imóveis à venda no momento e participa enviando sua proposta online ou presencial.</p>
+      <p class="section-sub">Depois de explorar o território, é hora de encontrar o seu lote. A compra de lotes e terrenos da Terracap se dá por editais de licitação ou de leilão — aqui você vê os imóveis à venda no momento e participa enviando sua proposta online ou presencial.</p>
 
       <div style="height:44px;"></div>
 
@@ -314,9 +422,9 @@
   <!-- ================= REGULARIZE IMÓVEIS ================= -->
   <section id="regularize-imoveis">
     <div class="container">
-      <span class="eyebrow">Área 02 · Regularização</span>
+      <span class="eyebrow">Regularização</span>
       <h2 class="section-title">Regularize Imóveis</h2>
-      <p class="section-sub">A alienação de unidades imobiliárias derivadas de regularização fundiária em áreas de interesse específico (REURB-E) é também conhecida como Venda Direta. Aqui você pode regularizar o seu imóvel.</p>
+      <p class="section-sub">Comprar não é o único caminho até o seu endereço. A alienação de unidades imobiliárias derivadas de regularização fundiária de interesse específico (REURB-E) — também conhecida como Venda Direta — é outra forma de tornar o seu imóvel seu, de direito.</p>
 
       <div style="height:44px;"></div>
 
@@ -386,7 +494,8 @@
       <div class="section-footer-actions">
         <a href="#" class="btn btn-line">Veja todos</a>
       </div>
-
+      <!--
+      
       <div style="height:56px;"></div>
       <div style="text-align:center;">
         <span class="eyebrow" style="justify-content:center;">Conheça mais</span>
@@ -396,46 +505,7 @@
           <a href="#" class="btn btn-line">Perguntas frequentes</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <div class="survey-divider"></div>
-
-  <!-- ================= TERRITÓRIO — mapa interativo ================= -->
-  <section id="territorio" aria-labelledby="territorio-title">
-    <div class="container">
-      <span class="eyebrow">Território · Distrito Federal</span>
-      <h2 class="section-title" id="territorio-title">Onde a Terracap atua</h2>
-      <p class="section-sub">Um recorte do eixo urbano do Distrito Federal. Selecione uma região para ver o que está em curso.</p>
-
-      <div style="height:40px;"></div>
-
-      <div class="territory-wrap">
-        <div class="territory-map" role="group" aria-label="Mapa de regiões do Distrito Federal">
-          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Bras%C3%ADlia_-_Jardins_de_Burle_Marx_-_Unidade_de_Vizinhan%C3%A7a_(10).jpg?width=800');" data-region="noroeste" data-status="regularizacao" aria-pressed="false"><span>Noroeste</span></button>
-          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Ceil%C3%A2ndia_DF_Brasil_-_Vista_do_Centro_-_panoramio.jpg?width=800');" data-region="ceilandia" data-status="regularizacao" aria-pressed="false"><span>Ceilândia</span></button>
-          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Bras%C3%ADlia_DF_Brasil%2C_%C3%81guas_Claras_-_Sky_line_da_cidade_-_panoramio.jpg?width=800');" data-region="aguas-claras" data-status="empreendimento" aria-pressed="false"><span>Águas Claras</span></button>
-          <button type="button" class="territory-node is-active" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Brasilia_-_Congresso_Nacional.jpg?width=800');" data-region="plano-piloto" data-status="estudo" aria-pressed="true"><span>Plano Piloto</span></button>
-          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Pond_-_Jardim_Bot%C3%A2nico_de_Bras%C3%ADlia_-_DSC09727.JPG?width=800');" data-region="jardim-botanico" data-status="empreendimento" aria-pressed="false"><span>Jardim Botânico</span></button>
-          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Samambaia_DF_Brasil_-_Panoramica_-_panoramio.jpg?width=800');" data-region="samambaia" data-status="regularizacao" aria-pressed="false"><span>Samambaia</span></button>
-          <button type="button" class="territory-node" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Parque_Arniqueira.jpg?width=800');" data-region="arniqueira" data-status="concluido" aria-pressed="false"><span>Arniqueira</span></button>
-        </div>
-
-        <div class="territory-panel" data-territory-panel aria-live="polite" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Brasilia_-_Congresso_Nacional.jpg?width=800');">
-          <span class="code">REGIÃO ADMINISTRATIVA</span>
-          <h3 data-panel-title>Plano Piloto</h3>
-          <span class="stamp stamp-dourado" data-panel-status>Estudo em andamento</span>
-          <p data-panel-desc>Estudos urbanísticos e geodésicos em curso para atualização do zoneamento de áreas públicas remanescentes.</p>
-          <a href="#" class="btn btn-onphoto" data-panel-link>Ver processos da região</a>
-        </div>
-      </div>
-
-      <div class="territory-legend">
-        <span><i class="dot dot-verde"></i>Regularização em curso</span>
-        <span><i class="dot dot-data-azul"></i>Novo empreendimento</span>
-        <span><i class="dot dot-dourado"></i>Estudo em andamento</span>
-        <span><i class="dot dot-cerrado"></i>Concluído</span>
-      </div>
+      -->
     </div>
   </section>
 
@@ -444,9 +514,9 @@
   <!-- ================= SERVIÇOS ONLINE ================= -->
   <section id="servicos-online">
     <div class="container">
-      <span class="eyebrow">Área 03 · Pós-venda</span>
+      <span class="eyebrow">Depois da compra</span>
       <h2 class="section-title">Serviços</h2>
-      <p class="section-sub">Para quem já comprou imóvel: acompanhe processos, consulte requerimentos e acesse serviços como declarações e certidões.</p>
+      <p class="section-sub">A história não termina na assinatura. Para quem já comprou ou regularizou, esses são os canais para acompanhar processos, consultar requerimentos e emitir declarações e certidões.</p>
 
       <div style="height:44px;"></div>
 
@@ -474,9 +544,9 @@
   <!-- ================= INVISTA EM BRASÍLIA — modo satélite ================= -->
   <section id="invista-em-brasilia" style="background:var(--azul-deep);">
     <div class="container">
-      <span class="eyebrow" style="color:#7FC49A;">Área 04 · Novos negócios</span>
+      <span class="eyebrow" style="color:#7FC49A;">Novos negócios</span>
       <h2 class="section-title" style="color:var(--white);">Invista em Brasília</h2>
-      <p class="section-sub" style="color:#A9B8C2;">A Terracap tem como um de seus objetivos parcerias em projetos focados no desenvolvimento do Distrito Federal. Confira os projetos:</p>
+      <p class="section-sub" style="color:#A9B8C2;">Além do lote individual, a Terracap constrói parcerias em maior escala. Se a sua história com Brasília for além de uma casa, esses são os projetos abertos a investimento:</p>
 
       <div style="height:44px;"></div>
 
@@ -509,11 +579,12 @@
     </div>
   </section>
 
-  <!-- ================= FIQUE POR DENTRO ================= -->
-  <section id="fique-por-dentro">
+  <!-- ================= TRANSPARÊNCIA ================= -->
+  <section id="transparencia">
     <div class="container">
-      <span class="eyebrow" style="justify-content:center;">Legenda</span>
-      <h2 class="section-title" style="text-align:center;">Fique por dentro</h2>
+      <span class="eyebrow" style="justify-content:center;">Transparência</span>
+      <h2 class="section-title" style="text-align:center;">Tudo isso, à vista de todos</h2>
+      <p class="section-sub" style="text-align:center;margin:16px auto 0;">O caminho até aqui — editais, contratos, investimentos — está aberto à consulta. Acompanhe a governança, acesse informações públicas e fale diretamente com a Terracap.</p>
       <div style="height:44px;"></div>
       <div class="legend-grid">
         <a class="legend-item" href="#"><img src="https://www.terracap.df.gov.br/images/sampledata/Ouvidoria-cpia.png" alt=""><span>Ouvidoria Terracap</span></a>
@@ -533,9 +604,9 @@
     <div class="container">
       <div class="newsletter-frame reveal">
         <div class="newsletter-copy">
-          <span class="eyebrow">Fique informado</span>
+          <span class="eyebrow">Continue acompanhando</span>
           <h2 class="section-title">Receba atualizações sobre editais e regularização</h2>
-          <p class="section-sub" style="margin-top:12px;">Avisamos por e-mail quando um novo edital, leilão ou chamamento público for publicado — sem spam.</p>
+          <p class="section-sub" style="margin-top:12px;">Avisamos por e-mail quando um novo edital, leilão ou chamamento público for publicado — sem spam. Assim você acompanha os próximos capítulos desta história.</p>
         </div>
         <form class="newsletter-form" data-newsletter-form novalidate>
           <div class="field-row">

@@ -198,6 +198,57 @@
   revealEls.forEach(function(el){ revealObserver.observe(el); });
 })();
 
+/* ---------- carrossel de portais de empreendimentos ---------- */
+(function(){
+  var carousels = Array.prototype.slice.call(document.querySelectorAll('[data-carousel]'));
+  if(!carousels.length) return;
+
+  carousels.forEach(function(carousel){
+    var track = carousel.querySelector('[data-carousel-track]');
+    var prevBtn = carousel.querySelector('[data-carousel-prev]');
+    var nextBtn = carousel.querySelector('[data-carousel-next]');
+    var dotsWrap = carousel.querySelector('[data-carousel-dots]');
+    if(!track) return;
+    var cards = Array.prototype.slice.call(track.children);
+    if(!cards.length) return;
+
+    var dots = cards.map(function(card, i){
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', 'Ir para item ' + (i + 1));
+      if(i === 0) dot.classList.add('is-active');
+      dot.addEventListener('click', function(){
+        card.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      });
+      if(dotsWrap) dotsWrap.appendChild(dot);
+      return dot;
+    });
+
+    function scrollByCard(dir){
+      var amount = track.clientWidth * dir;
+      track.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+    if(prevBtn) prevBtn.addEventListener('click', function(){ scrollByCard(-1); });
+    if(nextBtn) nextBtn.addEventListener('click', function(){ scrollByCard(1); });
+
+    var ticking = false;
+    function updateActiveDot(){
+      var trackLeft = track.getBoundingClientRect().left;
+      var closest = 0, closestDist = Infinity;
+      cards.forEach(function(card, i){
+        var dist = Math.abs(card.getBoundingClientRect().left - trackLeft);
+        if(dist < closestDist){ closestDist = dist; closest = i; }
+      });
+      dots.forEach(function(dot, i){ dot.classList.toggle('is-active', i === closest); });
+    }
+    track.addEventListener('scroll', function(){
+      if(ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function(){ updateActiveDot(); ticking = false; });
+    });
+  });
+})();
+
 /* ---------- newsletter: feedback de envio ---------- */
 (function(){
   var form = document.querySelector('[data-newsletter-form]');
