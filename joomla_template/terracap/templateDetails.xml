@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="template" client="site">
+<extension version="3.10.11" type="template" client="site">
 	<name>terracap</name>
 	<creationDate>2026-07-10</creationDate>
 	<author>Terracap</author>
@@ -8,7 +8,7 @@
 	<copyright>Copyright (C) Terracap. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later</license>
 	<version>1.0.0</version>
-	<description>Template institucional Terracap — "Eixos & Curvas", convertido do protótipo estático para Joomla 3.1 com posições de módulo editáveis.</description>
+	<description>Template institucional Terracap — "Eixos Curvas", convertido do protótipo estático para Joomla 3.1 com posições de módulo editáveis.</description>
 
 	<files>
 		<filename>index.php</filename>

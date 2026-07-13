@@ -200,7 +200,7 @@ $hasMegaImprensa  = $this->countModules('mega-imprensa');
     <jdoc:include type="modules" name="footer" style="none" />
   </footer>
 
-  <a href="<?php echo $this->escape($chatUrl); ?>" target="_blank" class="chat-fab" title="Chat on-line" aria-label="Chat on-line">
+  <a href="<?php echo htmlspecialchars($chatUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" class="chat-fab" title="Chat on-line" aria-label="Chat on-line">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 4h16v12H8l-4 4V4z"/>
       <circle cx="8.5" cy="10" r=".9" fill="currentColor" stroke="none"/>
