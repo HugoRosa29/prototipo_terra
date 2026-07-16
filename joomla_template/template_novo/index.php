@@ -688,6 +688,66 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 				</div>
 			</section>
 
+			<div class="survey-divider"></div>
+
+			<!-- ================= CRIADOS PELA TERRACAP ================= -->
+			<section id="projetos-terracap" aria-labelledby="projetos-terracap-title">
+				<div class="container">
+					<span class="eyebrow">Criados pela Terracap</span>
+					<h2 class="section-title" id="projetos-terracap-title">Projetos que nasceram aqui</h2>
+					<p class="section-sub">O desenvolvimento do DF também nasce de dentro da Terracap: quando o território pede uma nova direção, criamos as empresas e os projetos para conduzi-la — da inovação tecnológica à regularização do campo.</p>
+
+					<div style="height:44px;"></div>
+
+					<div class="spinoff-grid">
+						<a class="spinoff-card plot-frame reveal" href="https://www.bioticsa.com.br/" target="_blank" rel="noopener">
+							<div class="spinoff-banner spinoff-tech">
+								<span class="tag">Inovação · Tecnologia</span>
+								<span class="sigla">BIOTIC</span>
+							</div>
+							<div class="body">
+								<span class="code">SUBSIDIÁRIA TERRACAP · BIOTIC S.A.</span>
+								<span class="title">Parque Tecnológico de Brasília</span>
+								<p>Um milhão de metros quadrados dedicados à biotecnologia e à TIC — espaço para centenas de empresas e milhares de empregos qualificados no coração do DF.</p>
+								<span class="dev-link">Conhecer o BIOTIC
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+								</span>
+							</div>
+						</a>
+
+						<a class="spinoff-card plot-frame reveal" href="https://www.etr.df.gov.br/" target="_blank" rel="noopener">
+							<div class="spinoff-banner spinoff-rural">
+								<span class="tag">Regularização rural</span>
+								<span class="sigla">ETR</span>
+							</div>
+							<div class="body">
+								<span class="code">SUBSIDIÁRIA TERRACAP · ETR</span>
+								<span class="title">Empresa de Regularização de Terras Rurais</span>
+								<p>Criada para levar segurança jurídica ao campo: mais de 32 mil hectares regularizados e centenas de produtores rurais com a terra reconhecida.</p>
+								<span class="dev-link">Conhecer a ETR
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+								</span>
+							</div>
+						</a>
+
+						<a class="spinoff-card plot-frame reveal" href="#invista-em-brasilia">
+							<div class="spinoff-banner spinoff-mais">
+								<span class="tag">Projetos estruturantes</span>
+								<span class="sigla">E muito mais</span>
+							</div>
+							<div class="body">
+								<span class="code">DO PAPEL AO TERRITÓRIO</span>
+								<span class="title">Do Projeto Orla ao Polo Agroindustrial</span>
+								<p>A Terracap também desenha os grandes projetos que abrem novas fronteiras para o DF — lazer, agronegócio, aviação e esporte.</p>
+								<span class="dev-link">Ver projetos abertos a investimento
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+								</span>
+							</div>
+						</a>
+					</div>
+				</div>
+			</section>
+
 			<!-- ================= INVISTA EM BRASÍLIA ================= -->
 			<section id="invista-em-brasilia" style="background:var(--azul-deep);">
 				<div class="container">

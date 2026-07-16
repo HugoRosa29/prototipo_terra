@@ -80,6 +80,7 @@
     { title:'Simulador de Valores', keywords:'simulador valores licitacao imoveis calculo', href:'https://servicosonline.terracap.df.gov.br/', external:true },
     { title:'Declarações e Certidões', keywords:'declaracoes certidoes documentos', href:'https://servicosonline.terracap.df.gov.br/', external:true },
     { title:'Consulta de Requerimentos', keywords:'consulta requerimentos processos acompanhamento', href:'https://servicosonline.terracap.df.gov.br/', external:true },
+    { title:'Criados pela Terracap — BIOTIC, ETR e outros projetos', keywords:'biotic parque tecnologico brasilia tecnologia inovacao etr empresa de regularizacao de terras rurais campo subsidiarias projetos criados', href:'#projetos-terracap' },
     { title:'Invista em Brasília', keywords:'investir negocios agronegocio polo agroindustrial rio preto autodromo aeroporto projeto orla', href:'#invista-em-brasilia' },
     { title:'Transparência e prestação de contas', keywords:'transparencia ouvidoria acesso a informacao canal de denuncias etica carta de servicos e-protocolo', href:'#transparencia' },
     { title:'Receba atualizações por e-mail', keywords:'newsletter atualizacoes e-mail editais leilao chamamento publico avisos', href:'#atualizacoes' },
