@@ -238,6 +238,10 @@
 .interna-direita ul ul ul{margin-bottom:0;}
 
 /* acordeão: subitens escondidos até o clique (JS injeta .tem-sub/.sub-toggle) */
+/* o style.css legado desenha uma seta Material Icons (::before) no item pai;
+   aqui o expandir é o botão .sub-toggle — anula a seta e o recuo que a compensava */
+.interna-direita .parent span:before{content:none;}
+.interna-direita .parent span{padding-left:0;font-size:inherit;}
 .interna-direita li.tem-sub{position:relative;}
 .interna-direita li.tem-sub > a{padding-right:42px;}
 .interna-direita li.tem-sub > ul{display:none !important;}
@@ -266,22 +270,28 @@
 /* separadores de menu */
 .interna-direita li.divider{padding:6px 0;}
 
-/* cabeçalhos de menu (itens tipo "heading" → span.nav-header): mesma fonte e
-   peso dos links de 1º nível, para a seção inteira ler uniforme */
+/* itens de menu sem link (tipos "heading"/"separator" → span.nav-header,
+   span.separator etc.): mesma fonte e peso dos links do nível correspondente,
+   para a seção inteira ler uniforme. O seletor genérico li > span cobre
+   qualquer classe que o mod_menu use; .parent > span garante especificidade
+   acima do .parent span do style.css legado. */
 .interna-direita .nav-header,
-.interna-direita li.item-heading > span{
+.interna-direita ul li > span,
+.interna-direita li.parent > span{
   display:block;
   font-family:var(--display);font-size:.9375rem;font-weight:600;line-height:1.4;
   letter-spacing:0;text-transform:none;
   color:var(--ink);
   padding:13px 2px;
 }
-.interna-direita li.tem-sub > .nav-header,
-.interna-direita li.tem-sub > span{padding-right:42px;}
 .interna-direita ul ul .nav-header,
-.interna-direita ul ul li.item-heading > span{
+.interna-direita ul ul li > span,
+.interna-direita ul ul li.parent > span{
   font-size:.875rem;font-weight:400;color:var(--ink-60);padding:7px 2px;
 }
+/* por último, para valer também nos níveis internos: espaço para o .sub-toggle */
+.interna-direita li.tem-sub > .nav-header,
+.interna-direita li.tem-sub > span{padding-right:42px;}
 
 /* títulos "outstanding" herdados do chrome container */
 .outstanding-header{margin:0 0 18px;}
