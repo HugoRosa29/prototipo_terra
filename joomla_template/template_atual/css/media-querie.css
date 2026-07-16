@@ -1,0 +1,526 @@
+@media (max-width: 1080px) {
+    #compre-imoveis .datas .dia {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 990px) {
+    h2 {
+        font-size: 2.5rem;
+    }
+    .text-center.mb-5 {
+        padding-top: 10px;
+        font-size: 20px;
+    }
+    .container {
+        max-width: 970px;
+    }
+    /*Super Destaque*/
+    .super-destaque .chamada-super-destaque {
+        width: 90%;
+    }
+    .super-destaque a {
+        font-size: 2.8em;
+    }
+    /*Menu*/
+    .menu-principal {
+        top: 0px;
+    }
+    .menu-principal .container {
+        padding: 0px !important;
+    }
+    .menu-principal .navbar {
+        background: rgba(255, 255, 255, 1) !important;
+        border-radius: 0px;
+        box-sizing: border-box;
+        margin-left: 0px;
+    }
+    .menu-principal .navbar-nav {
+        margin-left: 0px;
+    }
+    .menu-principal .nav-item:hover {
+        background: #f8f9fa;
+    }
+    .menu-principal .nav-item a:hover {
+        color: #212529;
+    }
+    .nav-link:hover {
+        color: #212529;
+    }
+    .nav-item {
+        padding: 0 !important;
+    }
+    .nav-item a {
+        padding: 15px 1rem !important;
+        border-bottom: solid 1px #ddd;
+    }
+    .megamenu .container .colcol-sm-6 {
+        width: 33% !important;
+    }
+    .megamenu .container .colcol-sm-6 ul li {
+        padding-top: 0px;
+    }
+    .megamenu .container .col {
+        flex-basis: unset;
+    }
+    .megamenu .container .col:last-child {
+        display: none;
+    }
+    .megamenu .container .col:first-child {
+        display: block;
+    }
+    .menu-principal .nav-item:last-child {
+        display: block;
+    }
+    .menu-principal .nav-item:last-child .dropdown-menu {
+        display: block;
+        border-radius: 0px;
+    }
+    .menu-principal .dropdown-menu {
+        border-radius: 0px;
+    }
+    .menu-principal #mod-search-searchword {
+        font-size: 0.9rem;
+    }
+    .menu-principal .nav-item:last-child a {
+        display: none;
+    }
+    .megamenu-base .navbar-brand {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 1rem !important;
+        padding-left: 0;
+    }
+    .megamenu .container ul li {
+        padding-top: 0px;
+    }
+    .menu-principal .dropdown-menu {
+        padding: 0px;
+        box-shadow: inherit;
+    }
+    .dropdown.megamenu-li:first-child {
+        box-shadow: inset 0px 3px 5px -4px #9a9a9a;
+    }
+    .dropdown-menu.megamenu.show .container ul li a {
+        width: 100% !important;
+        display: block;
+        font-size: 14px;
+        background-color: #f7f7f7;
+    }
+    .dropdown-menu.megamenu .container .colcol-sm-6 ul li {
+        padding: 0 !important;
+    }
+    .navbar-nav li:last-child {
+        padding: 15px !important;
+    }
+    .megamenu.show .nav.menu {
+        width: 100%;
+        display: flex;
+        flex-flow: column;
+    }
+    .megamenu.show .container ul li {
+        padding: 0px !important;
+    }
+    .menu-principal h3.title {
+        font-size: 1.2rem;
+    }
+    .menu-principal .dropdown-menu.megamenu.show>.container>.row>.col-lg-3 {
+        width: 100% !important;
+    }
+    .menu-principal .dropdown-menu br {
+        display: none !important;
+    }
+    .menu-principal .form-inline .custom-select,
+    .menu-principal .form-inline .input-group {
+        width: 100%;
+    }
+    .menu-principal .btn-success {
+        font-size: 14px;
+    }
+    .menu-principal .desc-megamenu-sub {
+        display: none;
+    }
+    /*Compre imoveis*/
+    #compre-imoveis h3 {
+        font-size: 1.5rem;
+    }
+    #compre-imoveis .datas .dia {
+        font-size: 1rem;
+    }
+    #compre-imoveis .container>.row {
+        margin-right: 0px;
+    }
+}
+
+@media (max-width: 769px) {
+#regularize-imoveis:after,
+#regularize-imoveis:before,
+#invista-em-brasilia:after,
+#invista-em-brasilia:before,
+#servicos-online:after {display:none}
+
+    .menu-principal .navbar-nav .megamenu-li:last-child .col,
+    .menu-principal .navbar-nav .megamenu-li:last-child .col1 {
+        padding-left: 15px;
+    }
+
+    .interna .topo {
+        min-height: 100px;
+    }
+    .interna>.row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    h2 {
+        font-size: 2.5rem;
+    }
+    .text-center.mb-5 {
+        padding-top: 10px;
+        font-size: 20px;
+    }
+    /*Super Destaque*/
+    .super-destaque a {
+        font-size: 2em;
+    }
+    #compre-imoveis {
+        min-height: auto
+    }
+    #compre-imoveis .carousel-indicators {
+        display: none;
+    }
+    #compre-imoveis .bloco-amarelo {
+        left: 0;
+        width: 100%;
+        position: relative;
+        height: 320px
+    }
+    #compre-imoveis .datas div:first-child {
+        background: none;
+        padding: 0;
+    }
+    #compre-imoveis .datas div:last-child {
+        float: right;
+    }
+    #compre-imoveis .justify-content-center {
+        width: 100%
+    }
+    #compre-imoveis .btn {
+        clear: both;
+        margin-top: 100px;
+    }
+    #compre-imoveis .datas,
+    #compre-imoveis .localizacao {
+        padding: 0 20px;
+    }
+    #compre-imoveis .localizacao p {
+        background: none;
+        padding: 25px 0px;
+        text-align: center;
+    }
+    #compre-imoveis .datas {
+        justify-content: space-evenly;
+    }
+    #compre-imoveis .datas .dia {
+        font-size: 1.5rem;
+    }
+    #compre-imoveis {
+        padding-bottom: 100px;
+    }
+    #compre-imoveis .carousel-control-prev {
+        left: 25px;
+    }
+    #compre-imoveis .carousel-control-next {
+        right: 25px;
+    }
+    #compre-imoveis .container>.row {
+        margin-right: -15px;
+    }
+    #compre-imoveis .carousel-control-next,
+    #compre-imoveis .carousel-control-prev {
+        height: 40px;
+        top: 40%;
+    }
+    /*Serviços online*/
+    #servicos-online .col-md-3 {
+        width: 50%;
+    }
+    /*Rodape*/
+    footer.rodape {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    .rodape .container .row .item-rodape {
+        margin: 0 20px;
+        border-bottom: solid 1px #ddd;
+        box-sizing: border-box;
+        border-right: 0;
+        padding: 20px 0;
+    }
+    .rodape .container .row .item-rodape:last-child {
+        border-bottom: 0px;
+    }
+    .rodape .custom .row {
+        justify-content: left;
+    }
+    .rodape .custom .row .col-sm {
+        max-width: max-content;
+    }
+    .rodape .custom .row {
+        justify-content: left;
+    }
+    .redesociais .col-sm {
+        width: auto;
+        max-width: max-content !important;
+    }
+    .noticias-rodape .noticia-txt {
+        margin-bottom: 30px;
+        min-height: 106px;
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+    .noticias-rodape .noticia-txt a p {
+        color: #212529;
+        margin-bottom: 2px !important;
+        font-size: 17px;
+    }
+    .rodape .redesociais {
+        margin-top: 20px;
+        justify-content: left;
+    }
+    .noticias-rodape .noticia-txt p {
+        padding-left: 0px;
+    }
+    .noticias-rodape .row .col-sm-4 a img {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .noticias-rodape .noticia-txt small {
+        padding-left: 0px;
+    }
+    .item-rodape.col-md-5:last-child .container {
+        padding: 0px !important;
+    }
+    .noticias-rodape .row:last-child {
+        display: flex;
+        justify-content: right;
+    }
+    .noticias-rodape .row:last-child .col-sm-4 {
+        max-width: max-content;
+    }
+    #invista-em-brasilia .item .txt-invista {
+        font-size: 14px;
+    }
+    #invista-em-brasilia .swiper-button-next,
+    #invista-em-brasilia .swiper-button-prev {
+        width: 40px;
+        height: 40px;
+    }
+    .swiper-button-next,
+    .swiper-button-prev {
+        background-size: 20px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    
+    .interna h2 { text-align:center }
+    
+   
+
+
+ 
+    .text-center.mb-5 {
+        padding-top: 0px;
+        font-size: 1rem;
+    }
+    p.text-center.mb-5 {
+        font-size: 14px;
+    }
+    
+    /* Compra imoveis ++++++++++++++++++++++++++++++++++++++++++++++++ */
+    #compre-imoveis {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    #compre-imoveis d-flex .btn {
+        margin-top: 62px;
+        width: 100%;
+    }
+    #compre-imoveis .datas .titulo { text-align:center }
+    #compre-imoveis .datas .dia { font-size: 1.2rem; }
+    #compre-imoveis .localizacao p {
+        padding-top: 25px; padding-bottom:0;
+        margin-bottom:0; 
+        font-size: 14px;
+        font-size: 14px;
+    }
+    .tabs,
+    .tabs .tab          {display:block}
+    .tabs .btn-tab      { display:block; width:100%; margin: 0; background: #F5BE1A; text-align: center; font-size: 2.5rem; }
+    .tabs .interna-direita  { margin-top: 30px; }
+    
+    .titulo-editais         { margin-top: 15px; }
+    .interna p.titulo       { padding-right: 0; margin-right:0 !important; border:0 }
+    .interna .titulo-editais a  { -webkit-line-clamp: initial; }
+    
+    .interna .caucao p.titulo,
+    .interna .leilao p.titulo { display: block; width: 100%; }
+    
+    .interna .caucao div:first-child,
+    .interna .leilao div:first-child { margin-right:0 }
+    
+    .card-download-date { margin-top:30px }
+    .card-download-date .date-icon { display:none}
+    .card-download-date .bloco-border { padding-right: 0; margin-right: 0; }
+    .card-download-date .bloco-data { width:100% }
+    .bloco-data-descricao { display: block; text-align: center; width: 100%; }
+    
+    .item-date .location_on-icon  { display:none }
+    
+    .mega-btn .col-md-4 { margin-bottom: 20px; }
+
+    
+    /*Regularize imoveis*/
+    #regulariza-imoveis {
+        margin-top: 50px;
+    }
+    #regulariza-imoveis .container .row>.col-sm-4 {
+        margin-bottom: 30px;
+    }
+    #regulariza-imoveis .container .row>.col-sm-4 .dados .mb-3 {
+        margin-bottom: 0px !important;
+        margin-top: 10px;
+    }
+    
+     
+    .property-item { margin-bottom:60px }
+    .property-item .descricao { background: none; padding: 5px 15px; text-align: center; }
+    
+    
+    /*Super destaque*/
+    .super-destaque a {
+        line-height:35px
+    }
+    .super-destaque .chamada-super-destaque p {
+        font-size: 1rem;
+    }
+    
+    /*Banner*/
+    .super-destaque {
+        height: 480px;
+    }
+    .super-destaque .pelicula {
+        height: 480px;
+    }
+    
+    /*Serviços online*/
+    #servicos-online { padding-top:100px }
+    
+    #servicos-online .col-md-3 {
+        width: 100%;
+    }
+    #servicos-online .container>.row .col-md-3:last-child {
+        height: 50px;
+        padding-bottom: 0px !important;
+        margin-bottom: 0px !important;
+    }
+    
+    /* Invista em Brasília +++++++++++++++++++++++++++++++++++++++++++++++++ */
+    .carouseller__wrap { padding-bottom:60px !important}
+    #invista-em-brasilia .carouseller__left {
+        left: 0;
+        bottom: 0;
+   }
+   #invista-em-brasilia .carouseller__right {
+        right: 0;
+        bottom: 0;
+   }
+
+   .cor-preto .botao-invista { width:100% }
+    
+    /*Noticias*/
+    .noticias-rodape .noticia-txt a p {
+        margin: 0 !important;
+        padding: 0;
+    }
+    .noticias-rodape .noticia-txt small {
+        padding-left: 0px;
+    }
+    .noticias-rodape .row .col-sm-4 a img {
+        width: 75%;
+        margin-bottom: 10px;
+    }
+    .noticias-rodape-img {
+        height:auto
+    }
+    
+    .listagem-capa-noticias .carousel-caption { display: block !important; position: initial; }
+    .listagem-capa-noticias .carousel-caption h5 { font-size: 1rem !important;  width: 100%; font-weight: normal !important;  line-height: 26px !important;  }
+    .carousel-caption h5:before { content: "link"; font-family: "Material Icons"; display: block; position: absolute; right: 10px; font-size: 24px; -webkit-transform: rotate(-45deg); transform: rotate(-45deg); color: #004A7F; }
+    .listagem-capa-noticias .carousel-caption.d-none.d-md-block { background:none }
+    
+    .noticia-item { height:auto !important; background:#f2f2f2}
+    .listagem-capa-noticias .carousel-indicators { display:none }
+    .listagem-capa-noticias .carousel-control-next,
+    .listagem-capa-noticias .carousel-control-prev { top:50% }
+    
+    .lista-noticia-row { width:100% }
+    
+    .noticia-data-hora { display:none }
+    
+    .lista-noticia-txt { padding-left:0; padding-right:0; flex: 0 0 100%; max-width: 100%; display: -webkit-box; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    
+    .lista-noticia-row i { display:none }
+    
+    .capa-noticia .interna-direita { margin-top:60px }
+    
+    
+    /* Fique por Dentro */
+    #fique-por-dentro ul li {
+        width:100%;
+        flex:none;
+        border-left:0
+    }
+    
+    .noticias-rodape .noticia-txt { padding-left:15px}
+    .rodape .custom .row>.col-sm {
+        width: auto;
+    }
+    .rodape .custom .row {
+        justify-content: center;
+    }
+    .rodape .redesociais {
+        margin-top: 20px;
+        justify-content: center;
+    }
+    .rodape .redesociais>.col-sm {
+        width: auto;
+    }
+    .noticias-rodape .row:last-child {
+        display: flex;
+        justify-content: center;
+    }
+    footer.rodape {
+        padding-top: 50px;
+        text-align: center;
+    }
+    
+    
+    /* PÁGINAS INTERNAS ************************************************************* */
+    ul.breadcrumb li:first-child { display: none; }
+
+    /* Regularize Imóveis */
+    .botoes-area-cadastro { margin-bottom:100px }
+
+     /* Página de Artigo */
+    .single-page img { width:100%; height: auto }
+
+    .links-destaques        { margin-top:30px }
+    .links-destaques h2     { width:100%; text-align:center }
+    .links-destaques ul li  { margin: 0; display: block; width: 100%; margin-bottom:20px }
+    .links-destaques .btn   { white-space: initial; }
+    .link-download:before, 
+    .link-faq:before        { display:none }
+    .link-download, .link-faq   { padding-left: 20px; padding-right: 20px; width: 100%; }
+
+}

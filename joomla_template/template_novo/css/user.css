@@ -1,0 +1,11 @@
+/* Estilo base para links */
+a {
+  color: #007bff; /* azul padrão */
+  text-decoration: underline;
+}
+
+/* Quando passar o mouse (hover), pode mudar a cor se quiser */
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}

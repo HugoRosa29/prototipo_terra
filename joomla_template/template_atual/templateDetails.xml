@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "https://www.joomla.org/xml/dtd/2.5/template-install.dtd">
+<extension version="3.9.0" type="template" client="site" method="upgrade">
+	<name>onepageterracap2019</name>
+	<version>3.0</version>
+	<creationDate>Julho de 2019</creationDate>
+	<author>Capegemini</author>
+	<authorEmail>charles.fernandes@capgemini.com</authorEmail>
+	<copyright>Copyright (C) 2019 - 2030 All rights reserved.</copyright>
+	<description>Template desenvolvido para o projeto Terracap</description>
+	<files>
+		<filename>component.php</filename>
+		<filename>error.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>img</folder>
+		<folder>js</folder>
+		<folder>webfonts</folder>
+	</files>
+	<positions>
+		<position>menu-principal</position>
+		<position>super-banner</position>
+		<position>pagina-inicial</position>
+		<position>trilha-navegacao</position>
+		<position>internas-topo</position>
+		<position>pagina-interna-capa</position>
+		<position>internas-direita</position>
+		<position>pagina-interna-capa</position>
+		<position>internas-rodape</position>
+		<position>rodape-1</position>
+		<position>rodape-2</position>
+		<position>rodape-3</position>
+		<position>debug</position>
+	</positions>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.tpl_onepageterracap2019.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_onepageterracap2019.sys.ini</language>
+		<language tag="pt-BR">pt-BR/pt-BR.tpl_onepageterracap2019.ini</language>
+		<language tag="pt-BR">pt-BR/pt-BR.tpl_onepageterracap2019.sys.ini</language>
+	</languages>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+			</fieldset>
+			<fieldset
+				name="header"
+				label="TPL_ONEPAGETERRACAP2019_FIELDSET_HEADER_LABEL"
+				description="TPL_ONEPAGETERRACAP2019_FIELDSET_HEADER_DESC">
+				
+				<field
+					name="logo"
+					type="media"
+					default="templates/onepageterracap2019/img/logo-terracap.png"
+					label="TPL_ONEPAGETERRACAP2019_FIELD_LOGO_LABEL"
+					description="TPL_ONEPAGETERRACAP2019_FIELD_LOGO_DESC" />
+				<!-- <field
+					name="logoText"
+					type="textarea"
+					class="inputbox"
+					cols="30"
+					rows="3"
+					filter="raw"
+					label="TPL_ONEPAGETERRACAP2019_FIELD_LOGO_TEXT_LABEL"
+					description="TPL_ONEPAGETERRACAP2019_FIELD_LOGO_TEXT_DESC" /> -->
+				<field
+					name="analytics"
+					type="text"
+					default=""
+					label="Código google analitics"
+					description="Código google analitics" />	
+				<field
+					name="backgroundImageHeader"
+					type="media"
+					default="media/tpl_ONEPAGETERRACAP2019/images/top.jpg"
+					label="TPL_ONEPAGETERRACAP2019_FIELD_BACKGROUND_IMAGE_LABEL"
+					description="TPL_ONEPAGETERRACAP2019_FIELD_BACKGROUND_IMAGE_DESC" />
+			</fieldset>
+			<fieldset
+				name="footer"
+				label="TPL_ONEPAGETERRACAP2019_FIELDSET_FOOTER_LABEL"
+				description="TPL_ONEPAGETERRACAP2019_FIELDSET_FOOTER_DESC">
+				<field
+					name="telefone"
+					type="tel"
+					size="30"
+					filter="string"
+					label="TPL_ONEPAGETERRACAP2019_FIELD_PHONE_LABEL"
+					description="TPL_ONEPAGETERRACAP2019_FIELD_PHONE_DESC" />
+				<field
+					name="endereco"
+					type="textarea"
+					class="inputbox"
+					cols="30"
+					rows="3"
+					filter="raw"
+					label="TPL_ONEPAGETERRACAP2019_FIELD_ENDERECO_LABEL"
+					description="TPL_ONEPAGETERRACAP2019_FIELD_ENDERECO_DESC" />
+				<field
+					name="horario"
+					type="textarea"
+					class="inputbox"
+					cols="30"
+					rows="3"
+					filter="raw"
+					label="TPL_ONEPAGETERRACAP2019_FIELD_HORARIO_LABEL"
+					description="TPL_ONEPAGETERRACAP2019_FIELD_HORARIO_DESC" />
+				<field
+					name="sac"
+					type="textarea"
+					class="inputbox"
+					cols="30"
+					rows="3"
+					filter="raw"
+					label="TPL_ONEPAGETERRACAP2019_FIELD_SAC_LABEL"
+					description="TPL_ONEPAGETERRACAP2019_FIELD_SAC_DESC" />
+				<field
+					name="ocultarFinalRodape"
+					type="radio"
+					class="btn-group"
+					default="0"
+					label="TPL_ONEPAGETERRACAP2019_FIELD_OCULTARFINALRODAPE_LABEL"
+					description="TPL_ONEPAGETERRACAP2019_FIELD_OCULTARFINALRODAPE_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>	
+</extension>

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<title>Terracap · Eixos &amp; Curvas — Conceito e Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Documento de conceito — mesmos tokens do site (terracap.css)
+   Impresso em A4 retrato via navegador (como a edição anterior).
+   ============================================================ */
+:root{
+  --ink:#1D2420; --ink-60:#5C665F;
+  --paper:#F5F6F2; --paper-deep:#E7E9E2; --white:#FFFFFF;
+  --verde:#00753C; --verde-deep:#00532A; --verde-tint:#E2F1E7;
+  --azul:#003D6B; --azul-deep:#00263F; --azul-tint:#E5EDF3;
+  --dourado:#C9A10D; --dourado-deep:#A17F09; --dourado-tint:#FBF2D9;
+  --alerta:#A3382A; --alerta-tint:#F3E3E0;
+  --cerrado:#A85C32; --cerrado-deep:#7E4423; --cerrado-tint:#F3E7DE;
+  --data-azul:#2C6FA8;
+  --display:"Space Grotesk",sans-serif;
+  --body:"Public Sans",sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --mark: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><rect x='0' y='0' width='9' height='9' rx='1.5' fill='%23C9A10D'/><polygon points='11,0 20,0 20,9' fill='%23003D6B'/><rect x='0' y='11' width='20' height='9' rx='1.5' fill='%2300753C'/></svg>");
+}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html,body{margin:0;padding:0;}
+body{font-family:var(--body);color:var(--ink);background:#DDD;}
+@page{size:A4 portrait;margin:0;}
+
+.page{
+  width:210mm;height:296.5mm;position:relative;overflow:hidden;
+  background:var(--paper);
+  padding:16mm 16mm 24mm;
+  page-break-after:always;break-after:page;
+  margin:0 auto;
+}
+@media screen{ .page{margin:10mm auto;box-shadow:0 10px 30px rgba(0,20,10,.25);} }
+
+/* ---------- vocabulário tipográfico ---------- */
+.coord{font-family:var(--mono);font-size:7.5pt;letter-spacing:.06em;color:var(--ink-60);text-transform:uppercase;}
+.eyebrow{
+  font-family:var(--mono);font-size:8.5pt;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--azul);display:flex;align-items:center;gap:7px;margin:0 0 12px;
+}
+.eyebrow::before{content:"";display:inline-block;width:11px;height:11px;flex-shrink:0;background-image:var(--mark);background-size:cover;border-radius:2px;}
+h1,h2,h3,h4{margin:0;font-family:var(--display);}
+.section-title{font-size:21pt;font-weight:600;letter-spacing:-.01em;line-height:1.12;}
+.section-sub{max-width:150mm;margin:10px 0 0;color:var(--ink-60);font-size:10.5pt;line-height:1.6;}
+p{margin:0;}
+
+/* ---------- divisor de eixo ---------- */
+.survey-divider{position:relative;height:1px;background:var(--paper-deep);margin:9mm 0;}
+.survey-divider::after{
+  content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:var(--paper);width:26px;height:26px;border-radius:50%;box-shadow:0 0 0 1px var(--paper-deep);
+}
+.survey-divider::before{
+  content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:11px;height:11px;z-index:1;background-image:var(--mark);background-size:cover;border-radius:2px;
+}
+
+/* ---------- carimbos ---------- */
+.stamp{
+  display:inline-flex;align-items:center;height:20px;padding:0 10px;
+  font-family:var(--mono);font-size:7.5pt;letter-spacing:.05em;border-radius:999px;border:1px solid currentColor;
+}
+.stamp-verde{color:var(--verde);background:var(--verde-tint);}
+.stamp-alerta{color:var(--alerta);background:var(--alerta-tint);}
+.stamp-dourado{color:var(--dourado-deep);background:var(--dourado-tint);}
+.stamp-azul{color:var(--azul);background:var(--azul-tint);}
+
+/* ---------- rodapé de página ---------- */
+.page-foot{
+  position:absolute;left:16mm;right:16mm;bottom:10mm;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--paper-deep);padding-top:4mm;
+  font-family:var(--mono);font-size:7.5pt;letter-spacing:.06em;color:var(--ink-60);text-transform:uppercase;
+}
+
+/* ---------- cartões genéricos ---------- */
+.card{
+  background:var(--white);border:1px solid var(--paper-deep);border-radius:14px;
+  padding:7mm;
+}
+.card .code{font-family:var(--mono);font-size:7.5pt;letter-spacing:.05em;text-transform:uppercase;color:var(--azul);display:block;margin-bottom:2.5mm;}
+.card h3{font-size:12pt;font-weight:600;margin-bottom:2.5mm;line-height:1.3;}
+.card p{font-size:9.5pt;color:var(--ink-60);line-height:1.6;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:6mm;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5mm;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:4mm;}
+
+/* ---------- capa ---------- */
+.cover{display:flex;flex-direction:column;}
+.cover .coord-top{display:flex;justify-content:space-between;margin-bottom:26mm;}
+.cover-mark{width:16mm;height:16mm;background-image:var(--mark);background-size:cover;border-radius:2.5mm;margin-bottom:12mm;}
+.cover h1{font-size:37pt;font-weight:600;letter-spacing:-.02em;line-height:1.06;max-width:165mm;}
+.cover .lede{max-width:150mm;margin-top:10mm;font-size:12pt;line-height:1.7;color:var(--ink-60);}
+.cover .edition{margin-top:10mm;display:flex;gap:4mm;align-items:center;}
+.cover-foot{
+  position:absolute;left:16mm;right:16mm;bottom:10mm;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  border-top:1px solid var(--paper-deep);padding-top:4mm;
+}
+.cover-foot .l{font-family:var(--mono);font-size:7.5pt;letter-spacing:.06em;color:var(--ink-60);text-transform:uppercase;}
+
+/* ---------- citação / manifesto ---------- */
+.quote-frame{
+  background:var(--azul-deep);border-radius:14px;padding:8mm 9mm;color:var(--white);
+  position:relative;overflow:hidden;
+}
+.quote-frame::before{content:"";position:absolute;top:-14mm;right:-14mm;width:44mm;height:44mm;border-radius:50%;background:var(--verde);opacity:.18;}
+.quote-frame .q{font-family:var(--display);font-size:16pt;font-weight:600;letter-spacing:-.01em;line-height:1.25;position:relative;}
+.quote-frame .src{font-family:var(--mono);font-size:7.5pt;letter-spacing:.06em;text-transform:uppercase;color:#7FC49A;margin-top:4mm;display:block;position:relative;}
+
+/* ---------- paleta ---------- */
+.swatch{background:var(--white);border:1px solid var(--paper-deep);border-radius:12px;overflow:hidden;}
+.swatch .chip{height:14mm;}
+.swatch .info{padding:3.5mm 4mm 4mm;}
+.swatch .nm{font-family:var(--display);font-weight:600;font-size:9.5pt;margin-bottom:1mm;}
+.swatch .hx{font-family:var(--mono);font-size:8pt;color:var(--ink-60);display:block;margin-bottom:1.5mm;}
+.swatch .fn{font-size:8pt;color:var(--ink-60);line-height:1.45;}
+
+/* ---------- tipografia (página 03) ---------- */
+.type-card{background:var(--white);border:1px solid var(--paper-deep);border-radius:14px;padding:6mm 7mm;margin-bottom:4.5mm;}
+.type-card .tag{font-family:var(--mono);font-size:7.5pt;letter-spacing:.06em;text-transform:uppercase;color:var(--azul);display:block;margin-bottom:3mm;}
+.type-card .sample-display{font-family:var(--display);font-size:19pt;font-weight:600;letter-spacing:-.015em;line-height:1.15;}
+.type-card .sample-body{font-family:var(--body);font-size:11.5pt;line-height:1.6;}
+.type-card .sample-mono{font-family:var(--mono);font-size:10pt;letter-spacing:.04em;}
+.type-card .why{font-size:9pt;color:var(--ink-60);line-height:1.55;margin-top:3mm;}
+
+/* ---------- callout ---------- */
+.callout{
+  border:1px solid var(--paper-deep);border-left:3px solid var(--dourado);
+  background:var(--white);border-radius:0 12px 12px 0;padding:5mm 6mm;
+}
+.callout .t{font-family:var(--display);font-weight:600;font-size:11pt;margin-bottom:2mm;}
+.callout .k{font-family:var(--mono);font-size:7.5pt;letter-spacing:.06em;text-transform:uppercase;color:var(--dourado-deep);display:block;margin-bottom:2mm;}
+.callout p{font-size:9.5pt;color:var(--ink-60);line-height:1.6;}
+
+/* ---------- capítulos da jornada ---------- */
+.chapter{border-bottom:1px solid var(--paper-deep);padding:4.5mm 0;}
+.chapter:last-of-type{border-bottom:none;}
+.chapter .ch-tag{font-family:var(--mono);font-size:7.5pt;letter-spacing:.06em;text-transform:uppercase;color:var(--verde);display:block;margin-bottom:1.5mm;}
+.chapter h3{font-size:12.5pt;font-weight:600;margin-bottom:2mm;}
+.chapter p{font-size:9.5pt;color:var(--ink-60);line-height:1.6;max-width:168mm;}
+.chapter .q{color:var(--ink);font-style:italic;}
+.ch-new .ch-tag{color:var(--dourado-deep);}
+.ch-new h3::after{
+  content:"NOVO";font-family:var(--mono);font-size:6.5pt;letter-spacing:.08em;color:var(--dourado-deep);
+  border:1px solid var(--dourado-deep);border-radius:999px;padding:1px 6px;margin-left:3mm;vertical-align:2px;
+}
+
+/* ---------- equilíbrio institucional (página 05) ---------- */
+.move{display:grid;grid-template-columns:11mm 1fr;gap:4mm;padding:3.6mm 0;border-bottom:1px solid var(--paper-deep);}
+.move:last-of-type{border-bottom:none;}
+.move .n{
+  font-family:var(--display);font-weight:700;font-size:13pt;color:var(--verde);
+  width:9mm;height:9mm;border:1.5px solid var(--verde);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.move h3{font-size:11pt;font-weight:600;margin-bottom:1.5mm;}
+.move p{font-size:9pt;color:var(--ink-60);line-height:1.55;max-width:160mm;}
+.move .q{color:var(--ink);font-style:italic;}
+
+/* ---------- pilares (espelho do site) ---------- */
+.pillar{background:var(--white);border:1px solid var(--paper-deep);border-radius:12px;padding:4.5mm 5mm;}
+.pillar .code{font-family:var(--mono);font-size:7pt;letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:1.6mm;}
+.pillar:nth-child(1) .code{color:var(--azul);}
+.pillar:nth-child(2) .code{color:var(--verde);}
+.pillar:nth-child(3) .code{color:var(--dourado-deep);}
+.pillar h4{font-size:9.5pt;font-weight:600;line-height:1.3;margin-bottom:1.6mm;}
+.pillar p{font-size:8pt;color:var(--ink-60);line-height:1.5;}
+
+/* ---------- vocabulário (síntese) ---------- */
+.vocab{display:flex;flex-wrap:wrap;gap:2.5mm;margin-top:4mm;}
+.vocab span{
+  font-family:var(--mono);font-size:7.5pt;letter-spacing:.05em;text-transform:uppercase;
+  border:1px solid var(--paper-deep);background:var(--white);border-radius:999px;padding:1.8mm 4mm;color:var(--ink-60);
+}
+.vocab span.hi{border-color:var(--verde);color:var(--verde);background:var(--verde-tint);}
+</style>
+</head>
+<body>
+
+<!-- ==================================================== PÁGINA 1 · CAPA -->
+<div class="page cover">
+  <div class="coord-top">
+    <span class="coord">15°47'38"S&nbsp;&nbsp;47°55'40"O · BRASÍLIA · DF</span>
+    <span class="coord">ALT. 1172M</span>
+  </div>
+  <div class="cover-mark"></div>
+  <h1>Eixos &amp; Curvas —<br>a história por trás<br>do novo site<br>da Terracap.</h1>
+  <p class="lede">Um documento de conceito: como a identidade visual, a linguagem de interface e a estrutura narrativa do site se encaixam para contar — do território à transparência — a história de uma empresa pública que planeja, preserva e desenvolve o Distrito Federal para as pessoas.</p>
+  <div class="edition">
+    <span class="stamp stamp-dourado">EDIÇÃO 02 · EVOLUÇÃO INSTITUCIONAL</span>
+    <span class="coord">Substitui a edição 01 — inclui o reequilíbrio da percepção comercial → pública</span>
+  </div>
+  <div class="cover-foot">
+    <span class="l">TERRACAP · COMPANHIA IMOBILIÁRIA DE BRASÍLIA</span>
+    <span class="l">Documento de concepção · Design &amp; Conceito</span>
+  </div>
+</div>
+
+<!-- ==================================================== PÁGINA 2 · 01 CONCEITO -->
+<div class="page">
+  <span class="eyebrow">Ponto de partida</span>
+  <h2 class="section-title">Por que "Eixos &amp; Curvas"?</h2>
+  <p class="section-sub">O nome do redesign vem de uma leitura simples da própria marca Terracap: um ícone tricolor — verde, dourado e azul, as cores da bandeira do DF — organizado em quadrantes cruzados por um caminho branco. Essa geometria é o ponto de partida de todo o resto.</p>
+
+  <div class="survey-divider"></div>
+
+  <div class="grid-2">
+    <div class="card">
+      <span class="code">Referência 01 · Lucio Costa</span>
+      <h3>Os eixos que se cruzam</h3>
+      <p>O Plano Piloto nasce do cruzamento de dois eixos — Monumental e Rodoviário-Residencial. No site, essa ideia vira estrutura: divisores de seção que atravessam a página inteira, como um eixo de agrimensura, com a marca da Terracap marcando o ponto de cruzamento no centro.</p>
+    </div>
+    <div class="card">
+      <span class="code">Referência 02 · Oscar Niemeyer</span>
+      <h3>As curvas de concreto branco</h3>
+      <p>Onde a estrutura de Lucio Costa é reta e ortogonal, a arquitetura de Niemeyer responde em curva. Por isso cada cartão, cada moldura de imagem, cada botão do site é desenhado em pílula ou arco — nunca em ângulo reto puro. É o contraponto humano à precisão técnica.</p>
+    </div>
+  </div>
+
+  <div style="height:7mm;"></div>
+
+  <div class="quote-frame">
+    <p class="q">"A terra que constrói Brasília."</p>
+    <span class="src">Manifesto de abertura do site — hero, seção #topo</span>
+  </div>
+
+  <div style="height:7mm;"></div>
+
+  <p class="section-sub" style="max-width:170mm;">Essas duas referências convivem em cada tela: a precisão cadastral de uma agência fundiária (coordenadas, códigos, carimbos, tabelas) suavizada por curvas, cor e uma narrativa em primeira pessoa — porque o site não lista serviços, ele conta a história de uma empresa pública, do território às pessoas.</p>
+
+  <div style="height:7mm;"></div>
+
+  <div class="callout">
+    <span class="k">Neste documento</span>
+    <p>— A identidade visual: paleta de cor e tipografia, e o porquê de cada escolha<br>
+    — A linguagem de interface: os "motivos" visuais que se repetem e amarram o site<br>
+    — <strong>O equilíbrio institucional: como a página passou a comunicar o papel público da Terracap</strong><br>
+    — A jornada narrativa: como cada seção avança a história, do propósito à prestação de contas<br>
+    — Como as duas referências arquitetônicas se traduzem em decisões concretas de design</p>
+  </div>
+
+  <div class="page-foot"><span>EIXOS &amp; CURVAS</span><span>01 — CONCEITO</span></div>
+</div>
+
+<!-- ==================================================== PÁGINA 3 · 02 IDENTIDADE VISUAL -->
+<div class="page">
+  <span class="eyebrow">Identidade visual</span>
+  <h2 class="section-title">Uma paleta extraída da própria bandeira</h2>
+  <p class="section-sub">Nenhuma cor da interface é decorativa. Cada uma delas cita diretamente o ícone tricolor da Terracap ou o cerrado que envolve Brasília — e cada uma tem uma função fixa, não estética, ao longo do site.</p>
+
+  <div class="survey-divider"></div>
+
+  <div class="grid-4">
+    <div class="swatch">
+      <div class="chip" style="background:#00753C;"></div>
+      <div class="info"><div class="nm">Verde Terracap</div><span class="hx">#00753C</span><p class="fn">Cor de marca e de ação — botões primários, "em andamento", links vivos.</p></div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#003D6B;"></div>
+      <div class="info"><div class="nm">Azul institucional</div><span class="hx">#003D6B</span><p class="fn">Estrutura — eyebrows, seção "Invista" em modo satélite, rodapé.</p></div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#C9A10D;"></div>
+      <div class="info"><div class="nm">Dourado</div><span class="hx">#C9A10D</span><p class="fn">Destaque raro — foco de teclado, hover de moldura, ponto de atenção.</p></div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#A85C32;"></div>
+      <div class="info"><div class="nm">Cerrado</div><span class="hx">#A85C32</span><p class="fn">Quarto acento, terracota do cerrado — uso raro, gráficos e KPIs.</p></div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#1D2420;"></div>
+      <div class="info"><div class="nm">Grafite (ink)</div><span class="hx">#1D2420</span><p class="fn">Texto principal — não mais uma tinta marrom, um grafite neutro.</p></div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#F5F6F2;border-bottom:1px solid #E7E9E2;"></div>
+      <div class="info"><div class="nm">Papel (paper)</div><span class="hx">#F5F6F2</span><p class="fn">Fundo base — concreto claro, céu de Brasília.</p></div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#A3382A;"></div>
+      <div class="info"><div class="nm">Alerta</div><span class="hx">#A3382A</span><p class="fn">Encerrado / erro — status "encerrado" em editais e chamamentos.</p></div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#2C6FA8;"></div>
+      <div class="info"><div class="nm">Azul de dado</div><span class="hx">#2C6FA8</span><p class="fn">Só em gráficos — mais claro e saturado que o azul institucional, para não competir com ele.</p></div>
+    </div>
+  </div>
+
+  <div style="height:8mm;"></div>
+
+  <p class="section-sub" style="max-width:170mm;">O resultado é um sistema onde a cor comunica status antes do texto: verde é sempre "em curso", dourado é sempre "atenção/estudo", terracota é o acento raro do cerrado. Ao rolar o mapa interativo do território ou o painel de editais, o olho já sabe o que está acontecendo antes de ler uma palavra.</p>
+
+  <div style="height:6mm;"></div>
+  <div style="display:flex;gap:3mm;">
+    <span class="stamp stamp-verde">EM ANDAMENTO</span>
+    <span class="stamp stamp-dourado">ESTUDO EM ANDAMENTO</span>
+    <span class="stamp stamp-alerta">ENCERRADO</span>
+    <span class="stamp stamp-azul">NOVO EMPREENDIMENTO</span>
+  </div>
+
+  <div class="page-foot"><span>EIXOS &amp; CURVAS</span><span>02 — IDENTIDADE VISUAL</span></div>
+</div>
+
+<!-- ==================================================== PÁGINA 4 · 03 TIPOGRAFIA -->
+<div class="page">
+  <span class="eyebrow">Identidade visual</span>
+  <h2 class="section-title">Três famílias, três vozes</h2>
+  <p class="section-sub">A tipografia carrega tanta informação quanto a cor: cada família tem um papel narrativo específico, e nunca se substituem entre si.</p>
+
+  <div class="survey-divider"></div>
+
+  <div class="type-card">
+    <span class="tag">Display · Space Grotesk</span>
+    <p class="sample-display">A terra que constrói Brasília</p>
+    <p class="why">Títulos, o manifesto do hero, valores em destaque (KPIs). Geométrica e contemporânea — a "voz" institucional, mas não burocrática.</p>
+  </div>
+
+  <div class="type-card">
+    <span class="tag">Corpo · Public Sans</span>
+    <p class="sample-body">Um endereço reconhecido é segurança jurídica e dignidade para quem já construiu sua vida aqui. A Venda Direta é o caminho para tornar o seu imóvel seu, de direito.</p>
+    <p class="why">Parágrafos, descrições, navegação. Humanista e altamente legível — é a voz que narra a jornada do usuário, agora falando primeiro de pessoas, depois de transações.</p>
+  </div>
+
+  <div class="type-card">
+    <span class="tag">Mono · JetBrains Mono</span>
+    <p class="sample-mono">15°47'38"S 47°55'40"O · EDITAL 09/2026 · EM ANDAMENTO</p>
+    <p class="why">Coordenadas, códigos de setor, carimbos de status, cabeçalhos de tabela. É a "voz" técnica — evoca agrimensura, cadastro, precisão de campo.</p>
+  </div>
+
+  <div style="height:6mm;"></div>
+
+  <div class="callout">
+    <span class="k">Por que existe uma fonte monoespaçada num site institucional</span>
+    <p class="t">A régua e o mapa, não só a caneta.</p>
+    <p>O uso da mono para coordenadas e códigos (ex.: "15°47'38"S 47°55'40"O" no cabeçalho e no rodapé) é uma decisão deliberada: repete, em toda a página, que a Terracap lida com terra, latitude e cadastro — não é um detalhe decorativo, é a assinatura de uma companhia imobiliária de verdade.</p>
+  </div>
+
+  <div class="page-foot"><span>EIXOS &amp; CURVAS</span><span>03 — TIPOGRAFIA</span></div>
+</div>
+
+<!-- ==================================================== PÁGINA 5 · 04 LINGUAGEM DE INTERFACE -->
+<div class="page">
+  <span class="eyebrow">Linguagem de interface</span>
+  <h2 class="section-title">Os motivos que amarram o site</h2>
+  <p class="section-sub">Três elementos visuais se repetem em quase toda seção. Juntos, formam um vocabulário consistente — quem navega o site reconhece o padrão mesmo sem perceber conscientemente.</p>
+
+  <div class="survey-divider"></div>
+
+  <div class="grid-3">
+    <div class="card">
+      <span class="code">Motivo 01</span>
+      <h3>Moldura-curva (plot-frame)</h3>
+      <p>Cantos retos de mira dão lugar a um arco de concreto — a curva de Niemeyer. No hover, a mancha de cor no canto muda de azul para dourado, e a borda passa a verde.</p>
+    </div>
+    <div class="card">
+      <span class="code">Motivo 02</span>
+      <h3>Divisor de eixo (survey-divider)</h3>
+      <p>Uma linha fina atravessa a página de ponta a ponta entre seções, com a marca da Terracap no ponto central — o cruzamento de eixos do Plano Piloto, citado a cada transição.</p>
+    </div>
+    <div class="card">
+      <span class="code">Motivo 03</span>
+      <h3>Carimbo &amp; código</h3>
+      <p>Status de editais e empreendimentos aparecem como um "carimbo" de pílula colorida, sempre ao lado de um código monoespaçado — a estética de um processo oficial, não de uma loja.</p>
+      <div style="margin-top:3mm;display:flex;gap:2mm;align-items:center;">
+        <span class="stamp stamp-verde">EM ANDAMENTO</span>
+        <span style="font-family:var(--mono);font-size:7.5pt;color:var(--ink-60);">EDITAL 09/2026</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:8mm;"></div>
+
+  <span class="eyebrow" style="color:var(--verde);">Microinterações</span>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Revelar ao rolar</h3>
+      <p>Cartões e tabelas entram com um leve deslocamento vertical e fade — o conteúdo "emerge do terreno" conforme o usuário avança na leitura, reforçando a ideia de jornada contínua.</p>
+    </div>
+    <div class="card">
+      <h3>Elevação no hover</h3>
+      <p>Molduras e cartões sobem 2–4px e ganham sombra ao passar o mouse — uma resposta física discreta, como levantar um documento da mesa para examiná-lo.</p>
+    </div>
+  </div>
+
+  <div class="page-foot"><span>EIXOS &amp; CURVAS</span><span>04 — LINGUAGEM DE INTERFACE</span></div>
+</div>
+
+<!-- ==================================================== PÁGINA 6 · 05 EQUILÍBRIO INSTITUCIONAL -->
+<div class="page">
+  <span class="eyebrow" style="color:var(--dourado-deep);">O que mudou nesta edição</span>
+  <h2 class="section-title">O equilíbrio institucional: de vitrine a agente público</h2>
+  <p class="section-sub" style="max-width:170mm;">A primeira edição contava a jornada quase inteira em torno da transação — comprar, regularizar, investir. A homepage evoluiu para equilibrar essa percepção: a Terracap é, antes de tudo, a empresa pública que planeja o território, preserva o Cerrado e garante a função social da terra. Cinco intervenções mínimas, sem redesign, mudam o que o visitante entende primeiro.</p>
+
+  <div class="survey-divider" style="margin:6mm 0;"></div>
+
+  <div class="move">
+    <div class="n">1</div>
+    <div>
+      <h3>O manifesto ganha propósito</h3>
+      <p>O lede do hero deixa de ser um convite à jornada de compra e passa a apresentar a empresa: <span class="q">"Empresa pública do Governo do Distrito Federal, a Terracap planeja o uso da terra para promover desenvolvimento urbano, preservar o meio ambiente e cuidar da qualidade de vida das pessoas."</span> O primeiro link rápido passa a ser "Conhecer a Terracap".</p>
+    </div>
+  </div>
+
+  <div class="move">
+    <div class="n">2</div>
+    <div>
+      <h3>"Nosso papel" — o capítulo institucional</h3>
+      <p>Um novo bloco logo após o hero declara os três pilares da atuação pública, em cards que reutilizam o padrão visual dos KPIs (mesmas bordas, raios e rótulos mono, com os acentos tricolores da marca):</p>
+      <div class="grid-3" style="margin-top:3mm;">
+        <div class="pillar"><span class="code">Desenvolvimento urbano</span><h4>Planejamento que transforma cidades</h4><p>Crescimento ordenado, que respeita quem já vive no território.</p></div>
+        <div class="pillar"><span class="code">Sustentabilidade</span><h4>Cuidado com o território e o Cerrado</h4><p>Áreas verdes, compensações ambientais e um futuro sustentável para o DF.</p></div>
+        <div class="pillar"><span class="code">Compromisso social</span><h4>A terra cumprindo sua função social</h4><p>Endereço, segurança jurídica e dignidade para milhares de famílias.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="move">
+    <div class="n">3</div>
+    <div>
+      <h3>Indicadores com rosto humano</h3>
+      <p>"Imóveis licitados" deu lugar a <span class="q">"Famílias atendidas pela regularização"</span> — três dos quatro indicadores agora comunicam impacto público, sob o novo enquadramento: <span class="q">"o que a atuação da Terracap devolve ao Distrito Federal."</span></p>
+    </div>
+  </div>
+
+  <div class="move">
+    <div class="n">4</div>
+    <div>
+      <h3>Regularizar antes de comprar</h3>
+      <p>A ordem das seções foi invertida: a função social (Venda Direta) agora antecede a aquisição. Menu, links do hero, sugestões de busca e botões do território seguem o mesmo fluxo — a narrativa prioriza quem já vive no endereço.</p>
+    </div>
+  </div>
+
+  <div class="move">
+    <div class="n">5</div>
+    <div>
+      <h3>O comercial reenquadrado, não removido</h3>
+      <p>"Compre Imóveis" apresenta a venda como fonte de recursos que retornam ao DF em infraestrutura e serviços; "Invista em Brasília" destaca emprego e desenvolvimento sustentável. Nada foi retirado — mudou a razão apresentada para existir.</p>
+    </div>
+  </div>
+
+  <div class="page-foot"><span>EIXOS &amp; CURVAS</span><span>05 — EQUILÍBRIO INSTITUCIONAL</span></div>
+</div>
+
+<!-- ==================================================== PÁGINA 7 · 06 A JORNADA (1/3) -->
+<div class="page">
+  <span class="eyebrow">A jornada narrativa</span>
+  <h2 class="section-title">O site como uma história, não uma lista de serviços</h2>
+  <p class="section-sub" style="max-width:170mm;">Cada seção avança a mesma narrativa, na ordem em que uma pessoa real a percorreria: primeiro o propósito, depois a confiança, depois o território — e só então os dois caminhos até o endereço, com a função social à frente da transação.</p>
+
+  <div class="survey-divider" style="margin:6mm 0;"></div>
+
+  <div class="chapter">
+    <span class="ch-tag">Capítulo 01 · Hero</span>
+    <h3>O manifesto</h3>
+    <p><span class="q">"A terra que constrói Brasília."</span> Antes de qualquer serviço, o site declara sua premissa — e agora se apresenta: empresa pública do GDF, que planeja o uso da terra para promover desenvolvimento urbano, preservar o meio ambiente e cuidar da qualidade de vida das pessoas. Um ticker ao vivo injeta o gancho de atualidade — o chamamento público em destaque no momento.</p>
+  </div>
+
+  <div class="chapter ch-new">
+    <span class="ch-tag">Capítulo 02 · Nosso papel</span>
+    <h3>O propósito antes dos números</h3>
+    <p>Três pilares — desenvolvimento urbano, sustentabilidade, compromisso social — respondem em dez segundos a pergunta "o que a Terracap faz pelo DF?". É o capítulo que faltava para que o restante da jornada não parecesse apenas uma vitrine: <span class="q">"Mais do que comercializar imóveis, planejamos o crescimento das cidades, preservamos o Cerrado e garantimos que a terra cumpra sua função social."</span></p>
+  </div>
+
+  <div class="chapter">
+    <span class="ch-tag">Capítulo 03 · Indicadores</span>
+    <h3>A confiança antes da transação</h3>
+    <p>Antes de pedir que o visitante regularize ou compre algo, o site mostra o que já entregou: hectares regularizados, famílias atendidas pela regularização, empreendimentos em andamento, anos a serviço do DF. É a credencial da instituição, apresentada como um retrato — <span class="q">"o que a atuação da Terracap devolve ao Distrito Federal, e a base sobre a qual esta história continua."</span></p>
+  </div>
+
+  <div class="chapter">
+    <span class="ch-tag">Capítulo 04 · Território</span>
+    <h3>Conheça o mapa antes de agir</h3>
+    <p>Um mapa interativo por região administrativa, cada uma com um status (regularização, novo empreendimento, estudo, concluído) — o usuário explora o "cenário" da história antes de escolher seu próprio caminho dentro dela. <span class="q">"Cada região do Distrito Federal está em um momento diferente desta história."</span></p>
+  </div>
+
+  <div class="page-foot"><span>EIXOS &amp; CURVAS</span><span>06 — A JORNADA (1/3)</span></div>
+</div>
+
+<!-- ==================================================== PÁGINA 8 · 07 A JORNADA (2/3) -->
+<div class="page">
+  <span class="eyebrow">A jornada narrativa</span>
+  <h2 class="section-title">Dois caminhos até o mesmo endereço</h2>
+  <p class="section-sub" style="max-width:170mm;">Depois do território, o site se bifurca em dois capítulos paralelos — regularizar ou comprar — porque são as duas formas reais de uma pessoa chegar à posse de um imóvel pela Terracap. Nesta edição, a ordem se inverteu: a função social vem primeiro.</p>
+
+  <div class="survey-divider" style="margin:6mm 0;"></div>
+
+  <div class="chapter">
+    <span class="ch-tag">Capítulo 05 · Regularize Imóveis</span>
+    <h3>O caminho da função social — agora à frente</h3>
+    <p>REURB-E / Venda Direta abre a bifurcação: <span class="q">"Um endereço reconhecido é segurança jurídica e dignidade para quem já construiu sua vida aqui."</span> A mesma estética de carimbo e código dos editais, para que os dois capítulos se sintam parte da mesma história — mas o primeiro gesto do site é para quem já mora, não para quem vai comprar.</p>
+  </div>
+
+  <div class="chapter">
+    <span class="ch-tag">Capítulo 06 · Compre Imóveis</span>
+    <h3>A aquisição que financia a cidade</h3>
+    <p>Editais de licitação e leilão em destaque, com um painel de status em andamento vs. encerrado. A venda deixa de ser um fim em si: <span class="q">"A venda de imóveis públicos financia o desenvolvimento do DF: os recursos retornam em infraestrutura, regularização e novos espaços urbanos."</span></p>
+  </div>
+
+  <div class="chapter">
+    <span class="ch-tag">Capítulo 07 · Serviços</span>
+    <h3>Depois da assinatura</h3>
+    <p><span class="q">"A história não termina na assinatura."</span> Simulador de valores, consulta de requerimentos, declarações e certidões — o pós-venda como um capítulo próprio, não uma nota de rodapé.</p>
+  </div>
+
+  <div class="page-foot"><span>EIXOS &amp; CURVAS</span><span>07 — A JORNADA (2/3)</span></div>
+</div>
+
+<!-- ==================================================== PÁGINA 9 · 08 A JORNADA (3/3) -->
+<div class="page">
+  <span class="eyebrow">A jornada narrativa</span>
+  <h2 class="section-title">Escala: quando a história cresce</h2>
+  <p class="section-sub" style="max-width:170mm;">A seção "Invista em Brasília" muda de fundo — de papel claro para azul profundo, como um mapa em "modo satélite" à noite. É a única quebra visual desse tipo no site, reservada de propósito para o momento em que a narrativa muda de escala.</p>
+
+  <div class="survey-divider" style="margin:6mm 0;"></div>
+
+  <div class="chapter">
+    <span class="ch-tag">Capítulo 08 · Invista em Brasília</span>
+    <h3>Além do lote individual</h3>
+    <p>Polo Agroindustrial, Autódromo, Aeroporto Planalto Central, Projeto Orla — parcerias de grande escala, apresentadas pelo que devolvem à cidade: <span class="q">"parcerias que geram emprego, infraestrutura e desenvolvimento sustentável para todo o DF."</span></p>
+  </div>
+
+  <div class="chapter">
+    <span class="ch-tag">Capítulo 09 · Transparência</span>
+    <h3>Fechando o círculo de confiança</h3>
+    <p><span class="q">"Tudo isso, à vista de todos."</span> Ouvidoria, canal de denúncias, acesso à informação — o site devolve ao visitante o direito de auditar tudo que acabou de contar sobre si mesmo.</p>
+  </div>
+
+  <div class="chapter">
+    <span class="ch-tag">Capítulo 10 · Continue acompanhando</span>
+    <h3>Um convite para os próximos capítulos</h3>
+    <p>A newsletter fecha o site não como um formulário genérico, mas como uma continuação explícita: <span class="q">"assim você acompanha os próximos capítulos desta história."</span></p>
+  </div>
+
+  <div style="height:6mm;"></div>
+
+  <div class="callout">
+    <span class="k">Nota de implementação</span>
+    <p>A evolução institucional foi feita sem tocar na arquitetura: nenhum componente global mudou, e o único acréscimo de CSS são os cards de pilares — que seguem à risca o padrão visual dos KPIs. Os números dos indicadores permanecem ilustrativos (protótipo) e devem ser substituídos pelos dados oficiais antes da publicação.</p>
+  </div>
+
+  <div class="page-foot"><span>EIXOS &amp; CURVAS</span><span>08 — A JORNADA (3/3)</span></div>
+</div>
+
+<!-- ==================================================== PÁGINA 10 · 09 SÍNTESE -->
+<div class="page">
+  <span class="eyebrow">Síntese</span>
+  <h2 class="section-title">Por que essa combinação funciona para a Terracap</h2>
+  <p class="section-sub" style="max-width:170mm;">Uma companhia imobiliária pública precisa parecer, ao mesmo tempo, rigorosa, humana e pública — cadastral o bastante para inspirar confiança técnica, narrativa o bastante para não parecer um portal de formulários, e institucional o bastante para que ninguém a confunda com uma imobiliária comum.</p>
+
+  <div class="survey-divider"></div>
+
+  <span class="eyebrow" style="color:var(--verde);">Vocabulário do conceito</span>
+  <div class="vocab">
+    <span>Eixos &amp; Curvas</span>
+    <span>Lucio Costa</span>
+    <span>Oscar Niemeyer</span>
+    <span>Cadastro &amp; agrimensura</span>
+    <span>Jornada / capítulos</span>
+    <span>Tricolor da bandeira do DF</span>
+    <span>Confiança antes da transação</span>
+    <span>Modo satélite</span>
+    <span class="hi">Função social da terra</span>
+    <span class="hi">Desenvolvimento para as pessoas</span>
+  </div>
+
+  <div style="height:8mm;"></div>
+
+  <div class="card">
+    <span class="code">Estrutura + curva, régua + história, empresa + público</span>
+    <h3>As três camadas da mesma identidade</h3>
+    <p>Os eixos de Lucio Costa (grade, coordenadas, carimbos, tabelas) dão ao site a precisão que se espera de quem lida com terra, editais e licitações. As curvas de Niemeyer (molduras arredondadas, cor viva, microinterações) dão a ele o calor de uma história contada em primeira pessoa. E a camada institucional desta edição — propósito no hero, pilares de atuação, função social à frente da transação — garante que essa história seja lida como ela é: a de uma empresa pública desenvolvendo o Distrito Federal para as pessoas. Nenhuma das camadas funcionaria sozinha para este público; juntas, elas contam a mesma história que o próprio ícone tricolor da Terracap já contava, em miniatura, o tempo todo.</p>
+  </div>
+
+  <div style="height:8mm;"></div>
+
+  <div class="quote-frame">
+    <p class="q">"Desenvolvendo o Distrito Federal para as pessoas."</p>
+    <span class="src">Título do bloco institucional "Nosso papel" — a tese desta edição</span>
+  </div>
+
+  <div class="page-foot"><span>EIXOS &amp; CURVAS</span><span>09 — SÍNTESE</span></div>
+</div>
+
+</body>
+</html>

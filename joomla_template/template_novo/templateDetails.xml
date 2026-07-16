@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.10.11" type="template" client="site" method="upgrade">
+	<name>terracap2026</name>
+	<version>1.0.0</version>
+	<creationDate>Julho de 2026</creationDate>
+	<author>Terracap</author>
+	<authorEmail>ti@terracap.df.gov.br</authorEmail>
+	<authorUrl>https://www.terracap.df.gov.br</authorUrl>
+	<copyright>Copyright (C) 2026 Terracap. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<description>Template Terracap "Eixos e Curvas" — redesign 2026 do portal, convertido do protótipo estático para Joomla 3.10.11 mantendo as posições de módulo do template onepageterracap2019.</description>
+
+	<files>
+		<filename>component.php</filename>
+		<filename>error.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>helper.php</filename>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>img</folder>
+		<folder>js</folder>
+		<folder>language</folder>
+	</files>
+
+	<positions>
+		<position>menu-principal</position>
+		<position>super-banner</position>
+		<position>pagina-inicial</position>
+		<position>trilha-navegacao</position>
+		<position>internas-topo</position>
+		<position>pagina-interna-capa</position>
+		<position>internas-direita</position>
+		<position>internas-rodape</position>
+		<position>rodape-1</position>
+		<position>rodape-2</position>
+		<position>rodape-3</position>
+		<position>debug</position>
+	</positions>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.tpl_terracap2026.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_terracap2026.sys.ini</language>
+		<language tag="pt-BR">pt-BR/pt-BR.tpl_terracap2026.ini</language>
+		<language tag="pt-BR">pt-BR/pt-BR.tpl_terracap2026.sys.ini</language>
+	</languages>
+
+	<config>
+		<fields name="params">
+			<fieldset
+				name="conteudo"
+				label="TPL_TERRACAP2026_FIELDSET_CONTEUDO_LABEL"
+				description="TPL_TERRACAP2026_FIELDSET_CONTEUDO_DESC">
+
+				<field
+					name="usarModuloMenu"
+					type="radio"
+					class="btn-group"
+					default="0"
+					label="TPL_TERRACAP2026_FIELD_USAR_MODULO_MENU_LABEL"
+					description="TPL_TERRACAP2026_FIELD_USAR_MODULO_MENU_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="usarModuloBanner"
+					type="radio"
+					class="btn-group"
+					default="0"
+					label="TPL_TERRACAP2026_FIELD_USAR_MODULO_BANNER_LABEL"
+					description="TPL_TERRACAP2026_FIELD_USAR_MODULO_BANNER_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="usarModulosHome"
+					type="radio"
+					class="btn-group"
+					default="0"
+					label="TPL_TERRACAP2026_FIELD_USAR_MODULOS_HOME_LABEL"
+					description="TPL_TERRACAP2026_FIELD_USAR_MODULOS_HOME_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="usarModulosRodape"
+					type="radio"
+					class="btn-group"
+					default="0"
+					label="TPL_TERRACAP2026_FIELD_USAR_MODULOS_RODAPE_LABEL"
+					description="TPL_TERRACAP2026_FIELD_USAR_MODULOS_RODAPE_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+
+			<fieldset
+				name="header"
+				label="TPL_TERRACAP2026_FIELDSET_HEADER_LABEL"
+				description="TPL_TERRACAP2026_FIELDSET_HEADER_DESC">
+
+				<field
+					name="logo"
+					type="media"
+					default=""
+					label="TPL_TERRACAP2026_FIELD_LOGO_LABEL"
+					description="TPL_TERRACAP2026_FIELD_LOGO_DESC" />
+				<field
+					name="servicosUrl"
+					type="url"
+					default="https://servicosonline.terracap.df.gov.br/"
+					label="TPL_TERRACAP2026_FIELD_SERVICOS_URL_LABEL"
+					description="TPL_TERRACAP2026_FIELD_SERVICOS_URL_DESC" />
+				<field
+					name="analytics"
+					type="text"
+					default=""
+					label="TPL_TERRACAP2026_FIELD_ANALYTICS_LABEL"
+					description="TPL_TERRACAP2026_FIELD_ANALYTICS_DESC" />
+			</fieldset>
+
+			<fieldset
+				name="footer"
+				label="TPL_TERRACAP2026_FIELDSET_FOOTER_LABEL"
+				description="TPL_TERRACAP2026_FIELDSET_FOOTER_DESC">
+
+				<field
+					name="telefone"
+					type="tel"
+					size="30"
+					default="(61) 3350-2222"
+					filter="string"
+					label="TPL_TERRACAP2026_FIELD_PHONE_LABEL"
+					description="TPL_TERRACAP2026_FIELD_PHONE_DESC" />
+				<field
+					name="sac"
+					type="textarea"
+					class="inputbox"
+					cols="30"
+					rows="3"
+					filter="raw"
+					default="sac@terracap.df.gov.br"
+					label="TPL_TERRACAP2026_FIELD_SAC_LABEL"
+					description="TPL_TERRACAP2026_FIELD_SAC_DESC" />
+				<field
+					name="endereco"
+					type="textarea"
+					class="inputbox"
+					cols="30"
+					rows="3"
+					filter="raw"
+					default="SAM Bl. F Ed. Sede Terracap — Asa Norte, Brasília-DF, 70620-060"
+					label="TPL_TERRACAP2026_FIELD_ENDERECO_LABEL"
+					description="TPL_TERRACAP2026_FIELD_ENDERECO_DESC" />
+				<field
+					name="horario"
+					type="textarea"
+					class="inputbox"
+					cols="30"
+					rows="3"
+					filter="raw"
+					default="das 7h às 19h, em dias úteis"
+					label="TPL_TERRACAP2026_FIELD_HORARIO_LABEL"
+					description="TPL_TERRACAP2026_FIELD_HORARIO_DESC" />
+				<field
+					name="ocultarFinalRodape"
+					type="radio"
+					class="btn-group"
+					default="0"
+					label="TPL_TERRACAP2026_FIELD_OCULTARFINALRODAPE_LABEL"
+					description="TPL_TERRACAP2026_FIELD_OCULTARFINALRODAPE_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+
+			<fieldset
+				name="advanced"
+				label="TPL_TERRACAP2026_FIELDSET_ADVANCED_LABEL"
+				description="TPL_TERRACAP2026_FIELDSET_ADVANCED_DESC">
+
+				<field
+					name="chatUrl"
+					type="url"
+					default="https://terracap.chat.comunix.tech/chat-externo"
+					label="TPL_TERRACAP2026_FIELD_CHAT_URL_LABEL"
+					description="TPL_TERRACAP2026_FIELD_CHAT_URL_DESC" />
+				<field
+					name="carregarBootstrapInternas"
+					type="radio"
+					class="btn-group"
+					default="1"
+					label="TPL_TERRACAP2026_FIELD_BOOTSTRAP_INTERNAS_LABEL"
+					description="TPL_TERRACAP2026_FIELD_BOOTSTRAP_INTERNAS_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

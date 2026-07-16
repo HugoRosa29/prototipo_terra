@@ -1,0 +1,558 @@
+/* ============================================================
+   COMPLEMENTOS JOOMLA — template terracap2026
+   Estilos para páginas internas, saída de componentes e
+   elementos nativos do Joomla (mensagens, breadcrumb, paginação),
+   usando os tokens de terracap.css ("Eixos & Curvas").
+   ============================================================ */
+
+/* ---------- guardas sobre a camada legada (style.css do template antigo) ----------
+   O CSS antigo define h2 3rem/900 e h4 1.625rem/900 globais; dentro do conteúdo
+   interno os títulos voltam à escala do redesign. :where() zera a especificidade
+   para que classes específicas (ex.: .section-title) continuem valendo. */
+.pagina-interna-conteudo :where(h1){font-size:clamp(1.6rem,3vw,2.25rem);font-weight:600;}
+.pagina-interna-conteudo :where(h2){font-size:1.5rem;font-weight:600;}
+.pagina-interna-conteudo :where(h3){font-size:1.25rem;font-weight:600;}
+.pagina-interna-conteudo :where(h4){font-size:1.125rem;font-weight:600;}
+
+/* ---------- estrutura da página interna ---------- */
+.page-header-interna{
+  background:var(--white);
+  border-bottom:1px solid var(--paper-deep);
+  padding:26px 0 30px;
+}
+.page-header-interna .breadcrumb{margin-bottom:12px;}
+.titulo-pagina{
+  font-family:var(--display);
+  font-size:clamp(1.7rem, 3.2vw, 2.5rem);
+  font-weight:600;
+  letter-spacing:-.01em;
+  line-height:1.15;
+  color:var(--ink);
+  margin:0;
+}
+.pagina-interna-conteudo{
+  padding:56px 28px 96px;
+  min-height:45vh;
+}
+.pagina-interna main{background:var(--paper);}
+.bloco-modulos{margin-bottom:40px;}
+.bloco-modulos:last-child{margin-bottom:0;}
+
+/* conteúdo + coluna lateral */
+.page-grid{
+  display:grid;
+  grid-template-columns:minmax(0, 2.2fr) minmax(0, 1fr);
+  gap:40px;
+  align-items:start;
+}
+@media (max-width: 960px){
+  .page-grid{grid-template-columns:1fr;}
+}
+
+/* ---------- página de capa: módulos de links viram grade de cards ---------- */
+.capa-links ul{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:16px;
+  list-style:none;margin:0;padding:0;
+}
+.capa-links ul li{margin:0;}
+.capa-links a{
+  display:flex;align-items:center;gap:12px;
+  min-height:76px;padding:20px 22px;
+  background:var(--white);
+  border:1px solid var(--paper-deep);
+  border-radius:var(--radius-md);
+  font-family:var(--body);font-size:.9375rem;font-weight:600;color:var(--ink);
+  line-height:1.35;text-decoration:none;
+  transition:border-color .15s ease, background-color .15s ease, transform .15s ease;
+}
+.capa-links a::before{
+  content:"";display:inline-block;width:12px;height:12px;flex-shrink:0;
+  background-image:var(--mark);background-size:cover;border-radius:2px;
+}
+.capa-links a:hover{border-color:var(--verde);background:var(--verde-tint);transform:translateY(-2px);}
+.capa-links .module{margin-bottom:32px;}
+.capa-links .outstanding-title{margin-bottom:16px;}
+@media (max-width: 960px){
+  .capa-links ul{grid-template-columns:repeat(2, 1fr);}
+}
+@media (max-width: 640px){
+  .capa-links ul{grid-template-columns:1fr;}
+}
+
+/* título de página / cabeçalhos de componente */
+.pagina-interna .page-header h1,
+.pagina-interna .page-header h2,
+.pagina-interna .item-page h1,
+.pagina-interna .contentheading{
+  font-family:var(--display);
+  font-size:clamp(1.6rem, 3vw, 2.25rem);
+  font-weight:600;
+  letter-spacing:-.01em;
+  line-height:1.2;
+  color:var(--ink);
+  margin:0 0 20px;
+}
+
+/* corpo de artigo */
+.pagina-interna .item-page,
+.pagina-interna .blog,
+.pagina-interna .category-list{
+  font-family:var(--body);
+  color:var(--ink);
+  line-height:1.7;
+}
+.pagina-interna .item-page p{margin:0 0 1em;}
+.pagina-interna .item-page img{border-radius:var(--radius-md);height:auto;}
+.pagina-interna .item-page h2,
+.pagina-interna .item-page h3{
+  font-family:var(--display);
+  margin:1.6em 0 .6em;
+}
+.pagina-interna .item-page a{color:var(--verde);text-decoration:underline;}
+.pagina-interna .item-page a:hover{color:var(--verde-deep);}
+
+/* cabeçalho do artigo (override com_content/article) */
+.pagina-interna .item-page .page-header{
+  border-bottom:1px solid var(--paper-deep);
+  padding-bottom:14px;margin-bottom:18px;
+}
+.pagina-interna .article-info{
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--ink-60);
+  margin:0 0 26px;
+}
+.pagina-interna .article-info dl,
+.pagina-interna dl.article-info{margin:0;}
+.pagina-interna .article-info dd{display:inline-block;margin:0 18px 0 0;}
+
+/* imagem de destaque flutuante do artigo */
+.pagina-interna .item-page::after{content:"";display:table;clear:both;}
+.pagina-interna .item-image{max-width:46%;}
+.pagina-interna .item-image.pull-right{float:right;margin:0 0 18px 26px;}
+.pagina-interna .item-image.pull-left{float:left;margin:0 26px 18px 0;}
+.pagina-interna .item-image img{border-radius:var(--radius-md);}
+.pagina-interna .item-image .caption + *,
+.pagina-interna .item-image p.img_caption{
+  font-family:var(--mono);font-size:.6875rem;color:var(--ink-60);
+  text-align:center;margin-top:8px;
+}
+@media (max-width:640px){
+  .pagina-interna .item-image{max-width:100%;}
+  .pagina-interna .item-image.pull-right,
+  .pagina-interna .item-image.pull-left{float:none;margin:0 0 18px;}
+}
+
+/* tags no final do artigo */
+.pagina-interna .lista-tags{
+  margin-top:32px;padding-top:16px;border-top:1px solid var(--paper-deep);
+  font-family:var(--mono);font-size:.75rem;text-transform:uppercase;color:var(--ink-60);
+}
+.pagina-interna .lista-tags a{
+  display:inline-flex;align-items:center;height:26px;padding:0 12px;margin:0 4px 6px 0;
+  border:1px solid var(--paper-deep);border-radius:999px;
+  background:var(--white);color:var(--ink);text-decoration:none;text-transform:none;
+  font-size:.75rem;
+}
+.pagina-interna .lista-tags a:hover{border-color:var(--verde);color:var(--verde);}
+.pagina-interna .item-page table{
+  width:100%;border-collapse:collapse;background:var(--white);
+  border:1px solid var(--paper-deep);border-radius:var(--radius-md);overflow:hidden;
+}
+.pagina-interna .item-page table th,
+.pagina-interna .item-page table td{
+  padding:12px 16px;border-bottom:1px solid var(--paper-deep);text-align:left;
+}
+
+/* coluna lateral direita */
+.interna-direita{
+  background:var(--white);
+  border:1px solid var(--paper-deep);
+  border-radius:var(--radius-lg);
+  padding:26px 24px;
+}
+.interna-direita .module{margin-bottom:32px;}
+.interna-direita .module:last-child{margin-bottom:0;}
+.interna-direita .outstanding-title{
+  font-size:1.0625rem;
+  border-bottom-width:2px;
+  margin-bottom:6px;
+}
+
+/* ----- menu lateral (mod_menu → ul.list-group, com subníveis ul.nav-child) -----
+   Regra de leitura: um item por linha, sempre; separador fino somente ENTRE
+   grupos de 1º nível; item pai em peso 600 com botão de expandir (acordeão —
+   o JS marca li.tem-sub e alterna li.aberto); filhos menores, indentados por
+   um trilho à esquerda; ativo em verde. Anula o visual do Bootstrap. */
+.interna-direita ul{
+  display:block !important;
+  list-style:none;margin:0;padding:0;border:none;border-radius:0;
+  float:none;
+}
+.interna-direita ul li{
+  display:block !important;
+  float:none !important;
+  width:100%;
+  margin:0;
+}
+.interna-direita a{
+  display:block !important;
+  float:none !important;
+  font-family:var(--display);color:var(--ink);text-decoration:none;
+  transition:color .15s ease;
+}
+.interna-direita a:hover{color:var(--verde);}
+
+/* grupos de 1º nível */
+.interna-direita .list-group > li,
+.interna-direita > ul > li,
+.interna-direita .module > ul > li{
+  background:none;border:none;border-radius:0;padding:0;
+  border-bottom:1px solid var(--paper-deep);
+}
+.interna-direita .list-group > li:last-child,
+.interna-direita > ul > li:last-child,
+.interna-direita .module > ul > li:last-child{border-bottom:none;}
+
+/* link de 1º nível */
+.interna-direita .list-group > li > a,
+.interna-direita > ul > li > a,
+.interna-direita .module > ul > li > a{
+  font-size:.9375rem;font-weight:600;line-height:1.4;
+  padding:13px 2px;
+}
+
+/* subníveis: trilho à esquerda, tipografia menor e mais leve */
+.interna-direita ul ul{
+  margin:0 0 12px;
+  padding-left:14px;
+  border-left:2px solid var(--paper-deep);
+}
+.interna-direita ul ul li{border:none;}
+.interna-direita ul ul a{
+  font-size:.875rem;font-weight:400;line-height:1.45;color:var(--ink-60);
+  padding:7px 2px;
+}
+.interna-direita ul ul a:hover{color:var(--verde);}
+.interna-direita ul ul ul{margin-bottom:0;}
+
+/* acordeão: subitens escondidos até o clique (JS injeta .tem-sub/.sub-toggle) */
+.interna-direita li.tem-sub{position:relative;}
+.interna-direita li.tem-sub > a{padding-right:42px;}
+.interna-direita li.tem-sub > ul{display:none !important;}
+.interna-direita li.tem-sub.aberto > ul{display:block !important;}
+.sub-toggle{
+  position:absolute;top:9px;right:2px;
+  width:28px;height:28px;padding:0;
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:1px solid var(--paper-deep);border-radius:50%;
+  color:var(--ink-60);cursor:pointer;
+  transition:border-color .15s ease, color .15s ease;
+}
+.sub-toggle svg{width:11px;height:11px;transition:transform .18s ease;}
+.sub-toggle:hover{border-color:var(--verde);color:var(--verde);}
+.interna-direita li.aberto > .sub-toggle{border-color:var(--verde);color:var(--verde);}
+.interna-direita li.aberto > .sub-toggle svg{transform:rotate(180deg);}
+.interna-direita ul ul li.tem-sub > .sub-toggle{top:3px;width:24px;height:24px;}
+
+/* item ativo / página atual */
+.interna-direita li.active > a,
+.interna-direita li.current > a{color:var(--verde);}
+.interna-direita ul ul li.active > a,
+.interna-direita ul ul li.current > a{color:var(--verde);font-weight:600;}
+.interna-direita li.active > ul{border-left-color:var(--verde);}
+
+/* separadores de menu */
+.interna-direita li.divider{padding:6px 0;}
+
+/* cabeçalhos de menu (itens tipo "heading" → span.nav-header): mesma fonte e
+   peso dos links de 1º nível, para a seção inteira ler uniforme */
+.interna-direita .nav-header,
+.interna-direita li.item-heading > span{
+  display:block;
+  font-family:var(--display);font-size:.9375rem;font-weight:600;line-height:1.4;
+  letter-spacing:0;text-transform:none;
+  color:var(--ink);
+  padding:13px 2px;
+}
+.interna-direita li.tem-sub > .nav-header,
+.interna-direita li.tem-sub > span{padding-right:42px;}
+.interna-direita ul ul .nav-header,
+.interna-direita ul ul li.item-heading > span{
+  font-size:.875rem;font-weight:400;color:var(--ink-60);padding:7px 2px;
+}
+
+/* títulos "outstanding" herdados do chrome container */
+.outstanding-header{margin:0 0 18px;}
+.outstanding-title{
+  font-family:var(--display);
+  font-size:1.25rem;font-weight:600;color:var(--ink);
+  padding-bottom:10px;border-bottom:2px solid var(--verde);
+  display:inline-block;
+}
+
+/* ---------- compre imóveis: abas licitações/leilões (mod_compreimoveis) ---------- */
+.abas-nav{
+  display:flex;gap:8px;flex-wrap:wrap;
+  margin-bottom:32px;
+  border-bottom:1px solid var(--paper-deep);
+  padding-bottom:16px;
+}
+.aba-btn{
+  height:42px;padding:0 26px;
+  font-family:var(--display);font-size:.9375rem;font-weight:600;
+  color:var(--ink);background:none;
+  border:1.5px solid var(--paper-deep);border-radius:999px;
+  cursor:pointer;
+  transition:background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+.aba-btn:hover{border-color:var(--verde);color:var(--verde);}
+.aba-btn.is-active{background:var(--verde);border-color:var(--verde);color:var(--white);}
+.aba-conteudo{display:none;}
+.aba-conteudo.is-active{display:block;}
+
+.aba-grid{
+  display:grid;
+  grid-template-columns:minmax(0, 2.2fr) minmax(0, 1fr);
+  gap:40px;
+  align-items:start;
+}
+@media (max-width: 960px){
+  .aba-grid{grid-template-columns:1fr;}
+}
+.introducao{
+  color:var(--ink-60);font-size:1rem;line-height:1.65;
+  max-width:640px;margin:0 0 28px;
+}
+
+/* card de edital/leilão nas listagens */
+.edital-card{
+  display:flex;gap:22px;align-items:stretch;
+  margin-bottom:18px;
+  text-decoration:none;color:var(--ink);
+}
+.edital-card .edital-thumb{
+  flex:0 0 220px;min-height:150px;
+  background:var(--paper-deep);
+  overflow:hidden;
+}
+.edital-card .edital-thumb img{width:100%;height:100%;object-fit:cover;}
+.edital-card .edital-info{
+  flex:1;padding:20px 24px 20px 0;
+  display:flex;flex-direction:column;justify-content:center;gap:10px;
+}
+.edital-card .edital-titulo{
+  font-family:var(--display);font-size:1.0625rem;font-weight:600;line-height:1.35;
+}
+.edital-card .edital-datas{display:flex;gap:28px;flex-wrap:wrap;}
+.edital-card .edital-datas .k{
+  display:block;
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--ink-60);margin-bottom:3px;
+}
+.edital-card .edital-datas .v{font-size:.9375rem;font-weight:600;}
+.edital-card .edital-desc{
+  margin:0;font-size:.875rem;color:var(--ink-60);line-height:1.55;
+}
+@media (max-width:640px){
+  .edital-card{flex-direction:column;gap:0;}
+  .edital-card .edital-thumb{flex-basis:auto;aspect-ratio:16/9;min-height:0;}
+  .edital-card .edital-info{padding:18px 20px;}
+}
+
+/* editais em destaque (mod_biddings) — empilha os cards .featured do redesign */
+.editais-destaque .featured{margin-bottom:24px;}
+.editais-destaque .featured:last-child{margin-bottom:0;}
+.retranca{margin-bottom:32px;}
+
+/* ---------- listagem de notícias (com_content category/blog) ----------
+   O markup usa classes da era Bootstrap 2 (span10/span2, row-fluid) que não
+   existem mais; cada .tileItem vira um card: conteúdo à esquerda (imagem
+   flutuante + título + resumo) e data/hora à direita, como no rodapé do
+   protótipo (.news-item). */
+.blog .borderHeading{
+  font-family:var(--display);
+  font-size:clamp(1.6rem, 3vw, 2.25rem);font-weight:600;
+  letter-spacing:-.01em;line-height:1.2;color:var(--ink);
+  margin:0 0 8px;padding-bottom:12px;
+  border-bottom:3px solid var(--verde);
+  display:inline-block;
+}
+.blog .secondaryHeading{
+  font-family:var(--display);font-size:1.25rem;font-weight:600;
+  color:var(--ink-60);margin:6px 0 0;
+}
+.blog > .subtitle{
+  color:var(--ink-60);font-size:1rem;line-height:1.65;
+  max-width:640px;margin:14px 0 0;
+}
+.blog .documentByLine{
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--ink-60);margin:10px 0 0;
+}
+.blog .tile-list-1{margin-top:28px;}
+.blog .items-row, .blog .items-leading{display:block;}
+
+.blog .tileItem{
+  display:flex;gap:24px;align-items:flex-start;
+  background:var(--white);
+  border:1px solid var(--paper-deep);border-radius:var(--radius-md);
+  padding:20px 24px;margin-bottom:16px;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.blog .tileItem:hover{border-color:var(--verde);box-shadow:0 10px 24px rgba(0,40,20,.08);}
+.blog .tileContent{flex:1;min-width:0;float:none;width:auto;display:block;}
+.blog .tileInfo{flex:0 0 auto;float:none;width:auto;text-align:right;}
+.blog .tileInfo ul{list-style:none;margin:0;padding:0;}
+.blog .tileInfo li{
+  font-family:var(--mono);font-size:.75rem;color:var(--ink-60);
+  white-space:nowrap;margin-bottom:4px;
+}
+.blog .tileInfo .hide{display:none;}
+
+.blog div.tileImage{float:left;margin:2px 18px 10px 0;}
+.blog img.tileImage{
+  width:140px;height:98px;object-fit:cover;border-radius:10px;display:block;
+}
+.blog .items-leading div.tileImage{float:left;margin:2px 22px 12px 0;}
+.blog .items-leading img.tileImage{width:280px;height:190px;}
+
+.blog .tileHeadline,
+.blog .tileHeader h2{
+  font-family:var(--display);font-size:1.125rem;font-weight:600;line-height:1.35;
+  margin:0 0 8px;
+}
+.blog .tileHeadline a, .blog .tileHeader h2 a{color:var(--ink);text-decoration:none;transition:color .15s ease;}
+.blog .tileHeadline a:hover, .blog .tileHeader h2 a:hover{color:var(--verde);}
+.blog .tileItem::after{content:"";display:table;clear:both;}
+.blog .description{color:var(--ink-60);font-size:.9375rem;line-height:1.6;}
+.blog .keywords{
+  display:block;margin-top:10px;
+  font-family:var(--mono);font-size:.75rem;text-transform:uppercase;color:var(--ink-60);
+}
+.blog .keywords a{color:var(--verde);text-decoration:none;}
+.blog .pagination .counter{
+  font-family:var(--mono);font-size:.75rem;color:var(--ink-60);margin:0 0 10px;
+}
+@media (max-width:640px){
+  .blog .tileItem{flex-direction:column;gap:10px;}
+  .blog .tileInfo{text-align:left;}
+  .blog .tileInfo ul{display:flex;gap:14px;}
+  .blog div.tileImage, .blog .items-leading div.tileImage{float:none;margin:0 0 12px;}
+  .blog img.tileImage, .blog .items-leading img.tileImage{width:100%;height:auto;aspect-ratio:16/10;}
+}
+
+/* ---------- trilha de navegação (mod_breadcrumbs) ---------- */
+.breadcrumb, ul.breadcrumb{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+  list-style:none;margin:0 0 24px;padding:0;
+  background:none;border:none;
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--ink-60);
+}
+.breadcrumb a{color:var(--ink-60);text-decoration:none;}
+.breadcrumb a:hover{color:var(--verde);}
+.breadcrumb .divider, .breadcrumb li + li::before{color:var(--line-muted);}
+
+/* ---------- mensagens do sistema ---------- */
+.sistema-mensagens{padding-top:20px;}
+#system-message-container .alert,
+#system-message .alert,
+.alert{
+  border-radius:var(--radius-md);
+  border:1px solid var(--paper-deep);
+  background:var(--white);
+  color:var(--ink);
+  padding:16px 20px;
+  margin-bottom:16px;
+  font-family:var(--body);
+}
+.alert-success, .alert-message{border-color:var(--verde);background:var(--verde-tint);color:var(--verde-deep);}
+.alert-error, .alert-danger{border-color:var(--alerta);background:var(--alerta-tint);color:var(--alerta);}
+.alert-warning, .alert-notice{border-color:var(--dourado);background:var(--dourado-tint);color:var(--dourado-deep);}
+
+/* ---------- paginação ---------- */
+.pagination ul, ul.pagination{
+  display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:32px 0 0;padding:0;
+}
+.pagination li a, .pagination li span{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:38px;height:38px;padding:0 12px;
+  border:1px solid var(--paper-deep);border-radius:999px;
+  background:var(--white);color:var(--ink);
+  font-family:var(--body);font-size:.875rem;font-weight:500;
+  text-decoration:none;
+  transition:border-color .15s ease, background-color .15s ease, color .15s ease;
+}
+.pagination li a:hover{border-color:var(--verde);color:var(--verde);}
+.pagination li.active span, .pagination li .pagenav-active{
+  background:var(--verde);border-color:var(--verde);color:var(--white);
+}
+
+/* ---------- formulários genéricos (busca, contato, login) ---------- */
+.pagina-interna input[type="text"],
+.pagina-interna input[type="email"],
+.pagina-interna input[type="search"],
+.pagina-interna input[type="password"],
+.pagina-interna select,
+.pagina-interna textarea{
+  font-family:var(--body);font-size:.9375rem;color:var(--ink);
+  background:var(--white);
+  border:1.5px solid var(--paper-deep);border-radius:12px;
+  padding:10px 14px;
+}
+.pagina-interna input:focus-visible,
+.pagina-interna select:focus-visible,
+.pagina-interna textarea:focus-visible{
+  outline:2px solid var(--dourado);outline-offset:2px;
+}
+.pagina-interna .btn:not(.btn-primary):not(.btn-line):not(.btn-onphoto):not(.btn-clay){
+  background:var(--verde);color:var(--white);border-radius:999px;border:none;
+}
+.pagina-interna .btn:not(.btn-primary):not(.btn-line):not(.btn-onphoto):not(.btn-clay):hover{
+  background:var(--verde-deep);color:var(--white);
+}
+
+/* leia mais */
+.readmore a, a.readmore{
+  display:inline-flex;align-items:center;gap:8px;
+  height:40px;padding:0 20px;border-radius:999px;
+  border:1.5px solid var(--ink);color:var(--ink);
+  font-weight:600;font-size:.875rem;text-decoration:none;
+  transition:background-color .15s ease, color .15s ease;
+}
+.readmore a:hover, a.readmore:hover{background:var(--ink);color:var(--paper);}
+
+/* ---------- ajustes de coexistência com bootstrap (internas) ---------- */
+/* o reset do bootstrap não deve sobrepor a tipografia do redesign */
+.pagina-interna body, body.pagina-interna{
+  font-family:var(--body);
+  color:var(--ink);
+  background:var(--paper);
+}
+body.pagina-interna h1, body.pagina-interna h2,
+body.pagina-interna h3, body.pagina-interna h4{
+  font-family:var(--display);
+}
+
+/* rodapé: módulos publicados nas posições rodape-* herdam o estilo do redesign */
+.site-footer .module{margin-bottom:0;}
+.site-footer ul{list-style:none;margin:0;padding:0;}
+.site-footer ul li{margin-bottom:6px;}
+.site-footer ul a{font-size:.875rem;color:#A9B8C2;}
+.site-footer ul a:hover{color:var(--white);}
+
+/* menu publicado na posicao menu-principal: itens de primeiro nível
+   ganham a aparência dos links do protótipo */
+.main-nav ul.nav, .main-nav ul.menu{
+  display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0;
+}
+.main-nav ul.nav > li > a, .main-nav ul.menu > li > a{
+  font-family:var(--body);font-size:.9375rem;font-weight:500;color:var(--ink);
+  padding:10px 12px;white-space:nowrap;text-decoration:none;
+}
+.main-nav ul.nav > li > a:hover, .main-nav ul.menu > li > a:hover{color:var(--verde);}
+@media (max-width:1400px){
+  .main-nav ul.nav, .main-nav ul.menu{flex-direction:column;align-items:stretch;width:100%;}
+}
