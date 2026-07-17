@@ -322,6 +322,23 @@
 .aba-conteudo{display:none;}
 .aba-conteudo.is-active{display:block;}
 
+/* organização interna das abas Licitações/Leilões: introdução (com os
+   acordeões "Programa de Integridade" etc.) separada da lista de editais */
+.aba-conteudo .introducao{margin-bottom:20px;}
+.aba-conteudo .introducao p{margin:0 0 1em;}
+.aba-conteudo .introducao p:last-child{margin-bottom:0;}
+.aba-conteudo .table-heading{
+  margin:32px 0 18px;
+  padding-top:24px;
+  border-top:1px solid var(--paper-deep);
+}
+.aba-conteudo .section-footer-actions{margin-top:28px;justify-content:flex-start;}
+
+/* divisor de eixo entre os editais das abas — mesmo motivo da home
+   (linha que cruza a coluna com a marca no centro), com margem própria */
+.aba-conteudo .survey-divider{margin:30px 0;}
+.aba-conteudo .edital-card{margin-bottom:0;}
+
 .aba-grid{
   display:grid;
   grid-template-columns:minmax(0, 2.2fr) minmax(0, 1fr);
@@ -453,6 +470,109 @@
   .blog img.tileImage, .blog .items-leading img.tileImage{width:100%;height:auto;aspect-ratio:16/10;}
 }
 
+/* ---------- notícias (mod_articles_latest · layout noticias-rodape) ----------
+   Lista de cards com miniatura + título + hora; dentro de .site-footer o
+   mesmo markup assume o visual compacto escuro do rodapé do protótipo. */
+.noticias-modulo{display:flex;flex-direction:column;gap:12px;}
+.noticias-modulo .table-heading{margin-bottom:6px;}
+.noticia-entry{
+  display:flex;gap:18px;align-items:center;
+  background:var(--white);
+  border:1px solid var(--paper-deep);border-radius:var(--radius-md);
+  padding:14px 18px;
+  text-decoration:none;color:var(--ink);
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.noticia-entry:hover{border-color:var(--verde);box-shadow:0 10px 24px rgba(0,40,20,.08);}
+.noticia-thumb{
+  width:120px;height:80px;flex-shrink:0;
+  object-fit:cover;border-radius:10px;background:var(--paper-deep);
+}
+.noticia-body{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.noticia-titulo{
+  font-family:var(--body);font-size:.9375rem;font-weight:600;line-height:1.4;
+  transition:color .15s ease;
+}
+.noticia-entry:hover .noticia-titulo{color:var(--verde);}
+.noticias-modulo .section-footer-actions{margin-top:8px;justify-content:flex-start;}
+@media (max-width:640px){
+  .noticia-thumb{width:88px;height:62px;}
+}
+
+/* variante no rodapé escuro */
+.site-footer .noticias-modulo{gap:16px;}
+.site-footer .noticias-modulo .table-heading{
+  font-family:var(--mono);font-size:.75rem;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--dourado);margin-bottom:4px;
+}
+.site-footer .noticia-entry{background:none;border:none;padding:0;gap:14px;}
+.site-footer .noticia-entry:hover{box-shadow:none;}
+.site-footer .noticia-thumb{width:70px;height:54px;border-radius:8px;}
+.site-footer .noticia-titulo{font-size:.8125rem;color:var(--white);}
+.site-footer .noticia-entry:hover .noticia-titulo{color:var(--dourado);}
+.site-footer .noticia-data{color:#7E93A0;}
+
+/* ---------- listagem de notícias em capa (mod_articles_latest · noticias-listagem) ----------
+   Markup herdado: 3 primeiros itens com foto (li.com-foto), demais como
+   linhas compactas (li.outras). Vira grade de cards + lista, no redesign. */
+.listagem-capa-noticias ul{
+  list-style:none;margin:0;padding:0;
+  display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:20px;
+}
+.listagem-capa-noticias li{margin:0;}
+.listagem-capa-noticias li.com-foto{
+  background:var(--white);
+  border:1px solid var(--paper-deep);border-radius:var(--radius-md);
+  overflow:hidden;display:flex;flex-direction:column;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.listagem-capa-noticias li.com-foto:hover{border-color:var(--verde);box-shadow:0 10px 24px rgba(0,40,20,.08);}
+.listagem-capa-noticias .figura{aspect-ratio:16/10;background:var(--paper-deep);overflow:hidden;}
+.listagem-capa-noticias .figura a{display:block;height:100%;}
+.listagem-capa-noticias .figura img{width:100%;height:100%;object-fit:cover;display:block;}
+.listagem-capa-noticias li.com-foto .item-noticia{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;}
+.listagem-capa-noticias .hora-noticia{
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--ink-60);
+}
+.listagem-capa-noticias .texto-noticia a{
+  font-family:var(--body);font-size:.9375rem;font-weight:600;line-height:1.4;
+  color:var(--ink);text-decoration:none;transition:color .15s ease;
+}
+.listagem-capa-noticias .texto-noticia a:hover{color:var(--verde);}
+.listagem-capa-noticias .descricao-noticia-destaque{
+  font-size:.875rem;color:var(--ink-60);line-height:1.55;margin-top:6px;
+}
+/* demais notícias: linhas de largura total, data em mono à esquerda */
+.listagem-capa-noticias li.outras{
+  grid-column:1 / -1;
+  border-bottom:1px solid var(--paper-deep);
+  padding:12px 2px;
+}
+.listagem-capa-noticias li.outras:last-child{border-bottom:none;}
+.listagem-capa-noticias li.outras .item-noticia{display:flex;gap:16px;align-items:baseline;}
+.listagem-capa-noticias li.outras .hora-noticia{flex-shrink:0;white-space:nowrap;}
+.listagem-capa-noticias li.outras .titulo-listagem a{
+  font-size:.9375rem;font-weight:500;color:var(--ink);text-decoration:none;
+  transition:color .15s ease;
+}
+.listagem-capa-noticias li.outras .titulo-listagem a:hover{color:var(--verde);}
+.mostrar-conteudo{margin-top:28px;text-align:center;}
+.mostrar-conteudo a{
+  display:inline-flex;align-items:center;gap:8px;
+  height:44px;padding:0 24px;border-radius:999px;
+  border:1.5px solid var(--ink);color:var(--ink);
+  font-weight:600;font-size:.9375rem;text-decoration:none;
+  transition:background-color .15s ease, color .15s ease;
+}
+.mostrar-conteudo a:hover{background:var(--ink);color:var(--paper);}
+@media (max-width:960px){
+  .listagem-capa-noticias ul{grid-template-columns:repeat(2, minmax(0, 1fr));}
+}
+@media (max-width:640px){
+  .listagem-capa-noticias ul{grid-template-columns:1fr;}
+}
+
 /* ---------- trilha de navegação (mod_breadcrumbs) ---------- */
 .breadcrumb, ul.breadcrumb{
   display:flex;flex-wrap:wrap;align-items:center;gap:6px;
@@ -552,6 +672,446 @@ body.pagina-interna h3, body.pagina-interna h4{
 .site-footer ul li{margin-bottom:6px;}
 .site-footer ul a{font-size:.875rem;color:#A9B8C2;}
 .site-footer ul a:hover{color:var(--white);}
+
+/* ============================================================
+   MENU LATERAL (interna-direita) — redesign "Eixos e Curvas"
+   O layout "menu-contexto" do mod_menu envolve o ul.nav num div extra,
+   então as regras usam seletores por classe do ul (nav/menu/nav-child),
+   carregadas depois do style.css legado para vencê-lo.
+   ============================================================ */
+
+/* título do módulo vira rótulo técnico com a marca tricolor (eyebrow da home);
+   o !important vence o 26px/900 que o style.css legado também impõe com !important */
+.interna-direita .outstanding-header{margin:0 0 12px;}
+.interna-direita .outstanding-header h2.outstanding-title,
+.interna-direita .outstanding-header h2,
+.interna-direita h2.outstanding-title,
+.interna-direita .outstanding-title{
+  display:flex !important;
+  align-items:center;
+  gap:8px;
+  font-family:var(--mono) !important;
+  font-size:.6875rem !important;
+  font-weight:600 !important;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--azul);
+  border-bottom:none !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+.interna-direita .outstanding-title::before{
+  content:"";display:inline-block;width:12px;height:12px;flex-shrink:0;
+  background-image:var(--mark);background-size:cover;border-radius:2px;
+}
+
+/* itens: linhas limpas, hover em pílula (sem os divisores pesados do legado) */
+.interna-direita ul.nav li,
+.interna-direita ul.menu li,
+.interna-direita ul.nav-child li{
+  padding:2px 0;
+  border-bottom:none;
+}
+.interna-direita ul.nav li a,
+.interna-direita ul.menu li a,
+.interna-direita ul.nav-child li a{
+  display:flex !important;
+  align-items:center;
+  gap:8px;
+  padding:9px 12px;
+  border-radius:10px;
+  font-family:var(--body);
+  font-size:.9375rem;
+  font-weight:500;
+  line-height:1.45;
+  color:var(--ink);
+  transition:background-color .15s ease, color .15s ease;
+}
+.interna-direita ul.nav li a:hover,
+.interna-direita ul.menu li a:hover,
+.interna-direita ul.nav-child li a:hover{
+  background:var(--paper);
+  color:var(--verde);
+}
+.interna-direita ul.nav li.active > a,
+.interna-direita ul.nav li.current > a,
+.interna-direita ul.nav-child li.active > a,
+.interna-direita ul.nav-child li.current > a{
+  background:var(--verde-tint);
+  color:var(--verde-deep);
+  font-weight:600;
+}
+
+/* grupo ("Serviços relacionados"): mesma fonte e corpo dos itens — só o
+   peso maior distingue o grupo; botão de expandir alinhado à direita */
+.interna-direita ul.nav li > span,
+.interna-direita ul.menu li > span,
+.interna-direita ul.nav-child li > span,
+.interna-direita li.parent > span,
+.interna-direita .nav-header{
+  display:block;
+  font-family:var(--body);
+  font-size:.9375rem;
+  font-weight:600;
+  letter-spacing:0;
+  text-transform:none;
+  line-height:1.45;
+  color:var(--ink);
+  padding:9px 12px;
+}
+.interna-direita li.parent{margin-top:10px;}
+.interna-direita li.tem-sub > a{font-weight:600;}
+.interna-direita li.tem-sub > .sub-toggle{top:8px;}
+.interna-direita li.tem-sub > span,
+.interna-direita li.tem-sub > .nav-header{padding-right:42px;}
+
+/* subitens: trilho fino à esquerda, mesmo corpo de texto */
+.interna-direita ul.nav-child,
+.interna-direita .parent .nav-child{
+  margin:2px 0 8px 12px;
+  padding-left:10px;
+  border-left:2px solid var(--paper-deep);
+  border-bottom:none;
+}
+.interna-direita .parent .nav-child li{padding-left:0 !important;}
+.interna-direita li.active > ul.nav-child{border-left-color:var(--verde);}
+
+/* ícones de item de menu (menu_image) e o "announcement" dos links de
+   proposta: tamanho contido e alinhado ao texto */
+.interna-direita ul.nav li a img,
+.interna-direita ul.menu li a img{
+  display:inline-block;flex-shrink:0;
+  width:18px;height:18px;object-fit:contain;margin:0;
+}
+.interna-direita .image-title{vertical-align:middle;}
+.interna-direita a.item-proposta-online::before,
+.interna-direita a.proposta-online-link::before,
+.interna-direita a.item-proposta-presencial::before{
+  font-size:16px;line-height:1;
+}
+
+/* ============================================================
+   PÁGINAS INTERNAS REDESENHADAS — componentes dos overrides
+   (com_directsales, com_biddings, com_auctions, com_search,
+   com_faqs, com_contact e módulos correlatos)
+   ============================================================ */
+
+/* ---------- detalhe de edital (venda direta / licitação / leilão) ---------- */
+.edital-detalhe-header{margin-bottom:26px;}
+.edital-detalhe-header .eyebrow{margin-bottom:10px;}
+.edital-descricao{
+  color:var(--ink-60);font-size:1rem;line-height:1.7;
+  margin:0 0 32px;max-width:760px;
+}
+.edital-descricao p{margin:0 0 1em;}
+.edital-detalhe-grid{
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) minmax(0, 1.15fr);
+  gap:36px;align-items:start;
+  margin-bottom:36px;
+}
+.edital-figura{margin:0;padding:0;}
+.edital-figura img{width:100%;display:block;object-fit:cover;aspect-ratio:4/3;}
+.edital-figura .stamp{position:absolute;top:14px;right:14px;background:var(--white);}
+.edital-dados{display:flex;flex-direction:column;gap:20px;}
+.edital-dados > .code{
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--azul);
+}
+.data-grid-2{grid-template-columns:repeat(2, 1fr);margin-bottom:0;}
+.edital-dados .info-location{margin-bottom:0;}
+.edital-dados .info-actions{margin-top:4px;}
+.edital-dados .btn svg{width:16px;height:16px;}
+.edital-acoes{
+  display:flex;flex-wrap:wrap;gap:12px;
+  padding:20px 0 28px;margin-bottom:8px;
+  border-top:1px solid var(--paper-deep);
+}
+@media (max-width: 780px){
+  .edital-detalhe-grid{grid-template-columns:1fr;gap:22px;}
+  .edital-acoes .btn{width:100%;justify-content:center;}
+}
+
+/* dados do leiloeiro — callout com filete dourado (linguagem do conceito) */
+.leiloeiro{
+  border:1px solid var(--paper-deep);border-left:3px solid var(--dourado);
+  background:var(--white);border-radius:0 12px 12px 0;
+  padding:16px 20px;
+}
+.leiloeiro .k{
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--dourado-deep);
+  display:block;margin-bottom:6px;
+}
+.leiloeiro p{margin:0;font-size:.9375rem;line-height:1.7;color:var(--ink);}
+.edital-leiloeiro{font-family:var(--mono);font-size:.75rem;text-transform:none;}
+
+/* acordeão de publicações — <details> nativo, sem Bootstrap */
+.acordeao-grupo{margin-top:8px;}
+.acordeao-grupo .table-heading{margin-top:24px;}
+details.acordeao{
+  background:var(--white);
+  border:1px solid var(--paper-deep);border-radius:var(--radius-md);
+  margin-bottom:10px;overflow:hidden;
+  transition:border-color .15s ease;
+}
+details.acordeao:hover{border-color:var(--verde);}
+details.acordeao summary{
+  list-style:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:16px 20px;
+  font-family:var(--display);font-weight:600;font-size:.9375rem;line-height:1.4;
+  color:var(--ink);
+}
+details.acordeao summary::-webkit-details-marker{display:none;}
+details.acordeao summary::after{
+  content:"+";flex-shrink:0;
+  font-family:var(--mono);font-size:1.05rem;color:var(--verde);
+  width:26px;height:26px;border:1px solid var(--paper-deep);border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:border-color .15s ease;
+}
+details.acordeao[open] summary{color:var(--verde-deep);border-bottom:1px solid var(--paper-deep);}
+details.acordeao[open] summary::after{content:"−";border-color:var(--verde);}
+.acordeao-corpo{
+  padding:18px 20px;font-size:.9375rem;color:var(--ink-60);line-height:1.7;
+}
+.acordeao-corpo p{margin:0 0 1em;}
+.acordeao-corpo p:last-child{margin-bottom:0;}
+
+/* acordeões legados — markup Bootstrap (.panel-group) impresso por módulos
+   herdados (ex.: "Programa de Integridade", "O que é proposta online") ganha
+   o mesmo visual do acordeão novo; o collapse continua com o bootstrap.js */
+.pagina-interna .panel-group{margin:18px 0 0;}
+.pagina-interna .panel-group .panel{
+  background:var(--white);
+  border:1px solid var(--paper-deep);border-radius:var(--radius-md);
+  margin-bottom:10px;box-shadow:none;overflow:hidden;
+  transition:border-color .15s ease;
+}
+.pagina-interna .panel-group .panel:hover{border-color:var(--verde);}
+.pagina-interna .panel-heading{padding:0;background:none;border:none;border-radius:0;}
+.pagina-interna .panel-title{margin:0;font-size:.9375rem;line-height:1.4;}
+.pagina-interna .panel-title a{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 20px;
+  font-family:var(--display);font-weight:600;color:var(--ink);text-decoration:none;
+  transition:color .15s ease;
+}
+.pagina-interna .panel-title a:hover{color:var(--verde);}
+.pagina-interna .panel-title a .material-icons,
+.pagina-interna .accordion-default-icone{
+  flex-shrink:0;font-size:16px;color:var(--verde);
+  width:26px;height:26px;border:1px solid var(--paper-deep);border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.pagina-interna .panel-collapse .panel-body,
+.pagina-interna .accordion-default-body{
+  padding:0 20px 18px;border:none;
+  font-size:.9375rem;color:var(--ink-60);line-height:1.7;
+}
+.pagina-interna .accordion-default-body p{margin:0 0 1em;}
+.pagina-interna .accordion-default-body p:last-child{margin-bottom:0;}
+
+/* ---------- listagens de editais em cards (grade do card-lote da home) ---------- */
+.lotes-grid{
+  display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:22px;
+}
+.lotes-grid-2{grid-template-columns:repeat(2, minmax(0, 1fr));}
+.lotes-grid .card-lote{width:auto;}
+.card-lote-desc{
+  margin:6px 0 0;font-size:.8125rem;color:var(--ink-60);line-height:1.5;
+}
+@media (max-width: 960px){
+  .lotes-grid, .lotes-grid-2{grid-template-columns:repeat(2, minmax(0, 1fr));}
+}
+@media (max-width: 640px){
+  .lotes-grid, .lotes-grid-2{grid-template-columns:1fr;}
+}
+
+/* filtro por anos — pílulas + dropdown nativo para anos antigos */
+.filtro-anos{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-bottom:32px;padding-bottom:16px;
+  border-bottom:1px solid var(--paper-deep);
+}
+.filtro-anos .rotulo{
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--ink-60);margin-right:6px;
+}
+.mais-anos{position:relative;display:inline-block;}
+.mais-anos summary{
+  list-style:none;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.mais-anos summary::-webkit-details-marker{display:none;}
+.mais-anos summary::after{content:"▾";font-size:.7em;}
+.mais-anos[open] summary{border-color:var(--verde);color:var(--verde);}
+.mais-anos-menu{
+  position:absolute;top:calc(100% + 6px);left:0;z-index:20;
+  min-width:130px;padding:8px;
+  background:var(--white);border:1px solid var(--paper-deep);border-radius:var(--radius-md);
+  box-shadow:0 16px 34px rgba(0,40,20,.14);
+  display:flex;flex-direction:column;
+}
+.mais-anos-menu a{
+  padding:8px 14px;border-radius:8px;
+  font-size:.875rem;font-weight:500;color:var(--ink);text-decoration:none;
+  transition:background-color .15s ease, color .15s ease;
+}
+.mais-anos-menu a:hover{background:var(--paper);color:var(--verde);}
+.mais-anos-menu a.is-active{color:var(--verde);font-weight:600;}
+
+/* capa regularize */
+.capa-regularize-cadastro{margin-top:48px;}
+.botoes-area-cadastro{
+  margin-top:28px;
+  display:flex;flex-direction:column;gap:12px;align-items:flex-start;
+}
+
+/* ---------- busca interna (com_search) ---------- */
+.busca-interna h2{margin-bottom:24px;}
+.busca-barra{
+  display:flex;align-items:center;gap:12px;
+  background:var(--white);border:1px solid var(--paper-deep);border-radius:999px;
+  padding:6px 6px 6px 20px;
+  transition:border-color .15s ease;
+}
+.busca-barra:focus-within{border-color:var(--verde);}
+.busca-barra svg{width:20px;height:20px;color:var(--ink-60);flex-shrink:0;}
+.busca-barra input[type="search"]{
+  flex:1;min-width:0;height:44px;
+  border:none !important;background:none;border-radius:0;padding:0;
+  font-family:var(--body);font-size:1rem;color:var(--ink);
+}
+.busca-barra input[type="search"]:focus-visible{outline:none;}
+.busca-barra input[type="search"]::-webkit-search-cancel-button{display:none;}
+.busca-barra .btn{flex-shrink:0;}
+.busca-opcoes{
+  display:flex;flex-wrap:wrap;gap:14px 28px;
+  margin-top:16px;
+}
+.busca-opcoes label{display:flex;align-items:center;gap:10px;}
+.busca-opcoes .k{
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--ink-60);white-space:nowrap;
+}
+.busca-opcoes select{
+  height:38px;padding:0 14px;
+  border:1.5px solid var(--paper-deep);border-radius:999px;
+  background:var(--white);font-family:var(--body);font-size:.875rem;color:var(--ink);
+}
+.busca-contagem{display:block;margin:28px 0 0;}
+
+.resultado-lista{margin-top:20px;}
+.resultado-item{
+  background:var(--white);
+  border:1px solid var(--paper-deep);border-radius:var(--radius-md);
+  padding:22px 26px;margin-bottom:14px;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.resultado-item:hover{border-color:var(--verde);box-shadow:0 10px 24px rgba(0,40,20,.08);}
+.resultado-titulo{
+  font-family:var(--display);font-size:1.0625rem;font-weight:600;line-height:1.35;
+  margin:0 0 8px;
+}
+.resultado-titulo a{color:var(--ink);text-decoration:none;transition:color .15s ease;}
+.resultado-titulo a:hover{color:var(--verde);}
+.resultado-texto{margin:0;font-size:.9375rem;color:var(--ink-60);line-height:1.65;}
+.resultado-meta{
+  display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px;
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--ink-60);
+}
+.resultado-meta a{color:var(--verde);text-decoration:none;}
+.resultado-meta a:hover{color:var(--verde-deep);}
+.resultado-item .highlight,
+.resultado-meta .highlight{
+  background:var(--dourado-tint);color:inherit;
+  border-radius:3px;padding:0 2px;
+}
+.busca-vazia{
+  background:var(--white);
+  border:1px solid var(--paper-deep);border-left:3px solid var(--dourado);
+  border-radius:0 12px 12px 0;
+  padding:20px 24px;margin-top:24px;
+}
+.busca-vazia .code{
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--dourado-deep);display:block;margin-bottom:6px;
+}
+.busca-vazia p{margin:0;font-size:.9375rem;color:var(--ink-60);}
+
+/* ---------- FAQ (com_faqs) ---------- */
+.faq-busca{max-width:640px;margin:0 0 40px;}
+.faq-grid{
+  display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:20px;
+}
+.faq-cat{padding:26px 28px;display:flex;flex-direction:column;}
+.faq-cat h3{
+  font-size:1.0625rem;font-weight:600;line-height:1.35;
+  padding-bottom:12px;margin-bottom:6px;
+  border-bottom:2px solid var(--verde);
+}
+.faq-cat ul{list-style:none;margin:0 0 18px;padding:0;flex:1;}
+.faq-cat li{margin:0;}
+.faq-cat li a{
+  display:block;padding:10px 0;
+  font-size:.9375rem;line-height:1.45;color:var(--ink);text-decoration:none;
+  border-bottom:1px solid var(--paper-deep);
+  transition:color .15s ease;
+}
+.faq-cat li:last-child a{border-bottom:none;}
+.faq-cat li a:hover{color:var(--verde);}
+.faq-cat .dev-link{margin-top:auto;}
+@media (max-width: 780px){
+  .faq-grid{grid-template-columns:1fr;}
+}
+
+/* ---------- contato (com_contact) ---------- */
+.contact-form .introducao{margin-bottom:24px;}
+.form-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;
+}
+@media (max-width: 780px){
+  .form-grid{grid-template-columns:1fr;}
+}
+.form-group{margin-bottom:18px;}
+.form-group label{
+  display:block;margin-bottom:6px;
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--ink-60);
+}
+.form-group .optional{
+  font-family:var(--mono);font-size:.625rem;color:var(--ink-60);
+  text-transform:uppercase;letter-spacing:.05em;
+}
+.form-group input, .form-group select, .form-group textarea{width:100%;}
+.form-group textarea{min-height:220px;resize:vertical;}
+.form-actions{margin-top:8px;}
+.field-check-clara{color:var(--ink-60);}
+.field-check-clara a, .field-check-clara span{color:var(--ink);}
+
+/* listas de contatos (table.category) no padrão data-table */
+.pagina-interna table.category{
+  width:100%;border-collapse:collapse;
+  background:var(--white);
+  border:1px solid var(--paper-deep);border-radius:var(--radius-md);overflow:hidden;
+}
+.pagina-interna table.category th{
+  text-align:left;font-family:var(--mono);font-size:.6875rem;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--ink-60);font-weight:600;
+  padding:14px 18px;border-bottom:1px solid var(--paper-deep);white-space:nowrap;
+}
+.pagina-interna table.category td{
+  padding:14px 18px;font-size:.9375rem;border-bottom:1px solid var(--paper-deep);
+}
+.pagina-interna table.category tbody tr:last-child td{border-bottom:none;}
+.pagina-interna table.category tbody tr:hover{background:var(--paper);}
+.pagina-interna table.category a{color:var(--ink);font-weight:600;text-decoration:none;}
+.pagina-interna table.category a:hover{color:var(--verde);}
 
 /* menu publicado na posicao menu-principal: itens de primeiro nível
    ganham a aparência dos links do protótipo */

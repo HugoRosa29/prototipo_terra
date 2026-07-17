@@ -384,3 +384,46 @@
     });
   });
 })();
+
+/* ============================================================
+   MODAIS DE AJUDA HERDADOS (.modal-ajuda)
+   Comportamento que vivia no script.js do template antigo: links como
+   "O que é Proposta Online" apontam para o id de um modal Bootstrap
+   impresso na página pelos módulos legados (#modal-ajuda-online etc.).
+   ============================================================ */
+(function(){
+  document.addEventListener('click', function(ev){
+    var el = ev.target;
+    while (el && el.nodeType === 1 && !(el.classList && el.classList.contains('modal-ajuda'))) {
+      el = el.parentNode;
+    }
+    if (!el || el.nodeType !== 1) return;
+    var alvo = el.getAttribute('href') || '';
+    if (alvo.charAt(0) !== '#' || alvo.length < 2) return;
+    ev.preventDefault();
+    if (window.jQuery && jQuery.fn && jQuery.fn.modal) {
+      jQuery(alvo).modal('show');
+      return;
+    }
+    // Fallback sem jQuery: exibe/oculta o modal manualmente
+    var m = document.querySelector(alvo);
+    if (!m) return;
+    m.style.display = 'block';
+    m.classList.add('show');
+    document.body.classList.add('modal-open');
+    var fechar = function(e2){
+      var d = e2.target;
+      while (d && d !== m) {
+        if (d.getAttribute && d.getAttribute('data-dismiss') === 'modal') {
+          m.classList.remove('show');
+          m.style.display = 'none';
+          document.body.classList.remove('modal-open');
+          m.removeEventListener('click', fechar);
+          return;
+        }
+        d = d.parentNode;
+      }
+    };
+    m.addEventListener('click', fechar);
+  });
+})();

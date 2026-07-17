@@ -66,6 +66,13 @@ $usarModulosRodape = (int) $this->params->get('usarModulosRodape', 0);
 // estilo aos overrides e módulos herdados; o novo estilo carrega depois e vence.
 $legadoInternas = (!$isHome && $this->params->get('carregarBootstrapInternas', 1));
 
+// Cache-busting dos assets do template: a URL muda quando o arquivo muda,
+// evitando que navegadores/proxies sirvam CSS/JS antigos após um redeploy.
+$assetVer = function ($rel) {
+	$f = __DIR__ . '/' . $rel;
+	return is_file($f) ? '?v=' . filemtime($f) : '';
+};
+
 $hasMenu         = $usarModuloMenu && $this->countModules('menu-principal');
 $hasBanner       = $usarModuloBanner && $this->countModules('super-banner');
 $hasHomeModules  = $usarModulosHome && $this->countModules('pagina-inicial');
@@ -98,10 +105,10 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 	<!-- CSS -->
 	<?php if ($legadoInternas) : ?>
 	<!-- Camada legada (template antigo) somente nas internas: os overrides herdados (html/) dependem dela -->
-	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/bootstrap.min.css">
-	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/style.css">
-	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/media-querie.css">
-	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/user.css">
+	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/bootstrap.min.css<?php echo $assetVer('css/bootstrap.min.css'); ?>">
+	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/style.css<?php echo $assetVer('css/style.css'); ?>">
+	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/media-querie.css<?php echo $assetVer('css/media-querie.css'); ?>">
+	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/user.css<?php echo $assetVer('css/user.css'); ?>">
 	<!-- Ícones "icon-*" do Joomla (icomoon do núcleo) -->
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/jui/css/icomoon.css">
 	<!-- Font Awesome 5 via CDN: a cópia do template antigo veio sem a pasta webfonts
@@ -109,8 +116,16 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous">
 	<?php endif; ?>
 	<!-- O novo estilo carrega por último e prevalece sobre a camada legada -->
-	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/terracap.css">
-	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/interno.css">
+	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/terracap.css<?php echo $assetVer('css/terracap.css'); ?>">
+	<link rel="stylesheet" href="<?php echo $tpl_url; ?>/css/interno.css<?php echo $assetVer('css/interno.css'); ?>">
+
+	<?php if ($legadoInternas) : ?>
+	<!-- jQuery + Bootstrap JS no <head>, como no template anterior: módulos herdados
+	     imprimem <script> inline com jQuery no meio da página (abas, acordeões,
+	     geolocalização) e quebrariam se o jQuery só carregasse no fim do body -->
+	<script src="<?php echo $tpl_url; ?>/js/jquery.min.js<?php echo $assetVer('js/jquery.min.js'); ?>"></script>
+	<script src="<?php echo $tpl_url; ?>/js/bootstrap.min.js<?php echo $assetVer('js/bootstrap.min.js'); ?>"></script>
+	<?php endif; ?>
 
 	<?php if ($analytics) : ?>
 	<script type="text/javascript">
@@ -176,10 +191,10 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 						</button>
 						<div class="mega-panel">
 							<div class="mega-panel-inner">
-								<a class="mega-link" href="<?php echo $servicos_url; ?>" target="_blank" rel="noopener">Simulador de Valores</a>
-								<a class="mega-link" href="<?php echo $servicos_url; ?>" target="_blank" rel="noopener">Regularização (Venda Direta)</a>
-								<a class="mega-link" href="<?php echo $servicos_url; ?>" target="_blank" rel="noopener">Declarações e Certidões</a>
-								<a class="mega-link" href="<?php echo $servicos_url; ?>" target="_blank" rel="noopener">Consulta de Requerimentos</a>
+								<a class="mega-link" href="index.php/carta-de-servico" >Carta de Serviço</a>
+								<a class="mega-link" href="<?php echo $servicos_url; ?>" target="_blank" rel="noopener">Serviços Online</a>
+								<a class="mega-link" href="index.php/servicos-online">Todos os Serviços</a>
+								<a class="mega-link" href="index.php/informacoes">Fale Conosco</a>
 							</div>
 						</div>
 					</div>
@@ -193,15 +208,14 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 						</button>
 						<div class="mega-panel">
 							<div class="mega-panel-inner">
-								<a class="mega-link" href="#">Notícias</a>
-								<a class="mega-link" href="#">Fotos e vídeos</a>
-								<a class="mega-link" href="#">Contato para imprensa</a>
+								<a class="mega-link" href="index.php/noticia-imprensa">Notícias</a>
+								<a class="mega-link" href="index.php/sala-imprensa">Sala de imprensa</a>
 							</div>
 						</div>
 					</div>
 
-					<a href="<?php echo $ancora; ?>#transparencia">Governança</a>
-					<a href="<?php echo $ancora; ?>#transparencia">Acesso à informação</a>
+					<a href="index.php/acesso-informacao-home">Governança</a>
+					<a href="index.php/acesso-informacao-home">Acesso à informação</a>
 				<?php endif; ?>
 
 				<a href="<?php echo $servicos_url; ?>" class="btn btn-primary nav-cta-mobile" target="_blank" rel="noopener">Serviços Online</a>
@@ -267,8 +281,8 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 						<div class="hero-manifesto">
 							<span class="hero-mark" aria-hidden="true"></span>
 							<span class="eyebrow hero-eyebrow">Terracap · Companhia Imobiliária de Brasília</span>
-							<h1 class="hero-statement">A terra que<br>constrói Brasília.</h1>
-							<p class="hero-lede">Empresa pública do Governo do Distrito Federal, a Terracap planeja o uso da terra para promover desenvolvimento urbano, preservar o meio ambiente e cuidar da qualidade de vida das pessoas.</p>
+							<h1 class="hero-statement">Terracap,<br>Conectando desenvolvimento.</h1>
+							<p class="hero-lede">Desenvolvendo o Distrito Federal com responsabilidade, inovação e cuidado com as pessoas.</p>
 							<nav class="hero-links" aria-label="Principais serviços">
 								<a href="#nosso-papel">Conhecer a Terracap</a>
 								<a href="#regularize-imoveis">Regularizar imóvel</a>
@@ -383,6 +397,68 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 			</section>
 
 			<div class="survey-divider"></div>
+                              
+                              
+         <!-- ================= CRIADOS PELA TERRACAP ================= -->
+			<section id="projetos-terracap" aria-labelledby="projetos-terracap-title">
+				<div class="container">
+					<span class="eyebrow">Criados pela Terracap</span>
+					<h2 class="section-title" id="projetos-terracap-title">Projetos que nasceram aqui</h2>
+					<p class="section-sub">O desenvolvimento do DF também nasce de dentro da Terracap: quando o território pede uma nova direção, criamos as empresas e os projetos para conduzi-la — da inovação tecnológica à regularização do campo.</p>
+
+					<div style="height:44px;"></div>
+
+					<div class="spinoff-grid">
+						<a class="spinoff-card plot-frame reveal" href="https://www.bioticsa.com.br/" target="_blank" rel="noopener">
+							<div class="spinoff-banner spinoff-tech">
+								<span class="tag">Inovação · Tecnologia</span>
+								<span class="sigla">BIOTIC</span>
+							</div>
+							<div class="body">
+								<span class="code">SUBSIDIÁRIA TERRACAP · BIOTIC S.A.</span>
+								<span class="title">Parque Tecnológico de Brasília</span>
+								<p>Um milhão de metros quadrados dedicados à biotecnologia e à TIC — espaço para centenas de empresas e milhares de empregos qualificados no coração do DF.</p>
+								<span class="dev-link">Conhecer o BIOTIC
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+								</span>
+							</div>
+						</a>
+
+						<a class="spinoff-card plot-frame reveal" href="https://www.etr.df.gov.br/" target="_blank" rel="noopener">
+							<div class="spinoff-banner spinoff-rural">
+								<span class="tag">Regularização rural</span>
+								<span class="sigla">ETR</span>
+							</div>
+							<div class="body">
+								<span class="code">SUBSIDIÁRIA TERRACAP · ETR</span>
+								<span class="title">Empresa de Regularização de Terras Rurais</span>
+								<p>Criada para levar segurança jurídica ao campo: mais de 32 mil hectares regularizados e centenas de produtores rurais com a terra reconhecida.</p>
+								<span class="dev-link">Conhecer a ETR
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+								</span>
+							</div>
+						</a>
+
+						<a class="spinoff-card plot-frame reveal" href="#invista-em-brasilia">
+							<div class="spinoff-banner spinoff-mais">
+								<span class="tag">Projetos estruturantes</span>
+								<span class="sigla">E muito mais</span>
+							</div>
+							<div class="body">
+								<span class="code">DO PAPEL AO TERRITÓRIO</span>
+								<span class="title">Do Projeto Orla ao Polo Agroindustrial</span>
+								<p>A Terracap também desenha os grandes projetos que abrem novas fronteiras para o DF — lazer, agronegócio, aviação e esporte.</p>
+								<span class="dev-link">Ver projetos abertos a investimento
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+								</span>
+							</div>
+						</a>
+					</div>
+				</div>
+			</section>
+                                  
+                                  <div class="survey-divider"></div>
+
 
 			<!-- ================= TERRITÓRIO — mapa interativo ================= -->
 			<section id="territorio" aria-labelledby="territorio-title">
@@ -560,7 +636,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 					</div>
 
 					<div class="section-footer-actions">
-						<a href="#" class="btn btn-line">Veja todos</a>
+						<a href="index.php/regularize-imoveis" class="btn btn-line">Veja todos</a>
 					</div>
 				</div>
 			</section>
@@ -653,7 +729,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 
 					<div class="section-footer-actions">
 						<a href="https://comprasonline.terracap.df.gov.br/" target="_blank" class="btn btn-line">Proposta online / presencial</a>
-						<a href="#" class="btn btn-line">Veja todos os editais</a>
+						<a href="index.php/compre-imoveis" class="btn btn-line">Veja todos os editais</a>
 					</div>
 				</div>
 			</section>
@@ -692,64 +768,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 
 			<div class="survey-divider"></div>
 
-			<!-- ================= CRIADOS PELA TERRACAP ================= -->
-			<section id="projetos-terracap" aria-labelledby="projetos-terracap-title">
-				<div class="container">
-					<span class="eyebrow">Criados pela Terracap</span>
-					<h2 class="section-title" id="projetos-terracap-title">Projetos que nasceram aqui</h2>
-					<p class="section-sub">O desenvolvimento do DF também nasce de dentro da Terracap: quando o território pede uma nova direção, criamos as empresas e os projetos para conduzi-la — da inovação tecnológica à regularização do campo.</p>
-
-					<div style="height:44px;"></div>
-
-					<div class="spinoff-grid">
-						<a class="spinoff-card plot-frame reveal" href="https://www.bioticsa.com.br/" target="_blank" rel="noopener">
-							<div class="spinoff-banner spinoff-tech">
-								<span class="tag">Inovação · Tecnologia</span>
-								<span class="sigla">BIOTIC</span>
-							</div>
-							<div class="body">
-								<span class="code">SUBSIDIÁRIA TERRACAP · BIOTIC S.A.</span>
-								<span class="title">Parque Tecnológico de Brasília</span>
-								<p>Um milhão de metros quadrados dedicados à biotecnologia e à TIC — espaço para centenas de empresas e milhares de empregos qualificados no coração do DF.</p>
-								<span class="dev-link">Conhecer o BIOTIC
-									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-								</span>
-							</div>
-						</a>
-
-						<a class="spinoff-card plot-frame reveal" href="https://www.etr.df.gov.br/" target="_blank" rel="noopener">
-							<div class="spinoff-banner spinoff-rural">
-								<span class="tag">Regularização rural</span>
-								<span class="sigla">ETR</span>
-							</div>
-							<div class="body">
-								<span class="code">SUBSIDIÁRIA TERRACAP · ETR</span>
-								<span class="title">Empresa de Regularização de Terras Rurais</span>
-								<p>Criada para levar segurança jurídica ao campo: mais de 32 mil hectares regularizados e centenas de produtores rurais com a terra reconhecida.</p>
-								<span class="dev-link">Conhecer a ETR
-									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-								</span>
-							</div>
-						</a>
-
-						<a class="spinoff-card plot-frame reveal" href="#invista-em-brasilia">
-							<div class="spinoff-banner spinoff-mais">
-								<span class="tag">Projetos estruturantes</span>
-								<span class="sigla">E muito mais</span>
-							</div>
-							<div class="body">
-								<span class="code">DO PAPEL AO TERRITÓRIO</span>
-								<span class="title">Do Projeto Orla ao Polo Agroindustrial</span>
-								<p>A Terracap também desenha os grandes projetos que abrem novas fronteiras para o DF — lazer, agronegócio, aviação e esporte.</p>
-								<span class="dev-link">Ver projetos abertos a investimento
-									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-								</span>
-							</div>
-						</a>
-					</div>
-				</div>
-			</section>
-
+			
 			<!-- ================= INVISTA EM BRASÍLIA ================= -->
 			<section id="invista-em-brasilia" style="background:var(--azul-deep);">
 				<div class="container">
@@ -1004,12 +1023,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 		<jdoc:include type="modules" name="debug" style="none" />
 	<?php endif; ?>
 
-	<?php if ($legadoInternas) : ?>
-	<!-- jQuery + Bootstrap JS para módulos legados nas internas (carrosséis data-ride, tooltips) -->
-	<script src="<?php echo $tpl_url; ?>/js/jquery.min.js"></script>
-	<script src="<?php echo $tpl_url; ?>/js/bootstrap.min.js"></script>
-	<?php endif; ?>
-	<script src="<?php echo $tpl_url; ?>/js/terracap.js"></script>
+	<script src="<?php echo $tpl_url; ?>/js/terracap.js<?php echo $assetVer('js/terracap.js'); ?>"></script>
 
 	<?php if (!$isHome) : ?>
 	<script>

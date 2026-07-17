@@ -1,95 +1,64 @@
 <?php
 /**
- * @package		
- * @subpackage	
- * @copyright	
- * @license		
+ * Resultados de busca (com_search) — redesign "Eixos e Curvas".
+ * Barra de busca em pílula (mesma linguagem do overlay do cabeçalho),
+ * opções de correspondência/ordenação em selects estilizados e
+ * contagem de resultados em rótulo mono.
  */
 
 // no direct access
 defined('_JEXEC') or die;
-require __DIR__.'/_helper.php';
+require __DIR__ . '/_helper.php';
 $lang = JFactory::getLanguage();
 $upper_limit = $lang->getUpperLimitSearchWord();
-
 ?>
-<h2>
-	<?php if ($this->escape($this->params->get('page_heading'))) :?>
-		<?php echo $this->escape($this->params->get('page_heading')); ?>
-	<?php else : ?>
-		<?php echo $this->escape($this->params->get('page_title')); ?>
-	<?php endif; ?>
-</h2>
+<div class="busca-interna">
 
-<div class="search" style="clear: both;">
-	<form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search');?>" method="post">
-		<fieldset class="word">
-			<div class="form-group row">
-				<label for="staticEmail" class="col-md-2 col-form-label ">Estou pesquisando</label>
-				<div class="col-md-10">
-					<input type="text" name="searchword" id="search-searchword" size="30" maxlength="<?php echo $upper_limit; ?>" value="<?php echo $this->escape($this->origkeyword); ?>" class="form-control " id="staticEmail">
-              		
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="inlineFormCustomSelectPref" class="col-md-1 col-form-label">sendo</label>
-				<div class="col-md-3">
-					<?php TemplateSearchHelper::displaySearchPhrase(); ?>
-				</div>
+	<h2>
+		<?php if ($this->escape($this->params->get('page_heading'))): ?>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		<?php else: ?>
+			<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php endif; ?>
+	</h2>
 
-				<label for="ordem" class="col-md-2 col-form-label alinha-direita">e ordenado por</label>
-				<div class="col-md-4">
-					<?php TemplateSearchHelper::displaySearchOrdering(); ?>
-				</div>
-				<div class="col-md-2">
-					<button class="botao-busca" type="button" onclick="this.form.submit()" class="btn"><?php echo JText::_('COM_SEARCH_SEARCH');?></button>
-				</div>
-				<input type="hidden" name="task" value="search" />
-			</div>
-		</fieldset>
+	<form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search'); ?>" method="post">
+		<div class="busca-barra">
+			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+			<label class="sr-only" for="search-searchword">Estou pesquisando</label>
+			<input type="search" name="searchword" id="search-searchword"
+				maxlength="<?php echo $upper_limit; ?>"
+				value="<?php echo $this->escape($this->origkeyword); ?>"
+				placeholder="Buscar editais, serviços, notícias…" autocomplete="off">
+			<button type="submit" class="btn btn-primary"><?php echo JText::_('COM_SEARCH_SEARCH'); ?></button>
+		</div>
 
-		<!--
-		<?php if ($this->params->get('search_areas', 1)) : ?>
-			<fieldset class="only">
-			<legend><?php echo JText::_('COM_SEARCH_SEARCH_ONLY');?></legend>
-			<?php TemplateSearchHelper::displaySearchOnly( $this->searchareas ); ?>				
-			</fieldset>
-		<?php endif; ?>	 
-		-->
-
+		<div class="busca-opcoes">
+			<label>
+				<span class="k">Correspondência</span>
+				<?php TemplateSearchHelper::displaySearchPhrase(); ?>
+			</label>
+			<label>
+				<span class="k">Ordenar por</span>
+				<?php TemplateSearchHelper::displaySearchOrdering(); ?>
+			</label>
+		</div>
+		<input type="hidden" name="task" value="search" />
 	</form>
-</div>	
 
-<div class="<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<?php if (!empty($this->searchword)):?>
-	<p class="description"><?php echo JText::plural('COM_SEARCH_SEARCH_KEYWORD_N_RESULTS', $this->total);?></p>
-	<?php endif;?>
-</div>
+	<?php if (!empty($this->searchword)): ?>
+		<p class="busca-contagem coord"><?php echo JText::plural('COM_SEARCH_SEARCH_KEYWORD_N_RESULTS', $this->total); ?></p>
+	<?php endif; ?>
 
-<div >
-	<?php if ($this->error==null && count($this->results) > 0) :
+	<?php if ($this->error == null && count($this->results) > 0):
 		echo $this->loadTemplate('results');
-	else :
+	else:
 		echo $this->loadTemplate('error');
 	endif; ?>
-</div>
 
-
-
-<div class="row" style="clear:both">
-	<div class="col-md-12">
-	
-		<?php if ($this->total > 0) : ?>
-				<div class="pagination text-center">
-					<?php echo $this->pagination->getPagesLinks(); ?>
-				</div>
-			
-			<div class="row-fluid text-center">
-				<!--p class="counter">
-					<?php echo $this->pagination->getPagesCounter(); ?>
-				</p-->
-			</div>
-		<?php endif; ?>
-	
-	</div>
+	<?php if ($this->total > 0): ?>
+		<div class="pagination">
+			<?php echo $this->pagination->getPagesLinks(); ?>
+		</div>
+	<?php endif; ?>
 </div>

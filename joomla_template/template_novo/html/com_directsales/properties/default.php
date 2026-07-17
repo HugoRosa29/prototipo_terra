@@ -3,8 +3,10 @@
  * @package     Directsales
  * @subpackage  com_directsales
  *
- * @author      Charles Guedes <charles.fernandes@capgemini.com>
- * @copyright   Copyright (C) 2018 Capgemini do Brasil. All rights reserved.
+ * Listagem de editais de Venda Direta — redesign "Eixos e Curvas".
+ * Filtro por ano em pílulas (anos antigos em dropdown nativo <details>)
+ * e cards no padrão card-lote/plot-frame da home, com carimbo de status.
+ *
  * @license     Commercial License
  */
 
@@ -13,123 +15,97 @@ defined('_JEXEC') or die;
 
 // Get the application.
 $app = JFactory::getApplication('site');
+
+/**
+ * Mapeia o status vindo do componente para o carimbo do redesign.
+ * Retorna array(classe do stamp, rótulo).
+ */
+if (!function_exists('stampStatus')) {
+	function stampStatus($status)
+	{
+		$st = strtolower(trim((string) $status));
+		switch ($st) {
+			case 'disponível':
+			case 'disponivel':
+			case 'aberto':
+			case 'iniciado':
+				return array('stamp-verde', strtoupper($status));
+			case 'encerrado':
+				return array('stamp-alerta', 'ENCERRADO');
+			case '':
+				return array('', '');
+			default:
+				return array('stamp-dourado', strtoupper($status));
+		}
+	}
+}
 ?>
 
 <?php if ($this->params->get('show_page_heading')): ?>
-<h2>
-	<?php echo $this->escape($this->params->get('page_heading')); ?>
-</h2>	
+<h2><?php echo $this->escape($this->params->get('page_heading')); ?></h2>
 <?php endif; ?>
 
-<div id="listagem-compre-imoveis" class="lista-imoveis">
-	<div class="row">
-	<div class="col-md-4 offset-md-8">
-				<form action="<?php echo JUri::getInstance()->toString(); ?>" method="get" class="property-toolbar">
-					<div class="lista-imoveis-filtros">
-						<span class="lista-imoveis-filtrar">Filtre por anos</span>
-						<div class="lista-imoveis-btn">
-							<?php foreach ($this->years as $year): ?>
-								<input type="submit" class="btn btn-outline-dark btn-filtro-ano <?php echo $this->state->get('filter.year') == $year ? 'ativo' : ''; ?>" name="year" value="<?php echo $this->escape($year); ?>">
-							<?php endforeach; ?>
+<div id="listagem-compre-imoveis" class="lista-editais">
 
-							<?php if(!empty($this->yearsOld)):?>
-								<div id="btnYear" class="btn-group dropdown" role="group">
-									<button id="btnGroupDrop1" type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										MAIS
-									</button>
-									<div class="dropdown-menu dropdown-year" aria-labelledby="btnGroupDrop1">
-										<?php foreach ($this->yearsOld as $year): ?>
-											<?php $menus = $app->getMenu(); ?>
-											<a href="<?php echo JRoute::_($app->getMenu()->getActive()->link) . '?year=' . $year; ?>" class="dropdown-item<?php echo $this->state->get('filter.year') == $year ? ' active' : ''; ?>"><?php echo $this->escape($year); ?></a>
-										<?php endforeach; ?>
-									</div>
-								</div>
-							<?php endif;?>
+	<form action="<?php echo JUri::getInstance()->toString(); ?>" method="get" class="filtro-anos">
+		<span class="rotulo">Filtre por ano</span>
+		<?php foreach ($this->years as $year): ?>
+			<input type="submit"
+				class="aba-btn<?php echo $this->state->get('filter.year') == $year ? ' is-active' : ''; ?>"
+				name="year" value="<?php echo $this->escape($year); ?>">
+		<?php endforeach; ?>
 
-						</div>
-					</div>
-				</form>		
+		<?php if (!empty($this->yearsOld)): ?>
+		<details class="mais-anos">
+			<summary class="aba-btn">Mais</summary>
+			<div class="mais-anos-menu">
+				<?php foreach ($this->yearsOld as $year): ?>
+					<a href="<?php echo JRoute::_($app->getMenu()->getActive()->link) . '?year=' . $year; ?>"
+						class="<?php echo $this->state->get('filter.year') == $year ? 'is-active' : ''; ?>"><?php echo $this->escape($year); ?></a>
+				<?php endforeach; ?>
 			</div>
+		</details>
+		<?php endif; ?>
+	</form>
 
+	<div class="lotes-grid">
 		<?php foreach ($this->items as $item): ?>
-			<?php //echo '<pre>'; var_dump($item); ?>
-			<?php if($item->state <> 0):?>
-		<div class="col-md-4">
-			<div class="lista-imoveis-item">
-				<figure>
-					<a href="<?php echo JRoute::_(DirectsalesHelperRoute::getPropertyRoute($item->slug)); ?>" class="">
+			<?php if ($item->state <> 0): ?>
+				<?php
+				$link = JRoute::_(DirectsalesHelperRoute::getPropertyRoute($item->slug));
+				if ($item->show_sketch == 0) {
+					$tipo   = 'CADASTRO';
+					$status = $item->statuscad;
+					$inicio = $item->date_start;
+					$fim    = $item->date_end;
+				} else {
+					$tipo   = 'PROPOSTA';
+					$status = $item->statusprop;
+					$inicio = $item->date_start_prop;
+					$fim    = $item->date_end_prop;
+				}
+				list($stampClass, $stampLabel) = stampStatus($status);
+				?>
+				<a class="card-lote plot-frame" href="<?php echo $link; ?>">
+					<div class="thumb">
 						<?php if ($item->image): ?>
-							<?php echo JHtml::_('image', JUri::root() . '/images/directsales/thumbnails/' . $item->image, $item->title, array('class' => 'lista-imoveis-imagem'), true); ?>
+							<?php echo JHtml::_('image', JUri::root() . '/images/directsales/thumbnails/' . $item->image, $item->title, null, true); ?>
 						<?php else: ?>
 							<?php echo JHtml::_('image', 'com_directsales/no-image.png', $item->title, null, true); ?>
 						<?php endif; ?>
-					</a>
-				</figure>
-				<?php //echo '<pre>'; var_dump($item) ;?>
-				<div class="status">
-					<?php if($item->show_sketch == 0): ?>
-						<span class="tipo">CADASTRO</span>
-						<?php if($item->statuscad): ?>
-						<span class="situacao 
-								<?php 
-									$statuscad = strtolower($item->statuscad);
-									//die($statuscad);
-									switch ($statuscad) {
-										case 'disponível':
-											echo 'aberto';
-											break;
-										case 'aberto':
-											echo 'aberto';
-											break;
-										case 'encerrado':
-											echo 'encerrado';
-											break;
-										default:
-											echo 'em-analise';
-											break;
-								}?>"><?php echo strtoupper( $statuscad); ?></span>
-						<?php else: ?>
-							<span class="situacao "></span>
+						<?php if ($stampLabel): ?>
+							<span class="stamp <?php echo $stampClass; ?>"><?php echo $stampLabel; ?></span>
 						<?php endif; ?>
-						<span class="data"> De <?php echo date("d/m", strtotime($item->date_start)); ?> a <?php echo date("d/m", strtotime($item->date_end)); ?></span>
-					<?php else: ?>
-						<span class="tipo">PROPOSTA</span>
-						<?php if($item->statusprop): ?>
-						<span class="situacao 
-								<?php 
-									$statusprop = strtolower($item->statusprop);
-									//die($statusprop);
-									switch ($statusprop) {
-										case 'disponível':
-											echo 'disponivel';
-											break;
-										case 'aberto':
-											echo 'aberto';
-											break;
-										case 'encerrado':
-											echo 'encerrado';
-											break;
-										default:
-											echo 'em-analise';
-											break;
-								}?>"><?php echo strtoupper( $statusprop); ?></span>
-						<?php else: ?>
-							<span class="situacao "></span>
+					</div>
+					<div class="body">
+						<span class="code"><?php echo $tipo; ?> · DE <?php echo date('d/m', strtotime($inicio)); ?> A <?php echo date('d/m', strtotime($fim)); ?></span>
+						<?php if ($item->params->get('show_title', 1)): ?>
+							<div class="title"><?php echo $item->location; ?></div>
 						<?php endif; ?>
-						
-						<span class="data"> De <?php echo date("d/m", strtotime($item->date_start_prop)); ?> a <?php echo date("d/m", strtotime($item->date_end_prop)); ?></span>
-					<?php endif; ?>
-
-				</div>
-				<?php if ($item->params->get('show_title', 1)): ?>
-					<h3 class="lista-imoveis-titulo"><a href="<?php echo JRoute::_(DirectsalesHelperRoute::getPropertyRoute($item->slug)); ?>" class="lista-imoveis-link"><?php echo $item->location; ?></a></h3>
-				<?php endif ?>
-				<div class="lista-imoveis-info">
-					<?php echo $item->title; ?>
-				</div>
-			</div>
-		</div>
-				<?php endif;?>
+						<p class="card-lote-desc"><?php echo $item->title; ?></p>
+					</div>
+				</a>
+			<?php endif; ?>
 		<?php endforeach; ?>
 	</div>
 </div>

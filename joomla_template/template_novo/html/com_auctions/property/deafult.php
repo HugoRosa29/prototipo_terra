@@ -3,8 +3,11 @@
  * @package     Auctions
  * @subpackage  com_auctions
  *
- * @author      Charles Guedes <charles.fernandes@capgemini.com>
- * @copyright   Copyright (C) 2018 Capgemini do Brasil. All rights reserved.
+ * Detalhe de leilão — redesign "Eixos e Curvas".
+ * Mantém a lógica do override anterior (datas dos dois leilões, dados do
+ * leiloeiro, acordeão de publicações e coluna lateral "contexto-leilao");
+ * markup no vocabulário do redesign, estilos em interno.css.
+ *
  * @license     Commercial License
  */
 
@@ -18,131 +21,101 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $params = $this->item->params;
 $user   = JFactory::getUser();
 
-// Load the tooltip behavior script.
 JHtml::_('behavior.caption');
 
-$image    = $this->item->image ? JUri::root() . '/images/auctions/previews/' . $this->item->image : 'com_auctions/no-image.png';
-$filepath = 'uploads/edicts/' . $this->item->file;
+$image     = $this->item->image ? JUri::root() . 'images/auctions/thumbnails/' . $this->item->image : 'com_auctions/no-image.png';
+$filepath  = 'uploads/edicts/' . $this->item->file;
+$temEdital = $this->item->file && JFile::exists(JPATH_ROOT . '/' . $filepath);
 
+// Segundo leilão futuro → em andamento
+$emAndamento = strtotime(date('Y-m-d')) <= strtotime($this->item->date_two);
+
+$document = JFactory::getDocument();
+$renderer = $document->loadRenderer('modules');
 ?>
-<?php //echo '<pre>'; var_dump($this->item); ?>
-<div class="property-item<?php echo $this->pageclass_sfx; ?>">
-   	<?php if ($this->params->get('show_title', 1)): ?>
-   	<div class="page-header">
-      	<h2>
-			<?php echo $this->escape($this->item->title); ?>
-      	</h2>
-   	</div>
-   <?php endif; ?>
+<article class="edital-detalhe property-item<?php echo $this->pageclass_sfx; ?>">
 
-	<div class="row edital-imoveis">
-		<div class="col-md-8">
-			<div class="row">
-				<div class="col-md-5">
-					<div class="card card-download">
-						<figure class="card-img-top card-download-imagem">
-							 <?php $image = $this->item->image ? JUri::root() . 'images/auctions/thumbnails/' . $this->item->image : 'com_biddings/no-image.png'; ?>
-							<?php echo JHtml::_('image', $image, $this->item->title, array('class' => 'img-rounded img-rounded img-edital'), true); ?>
-						</figure>
-						<div class="card-body">
-							<?php if (JFile::exists(JPATH_ROOT . '/' . $filepath)): ?>
-								<a href="<?php echo JUri::root() . $filepath; ?>" target="_blank" role="button" class="btn-outline-default">
-								<i class="ico-download"></i>
-								<span class="btn-outline-texto">BAIXE O EDITAL</span>
-								</a>
-							<?php endif; ?>
+	<?php if ($this->params->get('show_title', 1)): ?>
+	<header class="page-header edital-detalhe-header">
+		<span class="eyebrow">Aquisição · Leilão de imóveis</span>
+		<h2><?php echo $this->escape($this->item->title); ?></h2>
+	</header>
+	<?php endif; ?>
+
+	<div class="aba-grid">
+		<div>
+			<div class="edital-detalhe-grid">
+				<figure class="edital-figura plot-frame">
+					<?php echo JHtml::_('image', $image, $this->item->title, array('class' => 'img-edital'), true); ?>
+					<span class="stamp <?php echo $emAndamento ? 'stamp-verde' : 'stamp-alerta'; ?>">
+						<?php echo $emAndamento ? 'EM ANDAMENTO' : 'ENCERRADO'; ?>
+					</span>
+				</figure>
+
+				<div class="edital-dados">
+					<span class="code">EDITAL <?php echo (int) $this->item->number; ?>/<?php echo $this->item->year; ?> · LEILÃO</span>
+
+					<div class="data-grid data-grid-2">
+						<div>
+							<div class="k">Data do 1º leilão</div>
+							<div class="v"><?php echo JHtml::_('date', strtotime($this->item->date_one), 'd F'); ?></div>
+						</div>
+						<div>
+							<div class="k">Data do 2º leilão</div>
+							<div class="v"><?php echo JHtml::_('date', strtotime($this->item->date_two), 'd F'); ?></div>
 						</div>
 					</div>
-						
-				</div>		
-				<div class="col-md-7">
-					<div class="item-date card-download-date">
-						<span class="bloco-data bloco-border">
-							<i class="material-icons date-icon">today</i> 
-							<span class="bloco-data-descricao">
-								<?php //echo JText::_('COM_DIRECTSALES_DATE_START'); ?> 
-								<span class="bloco-data-texto">DATA DO 1º LEILÃO</span>
-								<?php //echo dataExtenso(date("d de F", strtotime($this->item->date_start))); ?>
-								<?php echo JHtml::_("date", strtotime($this->item->date_one), "d F"); ?>
-							</span>
-						</span>	
-						<span class="bloco-data">
-							<!-- <i class="material-icons date-icon">today</i>  -->
-							<span class="bloco-data-descricao">
-								<?php //echo JText::_('COM_DIRECTSALES_DATE_END'); ?> 
-								<span class="bloco-data-texto">DATA DO 2º LEILÃO</span>
-								<?php //echo dataExtenso(date("d de F", strtotime($this->item->date_end))); ?>
-								<?php echo JHtml::_("date", strtotime($this->item->date_two), "d F"); ?>
-							</span>	
-						</span>
-					</div>
-					<br>
-					<div class="item-date card-download-date">
-						<span class="bloco-data">
-							<i class="material-icons date-icon">gavel</i>
-							<span class="bloco-data-descricao">
-								<span class="bloco-data-texto"><?php echo JText::_('COM_AUCTIONS_AUCTIONEER_DATA'); ?></span>
-								<span class="dados-leiloeiro">
-									<?php echo JText::_('COM_AUCTIONS_AUCTIONEER_NAME'); ?> <?php echo $this->item->auctioneer_name; ?><br>
-									<span class="bloco-data-texto"><?php echo JText::_('COM_AUCTIONS_AUCTIONEER_PHONE'); ?> <?php echo $this->item->auctioneer_phone; ?></span>
-										 
-									 <span class="bloco-data-texto"><?php echo JText::_('COM_AUCTIONS_AUCTIONEER_SITE'); ?> <?php echo $this->item->auctioneer_site; ?></span>
-									
-								 </span>
-							</span>
-						</span>
+
+					<div class="leiloeiro">
+						<span class="k"><?php echo JText::_('COM_AUCTIONS_AUCTIONEER_DATA'); ?></span>
+						<p>
+							<?php echo JText::_('COM_AUCTIONS_AUCTIONEER_NAME'); ?> <?php echo $this->item->auctioneer_name; ?><br>
+							<?php echo JText::_('COM_AUCTIONS_AUCTIONEER_PHONE'); ?> <?php echo $this->item->auctioneer_phone; ?><br>
+							<?php echo JText::_('COM_AUCTIONS_AUCTIONEER_SITE'); ?> <?php echo $this->item->auctioneer_site; ?>
+						</p>
 					</div>
 
+					<?php if ($temEdital): ?>
+					<div class="info-actions">
+						<a href="<?php echo JUri::root() . $filepath; ?>" class="btn btn-line" target="_blank" rel="noopener">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 19h14"/></svg>
+							Baixe o edital
+						</a>
+					</div>
+					<?php endif; ?>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="item-description descricao-simples">
-						<?php echo $this->item->description; ?>
-					</div>
-				</div>
+
+			<?php if (trim(strip_tags($this->item->description))): ?>
+			<div class="edital-descricao">
+				<?php echo $this->item->description; ?>
 			</div>
-			<?php if ($this->publications): ?>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="panel-group accordion-default" id="accordion">
-						<?php foreach ($this->publications as $i => $publication): ?>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i; ?>" class="collapsed">
-											<i class="material-icons accordion-default-icone">add</i> 
-											<span><?php echo $this->escape($publication->title); ?></span>
-										</a>
-									</h4>
-								</div>
-								<div id="collapse<?php echo $i; ?>" class="panel-collapse collapse">
-									<div class="panel-body accordion-default-body">
-										<?php echo $publication->description; ?>
-									</div>
-								</div>
-							</div>
-						<?php endforeach; ?>
-					</div>
-				</div>
-			</div>		
 			<?php endif; ?>
+
+			<?php if ($this->publications): ?>
+			<div class="acordeao-grupo">
+				<h3 class="table-heading">Publicações do edital</h3>
+				<?php foreach ($this->publications as $i => $publication): ?>
+				<details class="acordeao">
+					<summary><?php echo $this->escape($publication->title); ?></summary>
+					<div class="acordeao-corpo">
+						<?php echo $publication->description; ?>
+					</div>
+				</details>
+				<?php endforeach; ?>
+			</div>
+			<?php endif; ?>
+
 			<?php echo $this->item->event->afterDisplayContent; ?>
 		</div>
-		<div class="col-md-4">
+
+		<aside>
 			<div class="interna-direita">
-				<?php 
-					// Monta posição virtual para escrever módulos
-					$document = JFactory::getDocument();
-					$renderer = $document->loadRenderer('modules');
-					$position = "contexto-leilao";
-					$options = array('style' => 'container');
-					echo $renderer->render($position, $options, null);
-				?>
-			</div>	
-		</div>
-		
-		<input type="hidden" id="numero" value="<?php echo $this->item->number; ?>">
-		<input type="hidden" id="ano" value="<?php echo $this->item->year; ?>">
+				<?php echo $renderer->render('contexto-leilao', array('style' => 'container'), null); ?>
+			</div>
+		</aside>
 	</div>
-</div>
+
+	<input type="hidden" id="numero" value="<?php echo $this->item->number; ?>">
+	<input type="hidden" id="ano" value="<?php echo $this->item->year; ?>">
+</article>

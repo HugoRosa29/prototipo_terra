@@ -32,22 +32,26 @@ if (!function_exists('dataExtenso')) {
 
 $document = JFactory::getDocument();
 $renderer = $document->loadRenderer('modules');
+
+// IDs únicos por instância: permite mais de um módulo de abas na mesma página
+$uid = 'm' . (isset($module->id) ? (int) $module->id : uniqid());
 ?>
 
 <div class="abas-compre" data-abas>
 	<div class="abas-nav" role="tablist" aria-label="Modalidades de compra">
-		<button type="button" class="aba-btn is-active" data-aba="aba-licitacoes" role="tab" aria-selected="true">Licitações</button>
-		<button type="button" class="aba-btn" data-aba="aba-leiloes" role="tab" aria-selected="false">Leilões</button>
+		<button type="button" class="aba-btn is-active" data-aba="aba-licitacoes-<?php echo $uid; ?>" role="tab" aria-selected="true">Licitações</button>
+		<button type="button" class="aba-btn" data-aba="aba-leiloes-<?php echo $uid; ?>" role="tab" aria-selected="false">Leilões</button>
 	</div>
 
 	<!-- ================= LICITAÇÕES ================= -->
-	<div class="aba-conteudo is-active" id="aba-licitacoes" role="tabpanel">
+	<div class="aba-conteudo is-active" id="aba-licitacoes-<?php echo $uid; ?>" role="tabpanel">
 		<div class="aba-grid">
 			<div>
 				<p class="introducao">Quando você vende algum produto, como decide para quem vender? Geralmente, utilizam-se critérios tais como: quem paga mais, quem dá uma entrada maior, quem paga em um menor número de parcelas, entre outros.</p>
 
 				<h4 class="table-heading">Editais mais recentes</h4>
 
+				<?php $n = 0; ?>
 				<?php foreach ($list2 as $item) : ?>
 					<?php
 					if (json_decode($item->image)) {
@@ -58,6 +62,7 @@ $renderer = $document->loadRenderer('modules');
 						$image = '';
 					}
 					?>
+					<?php if ($n++ > 0) : ?><div class="survey-divider" aria-hidden="true"></div><?php endif; ?>
 					<a class="edital-card plot-frame" href="<?php echo $item->link ? $item->link : '#'; ?>">
 						<div class="edital-thumb">
 							<?php if ($image) : ?>
@@ -97,13 +102,14 @@ $renderer = $document->loadRenderer('modules');
 	</div>
 
 	<!-- ================= LEILÕES ================= -->
-	<div class="aba-conteudo" id="aba-leiloes" role="tabpanel">
+	<div class="aba-conteudo" id="aba-leiloes-<?php echo $uid; ?>" role="tabpanel">
 		<div class="aba-grid">
 			<div>
 				<p class="introducao">O leilão é outra modalidade de venda de imóveis da Terracap: os lotes são ofertados em sessões públicas, com lances a partir do valor mínimo definido em edital.</p>
 
 				<h4 class="table-heading">Leilões mais recentes</h4>
 
+				<?php $n = 0; ?>
 				<?php foreach ($list as $item) : ?>
 					<?php
 					if (json_decode($item->image)) {
@@ -114,6 +120,7 @@ $renderer = $document->loadRenderer('modules');
 						$image = '';
 					}
 					?>
+					<?php if ($n++ > 0) : ?><div class="survey-divider" aria-hidden="true"></div><?php endif; ?>
 					<a class="edital-card plot-frame" href="<?php echo $item->link ? $item->link : '#'; ?>">
 						<div class="edital-thumb">
 							<?php if ($image) : ?>
@@ -154,25 +161,36 @@ $renderer = $document->loadRenderer('modules');
 </div>
 
 <script>
-// Abas sem jQuery: alterna .is-active entre botões e painéis
+// Abas sem jQuery: um único handler delegado atende todas as instâncias
+// [data-abas] da página (o guard evita registro duplicado quando mais de
+// um módulo de abas imprime este mesmo script).
 (function(){
-	var wraps = document.querySelectorAll('[data-abas]');
-	Array.prototype.forEach.call(wraps, function(wrap){
-		var btns = wrap.querySelectorAll('.aba-btn');
-		var panes = wrap.querySelectorAll('.aba-conteudo');
-		Array.prototype.forEach.call(btns, function(btn){
-			btn.addEventListener('click', function(){
-				Array.prototype.forEach.call(btns, function(b){
-					b.classList.remove('is-active');
-					b.setAttribute('aria-selected', 'false');
-				});
-				Array.prototype.forEach.call(panes, function(p){ p.classList.remove('is-active'); });
-				btn.classList.add('is-active');
-				btn.setAttribute('aria-selected', 'true');
-				var alvo = wrap.querySelector('#' + btn.getAttribute('data-aba'));
-				if (alvo) alvo.classList.add('is-active');
-			});
+	if (window._terracapAbas) { return; }
+	window._terracapAbas = true;
+	function maisProximo(el, sel){
+		var m = Element.prototype.matches || Element.prototype.msMatchesSelector;
+		while (el && el.nodeType === 1) {
+			if (m.call(el, sel)) { return el; }
+			el = el.parentNode;
+		}
+		return null;
+	}
+	document.addEventListener('click', function(ev){
+		var btn = maisProximo(ev.target, '.aba-btn[data-aba]');
+		if (!btn) { return; }
+		var wrap = maisProximo(btn, '[data-abas]');
+		if (!wrap) { return; }
+		Array.prototype.forEach.call(wrap.querySelectorAll('.aba-btn[data-aba]'), function(b){
+			b.classList.remove('is-active');
+			b.setAttribute('aria-selected', 'false');
 		});
+		Array.prototype.forEach.call(wrap.querySelectorAll('.aba-conteudo'), function(p){
+			p.classList.remove('is-active');
+		});
+		btn.classList.add('is-active');
+		btn.setAttribute('aria-selected', 'true');
+		var alvo = document.getElementById(btn.getAttribute('data-aba'));
+		if (alvo) { alvo.classList.add('is-active'); }
 	});
 })();
 </script>

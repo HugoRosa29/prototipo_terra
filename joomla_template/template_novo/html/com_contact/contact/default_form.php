@@ -1,10 +1,12 @@
 <?php
 /**
- * @package     Cleanportal_2019
- * @subpackage  tpl_cleanportal_2019
+ * @package     Joomla.Site
+ * @subpackage  com_contact
  *
- * @author      Charles Guedes <charlesgcf@gmail.com>
- * @copyright   Copyright (C) 2019 Capgemini do Brasil. All rights reserved.
+ * Formulário de contato — redesign "Eixos e Curvas".
+ * Substitui o grid Bootstrap por .form-grid (interno.css); campos e botão
+ * seguem os estilos de formulário do redesign.
+ *
  * @license     Commercial License
  */
 
@@ -21,15 +23,15 @@ foreach ($this->form->getFieldset() as $field)
 }
 
 if (isset($this->error)): ?>
-	<div class="contact-error">
+	<div class="alert alert-error contact-error">
 		<?php echo $this->error; ?>
 	</div>
 <?php endif; ?>
 <div class="contact-form">
 	<form id="contact-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-validate" role="form">
-		<p><?php echo JText::_('COM_CONTACT_FORM_LABEL'); ?></p>
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		<p class="introducao"><?php echo JText::_('COM_CONTACT_FORM_LABEL'); ?></p>
+		<div class="form-grid">
+			<div>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('contact_name'); ?>
 					<?php echo $this->form->getInput('contact_name'); ?>
@@ -42,7 +44,7 @@ if (isset($this->error)): ?>
 					<?php echo $this->form->getLabel('contact_subject'); ?>
 					<?php echo $this->form->getInput('contact_subject'); ?>
 				</div>
-				<?php //Dynamically load any additional fields from plugins. ?>
+				<?php // Dynamically load any additional fields from plugins. ?>
 				<?php foreach ($this->form->getFieldsets() as $fieldset): ?>
 					<?php if ($fieldset->name != 'contact'): ?>
 						<?php $fields = $this->form->getFieldset($fieldset->name); ?>
@@ -62,23 +64,21 @@ if (isset($this->error)): ?>
 					<?php endif ?>
 				<?php endforeach; ?>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-				<div class="form-group">
+			<div>
+				<div class="form-group form-group-mensagem">
 					<?php echo $this->form->getLabel('contact_message'); ?>
 					<?php echo $this->form->getInput('contact_message'); ?>
 				</div>
 				<?php if ($this->params->get('show_email_copy')): ?>
-					<div class="checkbox">
-						<label for="jform_contact_email_copy" id="jform_contact_email_copy-lbl" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL', 'COM_CONTACT_CONTACT_EMAIL_A_COPY_DESC'); ?>">
-							<?php echo $this->form->getInput('contact_email_copy'); ?>
-							<strong><?php echo JText::_('COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL'); ?></strong>
-						</label>
-					</div>
+					<label class="field-check field-check-clara" for="jform_contact_email_copy" id="jform_contact_email_copy-lbl" title="<?php echo JHtml::tooltipText('COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL', 'COM_CONTACT_CONTACT_EMAIL_A_COPY_DESC'); ?>">
+						<?php echo $this->form->getInput('contact_email_copy'); ?>
+						<span><?php echo JText::_('COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL'); ?></span>
+					</label>
 				<?php endif; ?>
 			</div>
 		</div>
 		<div class="form-actions">
-			<button class="btn btn-success validate" type="submit"><?php echo JText::_('COM_CONTACT_CONTACT_SEND'); ?></button>
+			<button class="btn btn-primary validate" type="submit"><?php echo JText::_('COM_CONTACT_CONTACT_SEND'); ?></button>
 		</div>
 		<div>
 			<input type="hidden" name="option" value="com_contact" />

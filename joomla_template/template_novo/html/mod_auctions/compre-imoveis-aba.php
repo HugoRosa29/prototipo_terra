@@ -3,185 +3,207 @@
  * @package     Auctions
  * @subpackage  mod_auctions
  *
- * @author      Charles Guedes <charlesgcf@gmail.com>
- * @copyright   Copyright (C) 2018 Capgemini do Brasil. All rights reserved.
+ * Layout "compre-imoveis-aba" — abas Licitações / Leilões no estilo
+ * "Eixos e Curvas" (sem jQuery e sem CSS inline; estilos em interno.css).
+ * Mesmo padrão do override de mod_compreimoveis; usa as descrições e os
+ * botões configurados nos parâmetros do módulo.
+ *
  * @license     Commercial License
  */
 
 // No direct access.
 defined('_JEXEC') or die;
 
+// Data por extenso (guarda contra redeclaração quando outros overrides rodam juntos)
+if (!function_exists('dataExtenso')) {
+	function dataExtenso($data)
+	{
+		if (empty($data) || $data == '0000-00-00' || $data == '0000-00-00 00:00:00') {
+			return '—';
+		}
+		$meses = array(
+			1 => 'janeiro', 2 => 'fevereiro', 3 => 'março', 4 => 'abril',
+			5 => 'maio', 6 => 'junho', 7 => 'julho', 8 => 'agosto',
+			9 => 'setembro', 10 => 'outubro', 11 => 'novembro', 12 => 'dezembro'
+		);
+		$ts = strtotime($data);
+		return date('d', $ts) . ' de ' . $meses[(int) date('n', $ts)] . ' de ' . date('Y', $ts);
+	}
+}
+
+$document = JFactory::getDocument();
+$renderer = $document->loadRenderer('modules');
+
+// IDs únicos por instância: permite mais de um módulo de abas na mesma página
+$uid = 'm' . (isset($module->id) ? (int) $module->id : uniqid());
 ?>
 
-<script>
-    jQuery(document).ready(function(){
-        jQuery('.tabs a.btn-tab').click(function(){
-            event.preventDefault();
-            var tab_id = jQuery(this).attr('href');
-            jQuery('.tabs a.btn-tab, .tab').removeClass('active');
-            jQuery(this).addClass('active');
-            jQuery(tab_id).addClass('active');
-        })
-    })
-</script>
-                
-<div class="tabs mt-5">
-    <a href="#tab-1" class="btn-tab active">LICITAÇÕES</a>
-    <div class="tab active" id="tab-1">
+<div class="abas-compre" data-abas>
+	<div class="abas-nav" role="tablist" aria-label="Modalidades de compra">
+		<button type="button" class="aba-btn is-active" data-aba="aba-licitacoes-<?php echo $uid; ?>" role="tab" aria-selected="true">Licitações</button>
+		<button type="button" class="aba-btn" data-aba="aba-leiloes-<?php echo $uid; ?>" role="tab" aria-selected="false">Leilões</button>
+	</div>
 
-        <div class="row">
-            <div class="col-md-8">
+	<!-- ================= LICITAÇÕES ================= -->
+	<div class="aba-conteudo is-active" id="aba-licitacoes-<?php echo $uid; ?>" role="tabpanel">
+		<div class="aba-grid">
+			<div>
+				<?php if (!empty($description1)): ?>
+					<div class="introducao"><?php echo $description1; ?></div>
+				<?php endif; ?>
 
-                <div class="introducao"> 
-                    <?php 
-                    if(!empty($description1)){
-                        echo $description1;
-                    }
-                    ?>
-                </div>
+				<h4 class="table-heading">Editais mais recentes</h4>
 
-                <h4> Editais mais recentes</h4>
+				<?php $n = 0; ?>
+				<?php foreach ($list2 as $item): ?>
+					<?php
+					if (json_decode($item->image)) {
+						$image = JUri::root() . 'images/biddings/thumbnails/' . json_decode($item->image)[0];
+					} elseif ($item->image) {
+						$image = JUri::root() . 'images/biddings/thumbnails/' . $item->image;
+					} else {
+						$image = '';
+					}
+					?>
+					<?php if ($n++ > 0): ?><div class="survey-divider" aria-hidden="true"></div><?php endif; ?>
+					<a class="edital-card plot-frame" href="<?php echo $item->link ? $item->link : '#'; ?>">
+						<div class="edital-thumb">
+							<?php if ($image): ?>
+								<img src="<?php echo $image; ?>" alt="<?php echo htmlspecialchars($item->title); ?>">
+							<?php endif; ?>
+						</div>
+						<div class="edital-info">
+							<span class="edital-titulo"><?php echo $item->title; ?></span>
+							<div class="edital-datas">
+								<div>
+									<span class="k">Caução até</span>
+									<span class="v"><?php echo dataExtenso($item->date_deposit); ?></span>
+								</div>
+								<div>
+									<span class="k">Licitação em</span>
+									<span class="v"><?php echo dataExtenso($item->date_bidding); ?></span>
+								</div>
+							</div>
+							<?php if (!empty($item->location)): ?>
+								<p class="edital-desc"><?php echo substr(strip_tags($item->location), 0, 120); ?></p>
+							<?php endif; ?>
+						</div>
+					</a>
+				<?php endforeach; ?>
 
-                <?php $i=0;?>
-                <?php foreach ($list2 as $item): ?>
-                    <?php //echo '<pre>'; var_dump($item); ?>
-                    <div class="row lista-compra">
-                        <div class="col-md-5 img-bloco">
-                            <a href="<?php echo $item->link ? $item->link:'#'; ?>">
-                            <?php if (json_decode($item->image)): ?>
-                                    <?php $image = $item->image ? JUri::root() . 'images/biddings/thumbnails/' . json_decode($item->image)[0] : 'com_biddings/no-image.png'; ?>
-                                <?php elseif ($item->image): ?>
-                                    <?php $image = $item->image ? JUri::root() . 'images/biddings/thumbnails/' . $item->image : 'com_biddings/no-image.png'; ?>
-                                <?php endif ?>
-                                <?php echo JHtml::_('image', $image, $item->title, "class=\"img-fluid\"", true); ?>
-                            </a>
-                        </div>    
-                        <div class="col-md-7 titulo-editais">
-                            <a href="<?php echo $item->link ? $item->link:'#'; ?>" >
-                                <?php echo $item->title ; ?>
-                            </a>
-                            <div class="caucao">
-                              <div class="row">
-                                 <p class="titulo mr-5">Caução até <br><span class="titulo-data"><?php echo JHtml::_("date", strtotime($item->date_deposit), 'd F');?></span></p>
-                                 <p class="licitacao">Licitação <br> <span class="licitacao-titulo"><?php echo JHtml::_("date", strtotime($item->date_bidding), 'd F');?></span></p>                       
-                              </div>
-                            </div>
-                            <?php if(!empty($item->location)):?>
-                                <div class="descricao">
-                                    <?php echo $item->location;?>
-                                </div>
-                            <?php endif;?>
-                        </div>
-                    </div>
-                <?php $i++;?>
-                <?php endforeach; ?>
+				<?php if (!empty($showBtnBd)): ?>
+				<div class="section-footer-actions">
+					<a href="<?php echo $linkBtnBd; ?>" class="btn btn-line" title="<?php echo $btnBd; ?>"><?php echo $btnBd; ?></a>
+				</div>
+				<?php endif; ?>
+			</div>
 
-                <?php if($showBtnBd):?>
-                <div class="d-flex justify-content-center mt-5">
-                    <a href="<?php echo $linkBtnBd;?>" class="btn btn-outline-dark" title="<?php echo $btnBd;?>"><?php echo $btnBd;?></a>
-                </div>
-                <?php endif;?>
-            </div>
+			<aside>
+				<div class="interna-direita">
+					<?php echo $renderer->render('contexto-licitacao', array('style' => 'container'), null); ?>
+				</div>
+			</aside>
+		</div>
+	</div>
 
-            <div class="col-md-4">
-                <div class="interna-direita">
-                    <?php 
-                        // Monta posição virtual para escrever módulos
-                        $document = JFactory::getDocument();
-                        $renderer = $document->loadRenderer('modules');
-                        $position = "contexto-licitacao";
-                        $options = array('style' => 'container');
-                        echo $renderer->render($position, $options, null);
-                    ?>
-                </div>
-            </div>
-        </div>
-        
+	<!-- ================= LEILÕES ================= -->
+	<div class="aba-conteudo" id="aba-leiloes-<?php echo $uid; ?>" role="tabpanel">
+		<div class="aba-grid">
+			<div>
+				<?php if (!empty($description2)): ?>
+					<div class="introducao"><?php echo $description2; ?></div>
+				<?php endif; ?>
 
-    </div>
+				<h4 class="table-heading">Leilões mais recentes</h4>
 
-    <a href="#tab-2" class="btn-tab">LEILÕES</a>
-    <div class="tab" id="tab-2">
-        
-        <div class="row">
-            <div class="col-md-8">
+				<?php $n = 0; ?>
+				<?php foreach ($list as $item): ?>
+					<?php
+					if (json_decode($item->image)) {
+						$image = JUri::root() . 'images/auctions/thumbnails/' . json_decode($item->image)[0];
+					} elseif ($item->image) {
+						$image = JUri::root() . 'images/auctions/thumbnails/' . $item->image;
+					} else {
+						$image = '';
+					}
+					?>
+					<?php if ($n++ > 0): ?><div class="survey-divider" aria-hidden="true"></div><?php endif; ?>
+					<a class="edital-card plot-frame" href="<?php echo $item->link ? $item->link : '#'; ?>">
+						<div class="edital-thumb">
+							<?php if ($image): ?>
+								<img src="<?php echo $image; ?>" alt="<?php echo htmlspecialchars($item->title); ?>">
+							<?php endif; ?>
+						</div>
+						<div class="edital-info">
+							<span class="edital-titulo"><?php echo $item->title; ?></span>
+							<div class="edital-datas">
+								<div>
+									<span class="k">Data do 1º leilão</span>
+									<span class="v"><?php echo dataExtenso($item->date_one); ?></span>
+								</div>
+								<div>
+									<span class="k">Data do 2º leilão</span>
+									<span class="v"><?php echo dataExtenso($item->date_two); ?></span>
+								</div>
+							</div>
+							<?php if (!empty($item->auctioneer_name)): ?>
+								<p class="edital-desc edital-leiloeiro">
+									Leiloeiro: <?php echo $item->auctioneer_name; ?>
+									<?php if (!empty($item->auctioneer_phone)): ?> · <?php echo $item->auctioneer_phone; ?><?php endif; ?>
+									<?php if (!empty($item->auctioneer_site)): ?> · <?php echo $item->auctioneer_site; ?><?php endif; ?>
+								</p>
+							<?php endif; ?>
+						</div>
+					</a>
+				<?php endforeach; ?>
 
-                <div class="introducao">
-                    <?php 
-                    if(!empty($description2)){
-                        echo $description2;
-                    }
-                    ?>
-                </div>
+				<?php if (!empty($showBtnAc)): ?>
+				<div class="section-footer-actions">
+					<a href="<?php echo $linkBtnAc; ?>" class="btn btn-line" title="<?php echo $btnAc; ?>"><?php echo $btnAc; ?></a>
+				</div>
+				<?php endif; ?>
+			</div>
 
-                <h4>Leilões mais recentes</h4>
-
-                <?php $i=0;?>
-                <?php foreach ($list as $item): ?>
-                    <div class="row lista-compra">
-                        <div class="col-md-5 img-bloco">
-                            <a href="<?php echo $item->link ? $item->link:'#'; ?>">
-                            <?php if (json_decode($item->image)): ?>
-                                    <?php $image = $item->image ? JUri::root() . 'images/auctions/thumbnails/' . json_decode($item->image)[0] : 'com_biddings/no-image.png'; ?>
-                                <?php elseif ($item->image): ?>
-                                    <?php $image = $item->image ? JUri::root() . 'images/auctions/thumbnails/' . $item->image : 'com_biddings/no-image.png'; ?>
-                                <?php endif ?>
-                                <?php echo JHtml::_('image', $image, $item->title, "class=\"img-fluid\"", true); ?>
-                            </a>
-                        </div>    
-                        <div class="col-md-7 titulo-editais">
-                            <a href="<?php echo $item->link ? $item->link:'#'; ?>" >
-                                <?php echo $item->title ; ?>
-                            </a>
-                            <div class="leilao">
-                            <div class="row">
-                                 <p class="titulo mr-5">Data do 1º Leilão<br> <span class="titulo-data"><?php echo JHtml::_("date", strtotime($item->date_one), 'd F');?></span></p><br>
-                                 <p class="licitacao">Data do 2º Leilão<br> <span class="titulo-data"><?php echo JHtml::_("date", strtotime($item->date_two), 'd F');?></span> </p>                      
-                            </div>
-                            </div>
-                            
-                            <div class="item-date card-download-date">
-                                <span class="bloco-data">
-                                    <i class="material-icons date-icon">gavel</i>
-                                    <span class="bloco-data-descricao">
-                                        <span class="bloco-data-texto">DADOS DO LEILOEIRO</span>
-                                        <span class="dados-leiloeiro">
-                                            NOME: <?php echo $item->auctioneer_name; ?><br>
-                                            <span class="bloco-data-texto">TELEFONE: <?php echo $item->auctioneer_phone; ?></span>
-                                            <span class="bloco-data-texto">SITE: <?php echo $item->auctioneer_site; ?></span>
-                                        </span>
-
-                                    </span>
-                                </span>
-                            </div>
-                                <?php //echo '<pre>'; var_dump($item); echo '</pre>';?>
-                        </div>
-                    </div>
-                <?php $i++;?>
-                <?php endforeach; ?>
-                <?php if($showBtnAc):?>
-                <div class="d-flex justify-content-center mt-5">
-                    <a href="<?php echo $linkBtnAc;?>" class="btn btn-outline-dark" title="<?php echo $btnAc;?>"><?php echo $btnAc;?></a>
-                </div>
-                <?php endif;?>
-
-            </div> <!-- end .col-md-8 -->
-
-            <div class="col-md-4">
-                
-                <div class="interna-direita">
-                    <?php 
-                        // Monta posição virtual para escrever módulos
-                        $document = JFactory::getDocument();
-                        $renderer = $document->loadRenderer('modules');
-                        $position = "contexto-leilao";
-                        $options = array('style' => 'container');
-                        echo $renderer->render($position, $options, null);
-                    ?>
-                </div>
-
-            </div> <!-- end .col-md-4-->
-        </div>
-
-    </div>
+			<aside>
+				<div class="interna-direita">
+					<?php echo $renderer->render('contexto-leilao', array('style' => 'container'), null); ?>
+				</div>
+			</aside>
+		</div>
+	</div>
 </div>
+
+<script>
+// Abas sem jQuery: um único handler delegado atende todas as instâncias
+// [data-abas] da página (o guard evita registro duplicado quando mais de
+// um módulo de abas imprime este mesmo script).
+(function(){
+	if (window._terracapAbas) { return; }
+	window._terracapAbas = true;
+	function maisProximo(el, sel){
+		var m = Element.prototype.matches || Element.prototype.msMatchesSelector;
+		while (el && el.nodeType === 1) {
+			if (m.call(el, sel)) { return el; }
+			el = el.parentNode;
+		}
+		return null;
+	}
+	document.addEventListener('click', function(ev){
+		var btn = maisProximo(ev.target, '.aba-btn[data-aba]');
+		if (!btn) { return; }
+		var wrap = maisProximo(btn, '[data-abas]');
+		if (!wrap) { return; }
+		Array.prototype.forEach.call(wrap.querySelectorAll('.aba-btn[data-aba]'), function(b){
+			b.classList.remove('is-active');
+			b.setAttribute('aria-selected', 'false');
+		});
+		Array.prototype.forEach.call(wrap.querySelectorAll('.aba-conteudo'), function(p){
+			p.classList.remove('is-active');
+		});
+		btn.classList.add('is-active');
+		btn.setAttribute('aria-selected', 'true');
+		var alvo = document.getElementById(btn.getAttribute('data-aba'));
+		if (alvo) { alvo.classList.add('is-active'); }
+	});
+})();
+</script>

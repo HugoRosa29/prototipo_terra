@@ -75,13 +75,51 @@ Migre os módulos ao novo estilo um a um e vá ligando as chaves correspondentes
 
 ## Observações de migração
 
+### Módulos com "layout alternativo" presos ao template antigo
+
+Quando um módulo usa um layout alternativo que veio de um template, o Joomla grava o
+parâmetro como `nome-do-template:layout` — ex.: `onepageterracap2019:compre-imoveis-aba` —
+e **continua carregando o layout daquele template mesmo com o terracap2026 ativo**.
+É por isso que páginas como *Compre Imóveis* podem seguir exibindo o visual antigo
+(abas amarelas) depois da troca de template.
+
+Para migrar, há duas opções:
+
+1. **Pelo admin (módulo a módulo):** *Extensões → Módulos → (módulo) → aba Avançado →
+   Layout Alternativo* — escolha o layout de mesmo nome listado sob **terracap2026**
+   e salve. Módulos tipicamente afetados: mod_auctions / mod_compreimoveis
+   (`compre-imoveis-aba`), mod_biddings (`compre-imoveis-home`), mod_directsales
+   (`default`, `capa-regularize`), mod_menu (`menu-contexto`, `megamenu` etc.),
+   mod_artigos e mod_gallery.
+
+2. **Por SQL (todos de uma vez, no banco do ambiente de testes):**
+
+   ```sql
+   UPDATE `#__modules`
+      SET params = REPLACE(params, '"layout":"onepageterracap2019:', '"layout":"terracap2026:')
+    WHERE params LIKE '%onepageterracap2019:%';
+   ```
+
+   Troque `#__` pelo prefixo real das tabelas e limpe o cache do Joomla depois.
+   (Reversível trocando os nomes de lugar — o template antigo volta a valer.)
+
 - As imagens da home estática apontam para URLs do portal atual
   (`www.terracap.df.gov.br`); ao publicar módulos nas posições, substitua pelo
   conteúdo gerenciado no Joomla.
 - A busca do cabeçalho filtra os atalhos localmente (JS) e, ao enviar, usa o
   `com_search` do Joomla (`index.php?option=com_search`).
-- Os overrides em `html/` ainda usam classes Bootstrap 4; a migração visual deles para o
-  novo estilo pode ser feita gradualmente, override a override.
+- Os overrides das principais páginas internas já foram migrados ao novo estilo
+  (sem depender de Bootstrap/jQuery próprios): detalhe e listagem de Venda Direta
+  (`com_directsales`), detalhe de licitação (`com_biddings`) e leilão (`com_auctions`),
+  módulos de listagem (`mod_directsales/default` e `capa-regularize`,
+  `mod_auctions/compre-imoveis-aba`, `mod_compreimoveis/compre-imoveis-aba`,
+  `mod_biddings/compre-imoveis-home`), busca (`com_search`), FAQ (`com_faqs`),
+  formulário de contato (`com_contact`) e artigo (`com_content/article`).
+  Componentes reutilizáveis desses overrides (detalhe de edital, acordeão `<details>`,
+  grade `lotes-grid` de cards `card-lote`, filtro por ano, barra de busca, cards de FAQ
+  e resultados) estão documentados por seção em `css/interno.css`.
+- Os demais overrides em `html/` ainda usam classes Bootstrap 4; a migração visual deles
+  para o novo estilo pode continuar gradualmente, override a override.
 - Nas páginas internas, o layout usa grid próprio (`.page-grid`), sem depender do
   Bootstrap. Páginas de capa (com_blankcomponent) que só têm módulos de links na
   posição `*-direita` exibem esses links como grade de cards no conteúdo principal
