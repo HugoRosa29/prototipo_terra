@@ -280,7 +280,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 					<div class="hero-inner">
 						<div class="hero-manifesto">
 							<span class="hero-mark" aria-hidden="true"></span>
-							<span class="eyebrow hero-eyebrow">Terracap · Companhia Imobiliária de Brasília</span>
+                            <!--  <span class="eyebrow hero-eyebrow">Terracap · Companhia Imobiliária de Brasília</span>  -->
 							<h1 class="hero-statement">Terracap,<br>Conectando desenvolvimento.</h1>
 							<p class="hero-lede">Desenvolvendo o Distrito Federal com responsabilidade, inovação e cuidado com as pessoas.</p>
 							<nav class="hero-links" aria-label="Principais serviços">
