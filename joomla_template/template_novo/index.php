@@ -563,86 +563,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 
 			<div class="survey-divider"></div>
 
-			<!-- ================= REGULARIZE IMÓVEIS ================= -->
-			<section id="regularize-imoveis">
-				<div class="container">
-					<span class="eyebrow">Regularização</span>
-					<h2 class="section-title">Regularize Imóveis</h2>
-					<p class="section-sub">Um endereço reconhecido é segurança jurídica e dignidade para quem já construiu sua vida aqui.<br>A Venda Direta é o caminho para tornar o seu imóvel seu, de direito.</p>
-
-					<div style="height:44px;"></div>
-
-					<div class="scroller">
-						<a class="card-lote plot-frame" href="#">
-							<div class="thumb">
-								<img src="https://www.terracap.df.gov.br/images/directsales/697ba17b1a747.jpeg" alt="">
-								<span class="stamp stamp-verde">ABERTO</span>
-							</div>
-							<div class="body">
-								<span class="code">PROPOSTA · 2026</span>
-								<div class="title">Solicitação Individual de Compra — Ano 2026</div>
-							</div>
-						</a>
-						<a class="card-lote plot-frame" href="#">
-							<div class="thumb">
-								<img src="https://www.terracap.df.gov.br/images/directsales/6a27ef5d954f4.png" alt="">
-								<span class="stamp stamp-alerta">ENCERRADO</span>
-							</div>
-							<div class="body">
-								<span class="code">EDITAL 04/2026</span>
-								<div class="title">SHVP Trecho 2, URB 26/19 — Misto, 1° chamamento</div>
-							</div>
-						</a>
-						<a class="card-lote plot-frame" href="#">
-							<div class="thumb">
-								<img src="https://www.terracap.df.gov.br/images/directsales/69c6f5d1097c6.jpeg" alt="">
-								<span class="stamp stamp-alerta">ENCERRADO</span>
-							</div>
-							<div class="body">
-								<span class="code">EDITAL 03/2026</span>
-								<div class="title">SHVP Trecho 02 Residencial, 1° chamamento</div>
-							</div>
-						</a>
-						<a class="card-lote plot-frame" href="#">
-							<div class="thumb">
-								<img src="https://www.terracap.df.gov.br/images/directsales/6997b6cd84b71.jpg" alt="">
-								<span class="stamp stamp-alerta">ENCERRADO</span>
-							</div>
-							<div class="body">
-								<span class="code">EDITAL 02/2026</span>
-								<div class="title">SH Arniqueira Comercial, 1° chamamento</div>
-							</div>
-						</a>
-						<a class="card-lote plot-frame" href="#">
-							<div class="thumb">
-								<img src="https://www.terracap.df.gov.br/images/directsales/6997b4b10c5bc.jpeg" alt="">
-								<span class="stamp stamp-alerta">ENCERRADO</span>
-							</div>
-							<div class="body">
-								<span class="code">EDITAL 01/2026</span>
-								<div class="title">SH Arniqueira Residencial, 1° chamamento</div>
-							</div>
-						</a>
-						<a class="card-lote plot-frame" href="#">
-							<div class="thumb">
-								<img src="https://www.terracap.df.gov.br/images/directsales/687004cd5acea.jpg" alt="">
-								<span class="stamp stamp-alerta">ENCERRADO</span>
-							</div>
-							<div class="body">
-								<span class="code">EDITAL 07/2025</span>
-								<div class="title">SH Arniqueira Comercial, 3° chamamento</div>
-							</div>
-						</a>
-					</div>
-
-					<div class="section-footer-actions">
-						<a href="index.php/regularize-imoveis" class="btn btn-line">Veja todos</a>
-					</div>
-				</div>
-			</section>
-
-			<div class="survey-divider"></div>
-
+			
 			<!-- ================= COMPRE IMÓVEIS ================= -->
 			<section id="compre-imoveis">
 				<div class="container">
@@ -735,6 +656,87 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 			</section>
 
 			<div class="survey-divider"></div>
+                                  
+            <!-- ================= REGULARIZE IMÓVEIS ================= -->
+			<section id="regularize-imoveis">
+				<div class="container">
+					<span class="eyebrow">Regularização</span>
+					<h2 class="section-title">Regularize Imóveis</h2>
+					<p class="section-sub">Um endereço reconhecido é segurança jurídica e dignidade para quem já construiu sua vida aqui.<br>A Venda Direta é o caminho para tornar o seu imóvel seu, de direito.</p>
+
+					<div style="height:44px;"></div>
+
+					<div class="scroller">
+						<a class="card-lote plot-frame" href="#">
+							<div class="thumb">
+								<img src="https://www.terracap.df.gov.br/images/directsales/697ba17b1a747.jpeg" alt="">
+								<span class="stamp stamp-verde">ABERTO</span>
+							</div>
+							<div class="body">
+								<span class="code">PROPOSTA · 2026</span>
+								<div class="title">Solicitação Individual de Compra — Ano 2026</div>
+							</div>
+						</a>
+						<a class="card-lote plot-frame" href="#">
+							<div class="thumb">
+								<img src="https://www.terracap.df.gov.br/images/directsales/6a27ef5d954f4.png" alt="">
+								<span class="stamp stamp-alerta">ENCERRADO</span>
+							</div>
+							<div class="body">
+								<span class="code">EDITAL 04/2026</span>
+								<div class="title">SHVP Trecho 2, URB 26/19 — Misto, 1° chamamento</div>
+							</div>
+						</a>
+						<a class="card-lote plot-frame" href="#">
+							<div class="thumb">
+								<img src="https://www.terracap.df.gov.br/images/directsales/69c6f5d1097c6.jpeg" alt="">
+								<span class="stamp stamp-alerta">ENCERRADO</span>
+							</div>
+							<div class="body">
+								<span class="code">EDITAL 03/2026</span>
+								<div class="title">SHVP Trecho 02 Residencial, 1° chamamento</div>
+							</div>
+						</a>
+						<a class="card-lote plot-frame" href="#">
+							<div class="thumb">
+								<img src="https://www.terracap.df.gov.br/images/directsales/6997b6cd84b71.jpg" alt="">
+								<span class="stamp stamp-alerta">ENCERRADO</span>
+							</div>
+							<div class="body">
+								<span class="code">EDITAL 02/2026</span>
+								<div class="title">SH Arniqueira Comercial, 1° chamamento</div>
+							</div>
+						</a>
+						<a class="card-lote plot-frame" href="#">
+							<div class="thumb">
+								<img src="https://www.terracap.df.gov.br/images/directsales/6997b4b10c5bc.jpeg" alt="">
+								<span class="stamp stamp-alerta">ENCERRADO</span>
+							</div>
+							<div class="body">
+								<span class="code">EDITAL 01/2026</span>
+								<div class="title">SH Arniqueira Residencial, 1° chamamento</div>
+							</div>
+						</a>
+						<a class="card-lote plot-frame" href="#">
+							<div class="thumb">
+								<img src="https://www.terracap.df.gov.br/images/directsales/687004cd5acea.jpg" alt="">
+								<span class="stamp stamp-alerta">ENCERRADO</span>
+							</div>
+							<div class="body">
+								<span class="code">EDITAL 07/2025</span>
+								<div class="title">SH Arniqueira Comercial, 3° chamamento</div>
+							</div>
+						</a>
+					</div>
+
+					<div class="section-footer-actions">
+						<a href="index.php/regularize-imoveis" class="btn btn-line">Veja todos</a>
+					</div>
+				</div>
+			</section>
+
+			<div class="survey-divider"></div>
+
 
 			<!-- ================= SERVIÇOS ONLINE ================= -->
 			<section id="servicos-online">
