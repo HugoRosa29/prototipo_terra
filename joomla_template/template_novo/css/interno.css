@@ -573,6 +573,161 @@
   .listagem-capa-noticias ul{grid-template-columns:1fr;}
 }
 
+/* ---------- carrossel de notícias em capa (mod_artigos · destaques) ----------
+   Slides hero com scroll-snap nativo; JS vanilla (no override) cuida de setas,
+   dots e autoplay. Classe própria .noticias-carrossel p/ não colidir com a
+   grade .listagem-capa-noticias. */
+.noticias-carrossel{position:relative;margin:0;}
+.noticias-carrossel ul{list-style:none;margin:0;padding:0;}
+.nc-stage{position:relative;}
+.nc-viewport{
+  position:relative;
+  overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.nc-viewport::-webkit-scrollbar{display:none;}
+.nc-track{display:flex;gap:0;}
+.nc-slide{
+  scroll-snap-align:start;
+  flex:0 0 100%;
+  position:relative;isolation:isolate;
+  display:block;
+  aspect-ratio:16/9;
+  border-radius:var(--radius-lg);overflow:hidden;
+  text-decoration:none;background:var(--paper-deep);
+}
+@media (min-width:768px){
+  .nc-slide{aspect-ratio:21/9;}
+}
+.nc-media{position:absolute;inset:0;z-index:-1;background:var(--paper-deep);}
+.nc-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.nc-slide:hover .nc-media img{transform:scale(1.05);}
+.nc-slide::after{
+  content:"";position:absolute;inset:0;z-index:0;
+  background:linear-gradient(to top, rgba(3,26,16,.88) 0%, rgba(3,26,16,.45) 42%, rgba(3,26,16,0) 68%);
+}
+.nc-body{
+  position:absolute;left:0;right:0;bottom:0;z-index:1;
+  padding:22px 26px 24px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.nc-date{
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--dourado);
+}
+.nc-title{
+  font-family:var(--display);font-weight:700;color:var(--white);margin:0;
+  font-size:clamp(1.05rem, 2.4vw, 1.5rem);line-height:1.2;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.nc-slide:hover .nc-title{text-decoration:underline;text-underline-offset:3px;}
+.nc-desc{
+  color:rgba(255,255,255,.85);font-size:.875rem;line-height:1.5;margin:0;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+@media (max-width:640px){.nc-desc{display:none;}}
+
+/* setas */
+.nc-nav{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--white);color:var(--ink);
+  box-shadow:0 6px 20px rgba(0,30,18,.18);
+  display:flex;align-items:center;justify-content:center;
+  transition:background-color .15s ease,color .15s ease,transform .15s ease;
+}
+.nc-nav:hover{background:var(--verde);color:var(--white);}
+.nc-nav:active{transform:translateY(-50%) scale(.94);}
+.nc-nav svg{width:22px;height:22px;}
+.nc-prev{left:-10px;}
+.nc-next{right:-10px;}
+@media (max-width:768px){
+  .nc-nav{width:40px;height:40px;}
+  .nc-prev{left:8px;}
+  .nc-next{right:8px;}
+}
+
+/* dots */
+.nc-dots{display:flex;justify-content:center;gap:8px;margin-top:18px;}
+.nc-dot{
+  width:8px;height:8px;padding:0;border:none;cursor:pointer;
+  border-radius:999px;background:var(--paper-deep);
+  transition:width .2s ease,background-color .2s ease;
+}
+.nc-dot:hover{background:var(--line-muted);}
+.nc-dot.is-active{width:26px;background:var(--verde);}
+
+/* ---------- lista completa de notícias (com_content category · default_articles) ----------
+   Layout "Category List" padrão (ex.: página "Mais Notícias"): <ul.todas-noticias>
+   com título, resumo e data por item. O markup não emite miniatura, então vira
+   uma lista de cards limpos — data em rótulo mono no topo, título em display,
+   resumo apagado e a ação de editar (só p/ editores) discreta. */
+.todas-noticias{list-style:none;margin:24px 0 0;padding:0;display:flex;flex-direction:column;gap:14px;}
+.todas-noticias > li{
+  display:flex;flex-direction:column;gap:8px;
+  background:var(--white);
+  border:1px solid var(--paper-deep);border-radius:var(--radius-md);
+  padding:20px 24px;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.todas-noticias > li:hover{border-color:var(--verde);box-shadow:0 10px 24px rgba(0,40,20,.08);}
+
+/* data em rótulo mono, reordenada para o topo do card */
+.todas-noticias .data-noticia{
+  order:-2;
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--ink-60);
+}
+/* chapéu (xreference) — só aparece se preenchido */
+.todas-noticias .chapeu-noticia{
+  order:-1;
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--dourado-deep);
+}
+.todas-noticias .chapeu-noticia:empty{display:none;}
+/* título */
+.todas-noticias > li > a{
+  order:0;
+  font-family:var(--display);font-size:1.0625rem;font-weight:600;line-height:1.35;
+  color:var(--ink);text-decoration:none;transition:color .15s ease;
+}
+.todas-noticias > li > a:hover{color:var(--verde);}
+/* resumo + ações */
+.todas-noticias .descricaoNoticia{
+  order:1;color:var(--ink-60);font-size:.9375rem;line-height:1.6;
+}
+.todas-noticias .descricaoNoticia p{margin:0 0 .4em;}
+.todas-noticias .descricaoNoticia p:last-child{margin-bottom:0;}
+.todas-noticias .descricaoNoticia .tileImage{display:none;}
+.todas-noticias .actions{list-style:none;display:flex;gap:14px;margin:10px 0 0;padding:0;}
+.todas-noticias .actions li{margin:0;}
+.todas-noticias .actions a,
+.todas-noticias .actions span{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--ink-60);text-decoration:none;
+}
+.todas-noticias .actions a:hover{color:var(--verde);}
+.todas-noticias .actions .material-icons,
+.todas-noticias .actions [class^="icon-"]{font-size:14px;}
+/* tags */
+.todas-noticias .keywords{
+  order:2;margin-top:2px;
+  font-family:var(--mono);font-size:.6875rem;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--ink-60);
+}
+.todas-noticias .keywords a{color:var(--verde);text-decoration:none;}
+.todas-noticias .keywords a:hover{color:var(--verde-deep);}
+
+#pagination{margin-top:32px;}
+#pagination .counter{
+  display:block;margin-bottom:10px;
+  font-family:var(--mono);font-size:.75rem;color:var(--ink-60);
+}
+
 /* ---------- trilha de navegação (mod_breadcrumbs) ---------- */
 .breadcrumb, ul.breadcrumb{
   display:flex;flex-wrap:wrap;align-items:center;gap:6px;

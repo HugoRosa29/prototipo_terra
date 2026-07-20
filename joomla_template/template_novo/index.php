@@ -279,10 +279,12 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 				<div class="hero-frame">
 					<div class="hero-inner">
 						<div class="hero-manifesto">
-							<span class="hero-mark" aria-hidden="true"></span>
-                            <!--  <span class="eyebrow hero-eyebrow">Terracap · Companhia Imobiliária de Brasília</span>  -->
-							<h1 class="hero-statement">Terracap,<br>Conectando desenvolvimento.</h1>
-							<p class="hero-lede">Desenvolvendo o Distrito Federal com responsabilidade, inovação e cuidado com as pessoas.</p>
+							<!-- <span class="hero-mark" aria-hidden="true"></span>
+                             <span class="eyebrow hero-eyebrow">Terracap · Companhia Imobiliária de Brasília</span>  -->
+							<h1 class="hero-statement hero-brand">Terracap</h1>
+                            <h2 class="hero-statement">Conectando<br>Desenvolvendo.</h2> 
+							<p class="hero-lede">Há mais de cinco décadas desenvolvendo a capital
+							de todos os brasileiros.</p>
 							<nav class="hero-links" aria-label="Principais serviços">
 								<a href="#nosso-papel">Conhecer a Terracap</a>
 								<a href="#regularize-imoveis">Regularizar imóvel</a>
@@ -295,10 +297,14 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 
 				<a class="hero-ticker" href="#invista-em-brasilia">
 					<div class="container hero-ticker-inner">
-						<span class="hero-ticker-dot" aria-hidden="true"></span>
-						<span class="hero-ticker-label">Chamamento público 01/2026</span>
-						<span class="hero-ticker-title">Polo Agroindustrial do Rio Preto</span>
-						<svg class="hero-ticker-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+						<svg class="hero-ticker-arrow hero-ticker-arrow--prev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+						<div class="hero-ticker-content">
+							<span class="hero-ticker-dot" aria-hidden="true"></span>
+							<span class="hero-ticker-label">CHAMAMENTO PÚBLICO</span>
+							<span class="hero-ticker-edital">EDITAL 01-2026</span>
+							<span class="hero-ticker-title">Polo Agroindustrial do Rio Preto</span>
+						</div>
+						<svg class="hero-ticker-arrow hero-ticker-arrow--next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
 					</div>
 				</a>
 			</section>
@@ -344,7 +350,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 				</div>
 			</section>
 
-			<div class="survey-divider"></div>
+			<div class="survey-divider" data-tema="indicadores"></div>
 
 			<!-- ================= INDICADORES ================= -->
 			<section id="indicadores" aria-labelledby="indicadores-title">
@@ -396,9 +402,9 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 				</div>
 			</section>
 
-			<div class="survey-divider"></div>
-                              
-                              
+			<div class="survey-divider" data-tema="projetos-terracap"></div>
+
+
          <!-- ================= CRIADOS PELA TERRACAP ================= -->
 			<section id="projetos-terracap" aria-labelledby="projetos-terracap-title">
 				<div class="container">
@@ -410,7 +416,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 
 					<div class="spinoff-grid">
 						<a class="spinoff-card plot-frame reveal" href="https://www.bioticsa.com.br/" target="_blank" rel="noopener">
-							<div class="spinoff-banner spinoff-tech">
+							<div class="spinoff-banner spinoff-tech" style="background-image:url('<?php echo $tpl_url; ?>/img/biotic.jpg');">
 								<span class="tag">Inovação · Tecnologia</span>
 								<span class="sigla">BIOTIC</span>
 							</div>
@@ -425,7 +431,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 						</a>
 
 						<a class="spinoff-card plot-frame reveal" href="https://www.etr.df.gov.br/" target="_blank" rel="noopener">
-							<div class="spinoff-banner spinoff-rural">
+							<div class="spinoff-banner spinoff-rural" style="background-image:url('<?php echo $tpl_url; ?>/img/etr.jpg');">
 								<span class="tag">Regularização rural</span>
 								<span class="sigla">ETR</span>
 							</div>
@@ -457,7 +463,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 				</div>
 			</section>
                                   
-                                  <div class="survey-divider"></div>
+                                  <div class="survey-divider" data-tema="territorio"></div>
 
 
 			<!-- ================= TERRITÓRIO — mapa interativo ================= -->
@@ -555,15 +561,15 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 					<div style="height:56px;"></div>
 
 					<div class="section-footer-actions">
-						<a href="#regularize-imoveis" class="btn btn-line">Regularizar meu imóvel</a>
-						<a href="#compre-imoveis" class="btn btn-line">Ver imóveis à venda</a>
+						<a href="index.php/regularize-imoveis" class="btn btn-line">Regularizar meu imóvel</a>
+						<a href="index.php/compre-imoveis" class="btn btn-line">Ver imóveis à venda</a>
 					</div>
 				</div>
 			</section>
 
-			<div class="survey-divider"></div>
+			<div class="survey-divider" data-tema="compre-imoveis"></div>
 
-			
+
 			<!-- ================= COMPRE IMÓVEIS ================= -->
 			<section id="compre-imoveis">
 				<div class="container">
@@ -655,8 +661,8 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 				</div>
 			</section>
 
-			<div class="survey-divider"></div>
-                                  
+			<div class="survey-divider" data-tema="regularize-imoveis"></div>
+
             <!-- ================= REGULARIZE IMÓVEIS ================= -->
 			<section id="regularize-imoveis">
 				<div class="container">
@@ -735,7 +741,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 				</div>
 			</section>
 
-			<div class="survey-divider"></div>
+			<div class="survey-divider" data-tema="servicos-online"></div>
 
 
 			<!-- ================= SERVIÇOS ONLINE ================= -->
@@ -768,9 +774,9 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 				</div>
 			</section>
 
-			<div class="survey-divider"></div>
+			<div class="survey-divider" data-tema="invista-em-brasilia"></div>
 
-			
+
 			<!-- ================= INVISTA EM BRASÍLIA ================= -->
 			<section id="invista-em-brasilia" style="background:var(--azul-deep);">
 				<div class="container">
@@ -894,7 +900,9 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 			<?php if ($this->countModules($posicao_topo) || $this->countModules('internas-topo')) : ?>
 			<div class="bloco-modulos">
 				<jdoc:include type="modules" name="internas-topo" headerLevel="2" style="container" />
+				<?php if ($posicao_topo !== 'internas-topo') : // evita duplicar quando o prefixo da página é "internas" ?>
 				<jdoc:include type="modules" name="<?php echo $posicao_topo; ?>" headerLevel="2" style="container" />
+				<?php endif; ?>
 			</div>
 			<?php endif; ?>
 
@@ -912,7 +920,9 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 					<aside class="page-aside">
 						<div class="interna-direita">
 							<jdoc:include type="modules" name="internas-direita" style="container" />
+							<?php if ($posicao_direita !== 'internas-direita') : // evita duplicar quando o prefixo da página é "internas" ?>
 							<jdoc:include type="modules" name="<?php echo $posicao_direita; ?>" style="container" />
+							<?php endif; ?>
 						</div>
 					</aside>
 				</div>
@@ -925,7 +935,9 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 					     lateral viram o conteúdo, exibidos como grade de cards -->
 					<div class="capa-links">
 						<jdoc:include type="modules" name="internas-direita" style="none" />
+						<?php if ($posicao_direita !== 'internas-direita') : // evita duplicar quando o prefixo da página é "internas" ?>
 						<jdoc:include type="modules" name="<?php echo $posicao_direita; ?>" style="none" />
+						<?php endif; ?>
 					</div>
 				<?php endif; ?>
 			<?php else : ?>
@@ -934,7 +946,9 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 
 			<?php if ($this->countModules($posicao_rodape) || $this->countModules('internas-rodape')) : ?>
 			<div class="bloco-modulos">
+				<?php if ($posicao_rodape !== 'internas-rodape') : // evita duplicar quando o prefixo da página é "internas" ?>
 				<jdoc:include type="modules" name="<?php echo $posicao_rodape; ?>" headerLevel="2" style="container" />
+				<?php endif; ?>
 				<jdoc:include type="modules" name="internas-rodape" headerLevel="2" style="container" />
 			</div>
 			<?php endif; ?>
@@ -1002,7 +1016,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 						<div class="time">21:43 — 18/06</div>
 					</div>
 				</div>
-				<a href="#" class="btn btn-onphoto" style="margin-top:8px;">Ver todas</a>
+				<a href="index.php/noticia-imprensa" class="btn btn-onphoto" style="margin-top:8px;">Ver todas</a>
 				<?php endif; ?>
 			</div>
 		</div>
