@@ -876,6 +876,12 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 		$temDireita = $this->countModules($posicao_direita) || $this->countModules('internas-direita');
 		$temCapa    = $this->countModules('pagina-interna-capa') || $this->countModules('pagina-interna-capa-' . $preffix);
 
+		// Coluna lateral: usa a posição específica da seção quando ela tiver
+		// módulos; senão, cai para a posição global internas-direita. Renderizar
+		// as duas ao mesmo tempo duplicava o menu (havia um módulo em cada uma).
+		$direitaSecao = ($posicao_direita !== 'internas-direita') && $this->countModules($posicao_direita);
+		$posDireita   = $direitaSecao ? $posicao_direita : 'internas-direita';
+
 		// Título da página: título alternativo da âncora ou título do item de menu
 		$titulo_pagina = '';
 		if ($menuitem) {
@@ -919,10 +925,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 					</div>
 					<aside class="page-aside">
 						<div class="interna-direita">
-							<jdoc:include type="modules" name="internas-direita" style="container" />
-							<?php if ($posicao_direita !== 'internas-direita') : // evita duplicar quando o prefixo da página é "internas" ?>
-							<jdoc:include type="modules" name="<?php echo $posicao_direita; ?>" style="container" />
-							<?php endif; ?>
+							<jdoc:include type="modules" name="<?php echo $posDireita; ?>" style="container" />
 						</div>
 					</aside>
 				</div>
@@ -934,10 +937,7 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 					<!-- Página de capa sem módulos principais: os módulos de links da
 					     lateral viram o conteúdo, exibidos como grade de cards -->
 					<div class="capa-links">
-						<jdoc:include type="modules" name="internas-direita" style="none" />
-						<?php if ($posicao_direita !== 'internas-direita') : // evita duplicar quando o prefixo da página é "internas" ?>
-						<jdoc:include type="modules" name="<?php echo $posicao_direita; ?>" style="none" />
-						<?php endif; ?>
+						<jdoc:include type="modules" name="<?php echo $posDireita; ?>" style="none" />
 					</div>
 				<?php endif; ?>
 			<?php else : ?>
@@ -1001,22 +1001,26 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 				<?php if ($hasRodape3) : ?>
 				<jdoc:include type="modules" name="rodape-3" style="none" />
 				<?php else : ?>
-				<h4>Notícias</h4>
-				<div class="news-item">
-					<img src="https://www.terracap.df.gov.br/images/Noticias-2019/Terracap_fachada.jpg" alt="">
-					<div>
-						<div class="headline">Terracap abre licitação com 107 imóveis e 16 lotes no Residencial das Sucupiras</div>
-						<div class="time">17:22 — 25/06</div>
+				<div class="noticias-modulo">
+					<h4 class="table-heading">Notícias</h4>
+					<a class="noticia-entry" href="index.php/noticia-imprensa" title="Terracap abre licitação com 107 imóveis e 16 lotes no Residencial das Sucupiras">
+						<img class="noticia-thumb" src="https://www.terracap.df.gov.br/images/Noticias-2019/Terracap_fachada.jpg" alt="">
+						<div class="noticia-body">
+							<span class="noticia-titulo">Terracap abre licitação com 107 imóveis e 16 lotes no Residencial das Sucupiras</span>
+							<span class="noticia-data coord">17:22 — 25/06</span>
+						</div>
+					</a>
+					<a class="noticia-entry" href="index.php/noticia-imprensa" title="Edital para Notificação de Terceiros Interessados">
+						<img class="noticia-thumb" src="https://www.terracap.df.gov.br/images/Noticias-2019/REURB_26_de_Setembro.png" alt="">
+						<div class="noticia-body">
+							<span class="noticia-titulo">Edital para Notificação de Terceiros Interessados</span>
+							<span class="noticia-data coord">21:43 — 18/06</span>
+						</div>
+					</a>
+					<div class="section-footer-actions">
+						<a href="index.php/noticia-imprensa" class="btn btn-line">Ver todas</a>
 					</div>
 				</div>
-				<div class="news-item">
-					<img src="https://www.terracap.df.gov.br/images/Noticias-2019/REURB_26_de_Setembro.png" alt="">
-					<div>
-						<div class="headline">Edital para Notificação de Terceiros Interessados</div>
-						<div class="time">21:43 — 18/06</div>
-					</div>
-				</div>
-				<a href="index.php/noticia-imprensa" class="btn btn-onphoto" style="margin-top:8px;">Ver todas</a>
 				<?php endif; ?>
 			</div>
 		</div>
