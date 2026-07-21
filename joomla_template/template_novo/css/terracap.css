@@ -207,9 +207,9 @@ section{padding:var(--gap-section) 0;}
 .btn-clay{background:var(--dourado);color:var(--azul-deep);}
 .btn-clay:hover{background:var(--dourado-deep);color:var(--white);}
 .btn-line{background:transparent;color:var(--ink);border-color:var(--ink);}
-.btn-line:hover{background:var(--ink);color:var(--paper);}
+.btn-line:hover{background:var(--verde);color:var(--paper); border-color: transparent;}
 .btn-onphoto{background:transparent;color:var(--white);border-color:rgba(255,255,255,.6);}
-.btn-onphoto:hover{background:var(--white);color:var(--azul-deep);border-color:var(--white);}
+.btn-onphoto:hover{background:var(--verde);color:var(--white);border-color: transparent;}
 
 .stamp{
   display:inline-flex;align-items:center;height:26px;padding:0 12px;
