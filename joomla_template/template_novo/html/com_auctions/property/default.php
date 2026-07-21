@@ -23,7 +23,19 @@ $user   = JFactory::getUser();
 
 JHtml::_('behavior.caption');
 
-$image     = $this->item->image ? JUri::root() . 'images/auctions/thumbnails/' . $this->item->image : 'com_auctions/no-image.png';
+// Procura a imagem nas pastas que o com_auctions usa e cai para o placeholder
+// quando o arquivo não existe — evita o <img> quebrado.
+$decoded = json_decode($this->item->image);
+$imgName = is_array($decoded) ? $decoded[0] : $this->item->image;
+$image   = 'com_auctions/no-image.png';
+if ($imgName) {
+	foreach (array('images/auctions/thumbnails/', 'images/auctions/previews/', 'images/auctions/') as $dir) {
+		if (JFile::exists(JPATH_ROOT . '/' . $dir . $imgName)) {
+			$image = JUri::root() . $dir . $imgName;
+			break;
+		}
+	}
+}
 $filepath  = 'uploads/edicts/' . $this->item->file;
 $temEdital = $this->item->file && JFile::exists(JPATH_ROOT . '/' . $filepath);
 

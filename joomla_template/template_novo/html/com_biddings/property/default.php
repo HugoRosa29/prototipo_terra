@@ -24,13 +24,20 @@ $user   = JFactory::getUser();
 
 JHtml::_('behavior.caption');
 
-// Imagem: campo pode ser JSON (galeria) ou nome de arquivo simples
-if (json_decode($this->item->image)) {
-	$image = JUri::root() . 'images/biddings/thumbnails/' . json_decode($this->item->image)[0];
-} elseif ($this->item->image) {
-	$image = JUri::root() . 'images/biddings/thumbnails/' . $this->item->image;
-} else {
-	$image = 'com_biddings/no-image.png';
+// Imagem: o campo pode ser JSON (galeria, ex.: ["arquivo.jpeg"]) ou um nome
+// simples. Procuramos o arquivo nas pastas que o com_biddings usa
+// (thumbnails/previews e a raiz de images/biddings) e caímos para o
+// placeholder quando ele não existe — evita o <img> quebrado.
+$decoded = json_decode($this->item->image);
+$imgName = is_array($decoded) ? $decoded[0] : $this->item->image;
+$image   = 'com_biddings/no-image.png';
+if ($imgName) {
+	foreach (array('images/biddings/thumbnails/', 'images/biddings/previews/', 'images/biddings/') as $dir) {
+		if (JFile::exists(JPATH_ROOT . '/' . $dir . $imgName)) {
+			$image = JUri::root() . $dir . $imgName;
+			break;
+		}
+	}
 }
 
 $filepath  = 'uploads/edicts/' . $this->item->file;

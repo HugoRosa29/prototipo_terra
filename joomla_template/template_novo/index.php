@@ -476,7 +476,7 @@ if (!$hasRodape3) {
 						</a>
 
 						<a class="spinoff-card plot-frame reveal" href="#invista-em-brasilia">
-							<div class="spinoff-banner spinoff-mais">
+							<div class="spinoff-banner spinoff-mais"  style="background-image:url('<?php echo $tpl_url; ?>/img/pexels-lilartsy-2747707.jpg');">
 								<span class="tag">Projetos estruturantes</span>
 								<span class="sigla">E muito mais</span>
 							</div>
@@ -802,6 +802,9 @@ if (!$hasRodape3) {
 						</a>
 					</div>
 				</div>
+				<div class="section-footer-actions">
+						<a href="index.php/servicos-online" class="btn btn-line">Veja todos</a>
+					</div>
 			</section>
 
 			<div class="survey-divider" data-tema="invista-em-brasilia"></div>
@@ -840,7 +843,7 @@ if (!$hasRodape3) {
 					</div>
 
 					<div class="section-footer-actions">
-						<a href="#" class="btn btn-onphoto">Veja todos</a>
+						<a href="index.php/invista-em-brasilia" class="btn btn-onphoto">Veja todos</a>
 					</div>
 				</div>
 			</section>
