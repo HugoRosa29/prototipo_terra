@@ -108,6 +108,55 @@ if (!$hasRodape3) {
 		$latestNews = (array) $db->loadObjectList();
 	}
 }
+
+// Índice da busca do cabeçalho: montado a partir dos itens de menu publicados,
+// em vez de uma lista fixa no JS. Assim, item de menu novo/renomeado/removido
+// entra na busca sozinho, sem editar o template. As seções da home (âncoras) e
+// os sistemas externos continuam no terracap.js — não são itens de menu.
+$searchItems = array();
+$viewLevels  = $user->getAuthorisedViewLevels();
+$idiomaAtual = strtolower($this->language);
+
+foreach ($menu->getMenu() as $mItem) {
+	// Sem destino navegável
+	if (in_array($mItem->type, array('separator', 'heading'))) {
+		continue;
+	}
+	// Respeita os níveis de acesso do visitante
+	if (!in_array($mItem->access, $viewLevels)) {
+		continue;
+	}
+	// A home já é alcançada pelas âncoras das seções
+	if (!empty($mItem->home)) {
+		continue;
+	}
+	if (!empty($mItem->language) && $mItem->language !== '*'
+		&& strtolower($mItem->language) !== $idiomaAtual) {
+		continue;
+	}
+
+	// Título do pai desambigua itens homônimos ("Editais anteriores" existe em
+	// Licitações e em Leilões) e ainda entra como palavra-chave.
+	$contexto = '';
+	if (!empty($mItem->parent_id)) {
+		$pai = $menu->getItem($mItem->parent_id);
+		if ($pai && empty($pai->home) && !empty($pai->title)) {
+			$contexto = $pai->title;
+		}
+	}
+
+	// A rota é feita de aliases (sem acento) — vira palavra-chave de graça
+	$rota = !empty($mItem->route) ? str_replace(array('/', '-'), ' ', $mItem->route) : '';
+
+	$ehUrl = ($mItem->type === 'url');
+
+	$searchItems[] = array(
+		'title'    => $contexto ? $mItem->title . ' — ' . $contexto : $mItem->title,
+		'keywords' => trim($rota . ' ' . $contexto),
+		'href'     => $ehUrl ? $mItem->link : JRoute::_('index.php?Itemid=' . (int) $mItem->id),
+		'external' => ($ehUrl && strpos($mItem->link, 'http') === 0),
+	);
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -265,7 +314,11 @@ if (!$hasRodape3) {
 	</header>
 
 	<!-- Busca: overlay acionado pela lupa do cabeçalho -->
-	<div class="search-overlay" data-search-overlay hidden>
+	<?php // data-base: raiz do site (links de páginas internas). data-ancora: vazio na
+	      // home (âncora rola na própria página) e raiz nas internas (volta para a home). ?>
+	<div class="search-overlay" data-search-overlay
+	     data-base="<?php echo $this->baseurl; ?>/"
+	     data-ancora="<?php echo $ancora; ?>" hidden>
 		<div class="container search-overlay-inner">
 			<form role="search" data-search-form action="<?php echo JRoute::_('index.php?option=com_search'); ?>" method="post">
 				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -1096,6 +1149,9 @@ if (!$hasRodape3) {
 		<jdoc:include type="modules" name="debug" style="none" />
 	<?php endif; ?>
 
+	<?php // Itens de menu para a busca do cabeçalho. json_encode escapa as barras
+	      // (".../" vira "<\/script>"), então um título não consegue fechar a tag. ?>
+	<script>window.terracapSearchIndex = <?php echo json_encode($searchItems, JSON_UNESCAPED_UNICODE); ?>;</script>
 	<script src="<?php echo $tpl_url; ?>/js/terracap.js<?php echo $assetVer('js/terracap.js'); ?>"></script>
 
 	<?php if (!$isHome) : ?>

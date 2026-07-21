@@ -88,6 +88,31 @@
     { title:'Chat on-line', keywords:'chat atendimento contato suporte fale conosco', href:'https://terracap.chat.comunix.tech/chat-externo', external:true }
   ];
 
+  /* As páginas do site vêm dos itens de menu do Joomla, que o index.php publica
+     em window.terracapSearchIndex. Menu novo/renomeado/removido se reflete na
+     busca sem editar este arquivo — só as seções da home (âncoras) e os sistemas
+     externos acima ficam fixos, porque não são itens de menu. */
+  if (Object.prototype.toString.call(window.terracapSearchIndex) === '[object Array]') {
+    searchIndex = searchIndex.concat(window.terracapSearchIndex);
+  }
+
+  /* Resolve o destino conforme a página atual:
+     - externo / URL absoluta: inalterado;
+     - âncora (#secao): prefixada com data-ancora — vazio na home (rola na página),
+       raiz nas internas (volta para a home e rola lá);
+     - caminho absoluto (o JRoute já devolve assim): inalterado;
+     - resto (relativo): prefixado com data-base, p/ não quebrar em URL profunda. */
+  var baseUrl = overlay.getAttribute('data-base') || '/';
+  var ancora  = overlay.getAttribute('data-ancora') || '';
+
+  function resolveHref(item){
+    var href = item.href || '';
+    if(item.external || href.indexOf('http') === 0) return href;
+    if(href.charAt(0) === '#') return ancora + href;
+    if(href.charAt(0) === '/') return href;
+    return baseUrl + href;
+  }
+
   function normalize(str){
     return (str || '').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
   }
@@ -118,7 +143,7 @@
     if(results.length){
       results.slice(0, 8).forEach(function(item){
         var attrs = item.external ? ' target="_blank" rel="noopener"' : '';
-        html += '<a href="' + item.href + '"' + attrs + '>' + item.title + '</a>';
+        html += '<a href="' + resolveHref(item) + '"' + attrs + '>' + item.title + '</a>';
       });
     } else {
       html += '<p class="search-empty">Nenhum item encontrado para "' + trimmed.replace(/</g, '&lt;') + '". Tente outro termo.</p>';
@@ -153,12 +178,16 @@
   });
   input.addEventListener('input', function(){ renderResults(input.value); });
   form.addEventListener('submit', function(e){
-    e.preventDefault();
     var results = runSearch(input.value);
+    // Sem resultado no índice local, deixa o formulário seguir para o com_search
+    // do Joomla, que varre o conteúdo real do site. (Antes, o preventDefault vinha
+    // primeiro e o Enter simplesmente não fazia nada.)
     if(!results.length) return;
+    e.preventDefault();
     var target = results[0];
-    if(target.external) window.open(target.href, '_blank', 'noopener');
-    else { window.location.href = target.href; close(); }
+    var href   = resolveHref(target);
+    if(target.external) window.open(href, '_blank', 'noopener');
+    else { window.location.href = href; close(); }
   });
 })();
 

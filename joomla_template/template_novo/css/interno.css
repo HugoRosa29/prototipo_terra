@@ -196,6 +196,10 @@
   width:100%;
   margin:0;
 }
+/* Filtro "Serviços de A a Z" (mod_servicing): o JS marca os itens fora da busca
+   com .servico-oculto. Precisa de !important para vencer o display:block
+   !important acima — senão a busca roda e nada some. */
+.interna-direita #list-servico li.servico-oculto{display:none !important;}
 .interna-direita a{
   display:block !important;
   float:none !important;

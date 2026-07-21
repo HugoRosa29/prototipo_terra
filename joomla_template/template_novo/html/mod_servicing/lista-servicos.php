@@ -18,7 +18,13 @@ require_once JPATH_SITE . '/components/com_servicing/helpers/route.php';
 <input type="text" id="busca-servico" onkeyup="myFunction()" placeholder="Busque seu serviço.." title="Serviços de A a Z">
 
 <div id="list-servico">
-	<?php foreach (array_chunk($list, count($list) / 3) as $i => $row): ?>
+	<?php
+	// Arredonda para cima: com divisão simples sobra uma 4ª coluna com o resto
+	// (ex.: 31 itens / 3 = 10 por coluna → 10+10+10+1). O max() evita chunk 0
+	// (divisão por zero / array_chunk inválido) quando há menos de 3 serviços.
+	$porColuna = max(1, (int) ceil(count($list) / 3));
+	?>
+	<?php foreach (array_chunk($list, $porColuna) as $i => $row): ?>
 		<ul  class="nav-child list-column-<?php echo $i; ?> unstyled small<?php echo $moduleclass_sfx; ?> ">
 			<?php foreach ($row as $item): ?>
 				<?php $target = $item->redirect ? ' target="' . $item->target . '"' : ''; ?>
@@ -34,19 +40,28 @@ require_once JPATH_SITE . '/components/com_servicing/helpers/route.php';
 
 <script>
 function myFunction() {
-	var input, filter, ul, li, a, i, txtValue;	
-	input = document.getElementById("busca-servico");	
-	filter = input.value.toUpperCase();	
-	ul = document.getElementById("list-servico");
-	li = ul.getElementsByTagName("li");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        txtValue = a.textContent || a.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-			li[i].style.display = "none";
-        }
-    }
+	var input = document.getElementById("busca-servico");
+	var lista = document.getElementById("list-servico");
+
+	if (!input || !lista) {
+		return;
+	}
+
+	var filtro = input.value.trim().toUpperCase();
+	var itens  = lista.getElementsByTagName("li");
+
+	for (var i = 0; i < itens.length; i++) {
+		var link  = itens[i].getElementsByTagName("a")[0];
+		var texto = link ? (link.textContent || link.innerText) : '';
+
+		// Alterna uma classe em vez de style inline: na coluna lateral o
+		// interno.css aplica "display:block !important" aos <li>, que venceria
+		// um display:none escrito inline (!important > estilo inline).
+		if (texto.toUpperCase().indexOf(filtro) > -1) {
+			itens[i].className = itens[i].className.replace(/\s*servico-oculto\b/g, '');
+		} else if (itens[i].className.indexOf('servico-oculto') === -1) {
+			itens[i].className += ' servico-oculto';
+		}
+	}
 }
 </script>
