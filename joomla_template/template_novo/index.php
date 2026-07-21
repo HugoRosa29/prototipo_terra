@@ -79,6 +79,35 @@ $hasHomeModules  = $usarModulosHome && $this->countModules('pagina-inicial');
 $hasRodape1      = $usarModulosRodape && $this->countModules('rodape-1');
 $hasRodape2      = $usarModulosRodape && $this->countModules('rodape-2');
 $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
+
+// Notícias do rodapé: quando não há módulo em "rodape-3", busca ao vivo as
+// últimas notícias publicadas na mesma categoria do menu "Notícias"
+// (index.php/noticia-imprensa) — mesmo conteúdo exibido lá, em vez de texto
+// fixo que ficaria desatualizado.
+$latestNews = array();
+if (!$hasRodape3) {
+	$itemNoticias  = $menu->getItems('alias', 'noticia-imprensa', true);
+	$catidNoticias = (!empty($itemNoticias->query['id'])) ? (int) $itemNoticias->query['id'] : 0;
+
+	if ($catidNoticias) {
+		if (!class_exists('ContentHelperRoute')) {
+			$contentHelperRoute = JPATH_SITE . '/components/com_content/helpers/route.php';
+			if (is_file($contentHelperRoute)) {
+				require_once $contentHelperRoute;
+			}
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('a.id', 'a.title', 'a.alias', 'a.catid', 'a.created', 'a.images')))
+			->from($db->quoteName('#__content', 'a'))
+			->where($db->quoteName('a.catid') . ' = ' . $catidNoticias)
+			->where($db->quoteName('a.state') . ' = 1')
+			->order($db->quoteName('a.created') . ' DESC');
+		$db->setQuery($query, 0, 2);
+		$latestNews = (array) $db->loadObjectList();
+	}
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -181,8 +210,9 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 						</div>
 					</div>
 
-					<a href="<?php echo $ancora; ?>#regularize-imoveis">Regularize</a>
 					<a href="<?php echo $ancora; ?>#compre-imoveis">Compre</a>
+					<a href="<?php echo $ancora; ?>#regularize-imoveis">Regularize</a>
+					
 
 					<div class="nav-item dropdown-sm" data-nav-item>
 						<button class="nav-link-btn" aria-haspopup="true" aria-expanded="false">
@@ -287,8 +317,8 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 							de todos os brasileiros.</p>
 							<nav class="hero-links" aria-label="Principais serviços">
 								<a href="#nosso-papel">Conhecer a Terracap</a>
-								<a href="#regularize-imoveis">Regularizar imóvel</a>
 								<a href="#compre-imoveis">Comprar imóvel</a>
+								<a href="#regularize-imoveis">Regularizar imóvel</a>
 								<a href="#invista-em-brasilia">Investir em Brasília</a>
 							</nav>
 						</div>
@@ -823,14 +853,14 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 					<p class="section-sub" style="text-align:center;margin:16px auto 0;">O caminho até aqui — editais, contratos, investimentos — está aberto à consulta. Acompanhe a governança, acesse informações públicas e fale diretamente com a Terracap.</p>
 					<div style="height:44px;"></div>
 					<div class="legend-grid">
-						<a class="legend-item" href="#"><img src="https://www.terracap.df.gov.br/images/sampledata/Ouvidoria-cpia.png" alt=""><span>Ouvidoria Terracap</span></a>
-						<a class="legend-item" href="#" target="_blank"><img src="https://www.terracap.df.gov.br/images/sampledata/ico_participa.png" alt=""><span>Ouvidoria GDF</span></a>
-						<a class="legend-item" href="#"><img src="https://www.terracap.df.gov.br/images/sampledata/ico-canal-denuncias.png" alt=""><span>Canal de Denúncias</span></a>
-						<a class="legend-item" href="#"><img src="https://www.terracap.df.gov.br/images/COET/COET-Logo-pequena.png" alt=""><span>Comissão de Ética</span></a>
-						<a class="legend-item" href="#"><img src="https://www.terracap.df.gov.br/images/sampledata/ico-carta-servicos.png" alt=""><span>Carta de Serviços</span></a>
-						<a class="legend-item" href="#"><img src="https://www.terracap.df.gov.br/images/sampledata/ico-acesso-informacao.png" alt=""><span>Acesso à Informação</span></a>
-						<a class="legend-item" href="#" target="_blank"><img src="https://www.terracap.df.gov.br/images/sampledata/e-protocolo_51.png" alt=""><span>e-Protocolo</span></a>
-						<a class="legend-item" href="#" target="_blank"><img src="https://www.terracap.df.gov.br/images/sampledata/mulher_nao_se__cale_pb.png" alt=""><span>Mulher, não se cale</span></a>
+						<a class="legend-item" href="index.php/ouvidoria-geral"><img src="https://www.terracap.df.gov.br/images/sampledata/Ouvidoria-cpia.png" alt=""><span>Ouvidoria Terracap</span></a>
+						<a class="legend-item" href="https://www.participa.df.gov.br/" target="_blank"><img src="https://www.terracap.df.gov.br/images/sampledata/ico_participa.png" alt=""><span>Participa DF</span></a>
+						<a class="legend-item" href="index.php/ouvidoria-geral/canais-de-denuncias"><img src="https://www.terracap.df.gov.br/images/sampledata/ico-canal-denuncias.png" alt=""><span>Canal de Denúncias</span></a>
+						<a class="legend-item" href="index.php/comissao-de-etica-coet"><img src="https://www.terracap.df.gov.br/images/COET/COET-Logo-pequena.png" alt=""><span>Comissão de Ética</span></a>
+						<a class="legend-item" href="index.php/carta-de-servico"><img src="https://www.terracap.df.gov.br/images/sampledata/ico-carta-servicos.png" alt=""><span>Carta de Serviços</span></a>
+						<a class="legend-item" href="index.php/acesso-informacao-home"><img src="https://www.terracap.df.gov.br/images/sampledata/ico-acesso-informacao.png" alt=""><span>Acesso à Informação</span></a>
+						<a class="legend-item" href="https://sistemas.df.gov.br/Protocolo/Login" target="_blank"><img src="https://www.terracap.df.gov.br/images/sampledata/e-protocolo_51.png" alt=""><span>e-Protocolo</span></a>
+						<a class="legend-item" href="index.php/mulher-nao-se-cale" target="_blank"><img src="https://www.terracap.df.gov.br/images/sampledata/mulher_nao_se__cale_pb.png" alt=""><span>Mulher, não se cale</span></a>
 					</div>
 				</div>
 			</section>
@@ -1003,22 +1033,42 @@ $hasRodape3      = $usarModulosRodape && $this->countModules('rodape-3');
 				<?php else : ?>
 				<div class="noticias-modulo">
 					<h4 class="table-heading">Notícias</h4>
-					<a class="noticia-entry" href="index.php/noticia-imprensa" title="Terracap abre licitação com 107 imóveis e 16 lotes no Residencial das Sucupiras">
-						<img class="noticia-thumb" src="https://www.terracap.df.gov.br/images/Noticias-2019/Terracap_fachada.jpg" alt="">
-						<div class="noticia-body">
-							<span class="noticia-titulo">Terracap abre licitação com 107 imóveis e 16 lotes no Residencial das Sucupiras</span>
-							<span class="noticia-data coord">17:22 — 25/06</span>
-						</div>
-					</a>
-					<a class="noticia-entry" href="index.php/noticia-imprensa" title="Edital para Notificação de Terceiros Interessados">
-						<img class="noticia-thumb" src="https://www.terracap.df.gov.br/images/Noticias-2019/REURB_26_de_Setembro.png" alt="">
-						<div class="noticia-body">
-							<span class="noticia-titulo">Edital para Notificação de Terceiros Interessados</span>
-							<span class="noticia-data coord">21:43 — 18/06</span>
-						</div>
-					</a>
+					<?php if (!empty($latestNews)) : ?>
+						<?php foreach ($latestNews as $newsItem) : ?>
+							<?php
+							$newsImage = json_decode($newsItem->images);
+							$newsLink  = class_exists('ContentHelperRoute')
+								? JRoute::_(ContentHelperRoute::getArticleRoute($newsItem->id . ':' . $newsItem->alias, $newsItem->catid))
+								: 'index.php/noticia-imprensa';
+							?>
+							<a class="noticia-entry" href="<?php echo $newsLink; ?>" title="<?php echo htmlspecialchars($newsItem->title); ?>">
+								<?php if (!empty($newsImage->image_intro)) : ?>
+								<img class="noticia-thumb" src="<?php echo JUri::root() . $newsImage->image_intro; ?>" alt="">
+								<?php endif; ?>
+								<div class="noticia-body">
+									<span class="noticia-titulo"><?php echo $newsItem->title; ?></span>
+									<span class="noticia-data coord"><?php echo date('H:i', strtotime($newsItem->created)); ?> — <?php echo date('d/m', strtotime($newsItem->created)); ?></span>
+								</div>
+							</a>
+						<?php endforeach; ?>
+					<?php else : ?>
+						<a class="noticia-entry" href="index.php/noticia-imprensa" title="Terracap abre licitação com 107 imóveis e 16 lotes no Residencial das Sucupiras">
+							<img class="noticia-thumb" src="https://www.terracap.df.gov.br/images/Noticias-2019/Terracap_fachada.jpg" alt="">
+							<div class="noticia-body">
+								<span class="noticia-titulo">Terracap abre licitação com 107 imóveis e 16 lotes no Residencial das Sucupiras</span>
+								<span class="noticia-data coord">17:22 — 25/06</span>
+							</div>
+						</a>
+						<a class="noticia-entry" href="index.php/noticia-imprensa" title="Edital para Notificação de Terceiros Interessados">
+							<img class="noticia-thumb" src="https://www.terracap.df.gov.br/images/Noticias-2019/REURB_26_de_Setembro.png" alt="">
+							<div class="noticia-body">
+								<span class="noticia-titulo">Edital para Notificação de Terceiros Interessados</span>
+								<span class="noticia-data coord">21:43 — 18/06</span>
+							</div>
+						</a>
+					<?php endif; ?>
 					<div class="section-footer-actions">
-						<a href="index.php/noticia-imprensa" class="btn btn-line">Ver todas</a>
+						<a href="index.php/noticia-imprensa" class="btn btn-onphoto">Ver todas</a>
 					</div>
 				</div>
 				<?php endif; ?>
